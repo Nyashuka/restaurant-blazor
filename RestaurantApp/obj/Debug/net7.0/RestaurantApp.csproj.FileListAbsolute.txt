@@ -30,4 +30,16 @@
 /media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/obj/Debug/net7.0/RestaurantApp.pdb
 /media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/obj/Debug/net7.0/RestaurantApp.genruntimeconfig.cache
 /media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/obj/Debug/net7.0/ref/RestaurantApp.dll
-/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/obj/Debug/net7.0/scopedcss/Pages/Authorization/RegisterPage.razor.rz.scp.css
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/obj/Debug/net7.0/RestaurantApp.csproj.AssemblyReference.cache
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/Microsoft.AspNetCore.Authorization.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/Microsoft.AspNetCore.Components.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/Microsoft.AspNetCore.Components.Forms.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/Microsoft.AspNetCore.Components.Web.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/Microsoft.AspNetCore.Metadata.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/Microsoft.Extensions.Localization.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/Microsoft.Extensions.Localization.Abstractions.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/Microsoft.Extensions.Logging.Abstractions.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/Microsoft.Extensions.Options.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/Microsoft.JSInterop.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/bin/Debug/net7.0/MudBlazor.dll
+/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/obj/Debug/net7.0/Restaura.085412B4.Up2Date

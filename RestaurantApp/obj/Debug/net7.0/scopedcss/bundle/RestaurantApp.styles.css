@@ -1,24 +1,3 @@
-/* _content/RestaurantApp/Pages/Authorization/RegisterPage.razor.rz.scp.css */
-
-
-.wrapper[b-un4jud66zn] {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.form-container[b-un4jud66zn] {
-    width: 400px;
-    height: 100px;
-
-    background-color: #f0f0f0;
-
-    border-style: solid;
-    border-radius: 8px;
-    border-width: 2px;
-    border-color: cyan;
-}
 /* _content/RestaurantApp/Shared/MainLayout.razor.rz.scp.css */
 .page[b-wivcom9ckq] {
     position: relative;

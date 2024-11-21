@@ -1,7 +1,26 @@
 @page "/register"
 
-<div class="wrapper">
-    <div class="form-container">
-        
-    </div>
-</div>
+<EditForm Model="@RegisterDto" OnValidSubmit="OnValidSubmit">
+<DataAnnotationsValidator/>
+<MudPaper Width="300px" Height="100px"
+        Style="margin: 100px auto 0 auto;">
+     <MudCard>
+            <MudCardContent>
+                <MudTextField Label="First Name" HelperText="Max. 8 characters"
+                              @bind-Value="RegisterDto.FirstName" For="@(() => RegisterDto.FirstName)"/>
+                <MudTextField Label="Last Name" HelperText="Max. 8 characters"
+                              @bind-Value="RegisterDto.LastName" For="@(() => RegisterDto.LastName)"/>
+                <MudTextField Label="Email" Class="mt-3"
+                              @bind-Value="RegisterDto.Email" For="@(() => RegisterDto.Email)"/>
+                <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                              @bind-Value="RegisterDto.Password" For="@(() => RegisterDto.Password)" InputType="InputType.Password"/>
+                <MudTextField Label="Confirm Password" HelperText="Repeat the password" Class="mt-3"
+                              @bind-Value="RegisterDto.ConfirmPassword" For="@(() => RegisterDto.ConfirmPassword)" InputType="InputType.Password"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            </MudCardActions>
+        </MudCard>
+</MudPaper>
+
+</EditForm>

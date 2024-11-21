@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BTORH6kK+jn+h0znGyGnJKJqRtk7NOfg6Q/rXvp4U+Y=",
+  "Hash": "xzXKljKfiJV379RfCSNKWjv8ZZfJMHhj57fdRYagHK8=",
   "Source": "RestaurantApp",
   "BasePath": "_content/RestaurantApp",
   "Mode": "Default",
@@ -16,6 +16,44 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "/home/eva/.nuget/packages/mudblazor/7.15.0/staticwebassets/MudBlazor.min.css",
+      "SourceId": "MudBlazor",
+      "SourceType": "Package",
+      "ContentRoot": "/home/eva/.nuget/packages/mudblazor/7.15.0/staticwebassets/",
+      "BasePath": "_content/MudBlazor",
+      "RelativePath": "MudBlazor.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/home/eva/.nuget/packages/mudblazor/7.15.0/staticwebassets/MudBlazor.min.css"
+    },
+    {
+      "Identity": "/home/eva/.nuget/packages/mudblazor/7.15.0/staticwebassets/MudBlazor.min.js",
+      "SourceId": "MudBlazor",
+      "SourceType": "Package",
+      "ContentRoot": "/home/eva/.nuget/packages/mudblazor/7.15.0/staticwebassets/",
+      "BasePath": "_content/MudBlazor",
+      "RelativePath": "MudBlazor.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/home/eva/.nuget/packages/mudblazor/7.15.0/staticwebassets/MudBlazor.min.js"
+    },
     {
       "Identity": "/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/obj/Debug/net7.0/scopedcss/bundle/RestaurantApp.styles.css",
       "SourceId": "RestaurantApp",

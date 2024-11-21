@@ -1,4 +1,7 @@
 is_global = true
+build_property.MudDebugAnalyzer = 
+build_property.MudAllowedAttributePattern = 
+build_property.MudIllegalParameters = 
 build_property.TargetFramework = net7.0
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
@@ -26,6 +29,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXV0aG9yaXphdGlvbi9Mb2dpblBhZ2UucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Pages/Authorization/RegisterPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXV0aG9yaXphdGlvbi9SZWdpc3RlclBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -45,10 +52,6 @@ build_metadata.AdditionalFiles.CssScope =
 [/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
-
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Pages/Authorization/RegisterPage.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXV0aG9yaXphdGlvbi9SZWdpc3RlclBhZ2UucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-un4jud66zn
 
 [/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
