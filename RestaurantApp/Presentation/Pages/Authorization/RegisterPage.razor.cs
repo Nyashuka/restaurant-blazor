@@ -1,6 +1,7 @@
-using RestaurantApp.Dtos;
 
-namespace RestaurantApp.Pages.Authorization;
+using RestaurantApp.Presentation.Dtos;
+
+namespace RestaurantApp.Presentation.Pages.Authorization;
 
 public partial class RegisterPage
 {

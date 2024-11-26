@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace RestaurantApp.Attributes;
+namespace RestaurantApp.Core.Domain.Attributes;
 
 public class ValidateEmailAddressAttribute : ValidationAttribute
 {

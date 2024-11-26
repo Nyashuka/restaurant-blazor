@@ -1,0 +1,23 @@
+@page "/login"
+
+<MudPaper MaxWidth="500px" Style="margin: 100px auto 0 auto;">
+
+<EditForm Model="@LoginDto" OnValidSubmit="OnValidSubmit">
+<DataAnnotationsValidator/>
+<MudPaper >
+     <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Email" Class="mt-3"
+                              @bind-Value="LoginDto.Email" For="@(() => LoginDto.Email)"/>
+                <MudTextField Label="Password" Class="mt-3"
+                              @bind-Value="LoginDto.Password" For="@(() => LoginDto.Password)" InputType="InputType.Password"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            </MudCardActions>
+        </MudCard>
+
+</MudPaper>
+</EditForm>
+<MudText Align="Align.Center">Does not have account? <MudLink Href="/register">Register</MudLink></MudText>
+</MudPaper>

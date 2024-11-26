@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using RestaurantApp.Attributes;
+using RestaurantApp.Core.Domain.Attributes;
 
-namespace RestaurantApp.Dtos;
+namespace RestaurantApp.Presentation.Dtos;
 
 public class RegisterDto
 {

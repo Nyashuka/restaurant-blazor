@@ -25,46 +25,42 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Pages/Authorization/LoginPage.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXV0aG9yaXphdGlvbi9Mb2dpblBhZ2UucmF6b3I=
+[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Presentation/Pages/Authorization/LoginPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UHJlc2VudGF0aW9uL1BhZ2VzL0F1dGhvcml6YXRpb24vTG9naW5QYWdlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Pages/Authorization/RegisterPage.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXV0aG9yaXphdGlvbi9SZWdpc3RlclBhZ2UucmF6b3I=
+[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Presentation/Pages/Authorization/RegisterPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UHJlc2VudGF0aW9uL1BhZ2VzL0F1dGhvcml6YXRpb24vUmVnaXN0ZXJQYWdlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
+[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Presentation/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UHJlc2VudGF0aW9uL1BhZ2VzL0NvdW50ZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Pages/FetchData.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRmV0Y2hEYXRhLnJhem9y
+[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Presentation/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UHJlc2VudGF0aW9uL1BhZ2VzL0luZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Pages/Index.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Shared/SurveyPrompt.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1N1cnZleVByb21wdC5yYXpvcg==
+[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Presentation/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = UHJlc2VudGF0aW9uL1NoYXJlZC9TdXJ2ZXlQcm9tcHQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Shared/MainLayout.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-wivcom9ckq
+[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Presentation/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = UHJlc2VudGF0aW9uL1NoYXJlZC9NYWluTGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-ky15s20n6e
 
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Shared/NavMenu.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL05hdk1lbnUucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-ftksmxq3nh
+[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Presentation/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = UHJlc2VudGF0aW9uL1NoYXJlZC9OYXZNZW51LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-dzfirwd9w7
 
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Pages/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
+[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Presentation/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UHJlc2VudGF0aW9uL1BhZ2VzL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Pages/_Host.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0hvc3QuY3NodG1s
+[/media/filesssd/Development/Programming/KQualif/src/RestaurantApp/RestaurantApp/Presentation/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UHJlc2VudGF0aW9uL1BhZ2VzL19Ib3N0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

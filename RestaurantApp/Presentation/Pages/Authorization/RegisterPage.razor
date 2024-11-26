@@ -1,9 +1,10 @@
 @page "/register"
 
+<MudPaper MaxWidth="500px" Style="margin: 100px auto 0 auto;">
+
 <EditForm Model="@RegisterDto" OnValidSubmit="OnValidSubmit">
 <DataAnnotationsValidator/>
-<MudPaper Width="300px" Height="100px"
-        Style="margin: 100px auto 0 auto;">
+<MudPaper >
      <MudCard>
             <MudCardContent>
                 <MudTextField Label="First Name" HelperText="Max. 8 characters"
@@ -21,6 +22,8 @@
                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
             </MudCardActions>
         </MudCard>
-</MudPaper>
 
+</MudPaper>
 </EditForm>
+<MudText Align="Align.Center">Already have account? <MudLink Href="/login">Login</MudLink></MudText>
+</MudPaper>

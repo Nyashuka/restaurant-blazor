@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using RestaurantApp.Data;
 
 // Configure the Dependency Injection
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddServerSideBlazor();
 
     builder.Services.AddLibraries();
-
-    builder.Services.AddSingleton<WeatherForecastService>();
 }
 
 // Configure the HTTP request pipeline.
