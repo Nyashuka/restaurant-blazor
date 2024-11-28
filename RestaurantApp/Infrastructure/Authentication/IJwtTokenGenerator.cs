@@ -2,5 +2,5 @@ namespace RestaurantApp.Infrastructure.Authentication;
 
 public interface IJwtTokenGenerator
 {
-    string Create(int id, string role);
+    string Generate(int id, string role);
 }
