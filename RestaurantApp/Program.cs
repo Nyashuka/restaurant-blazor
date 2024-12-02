@@ -2,10 +2,18 @@
 // Configure the Dependency Injection
 var builder = WebApplication.CreateBuilder(args);
 {
-    builder.Services.AddRazorPages();
+    builder.Services.AddRazorPages(options =>
+    {
+        options.RootDirectory = "/Presentation/Pages";
+    });
     builder.Services.AddServerSideBlazor();
 
     builder.Services.AddLibraries();
+    builder.Services.AddDatabaseService();
+    builder.Services.AddRepositories();
+    builder.Services.AddServices();
+
+
 }
 
 // Configure the HTTP request pipeline.
@@ -26,6 +34,10 @@ var app = builder.Build();
 
     app.MapBlazorHub();
     app.MapFallbackToPage("/_Host");
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
 
     app.Run();
 }

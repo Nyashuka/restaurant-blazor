@@ -1,5 +1,9 @@
 @page "/login"
 
+@inject IUserSessionService _userSessionService
+@inject IAuthenticationService _authenticationService
+@inject AuthenticationStateProvider _authStateProvider
+
 <MudPaper MaxWidth="500px" Style="margin: 100px auto 0 auto;">
 
 <EditForm Model="@LoginDto" OnValidSubmit="OnValidSubmit">

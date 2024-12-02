@@ -6,10 +6,20 @@ public class AuthenticationResult
     public string AccessToken { get; set; } = string.Empty;
     public string ErrorMessage { get; set; } = string.Empty;
 
-    public AuthenticationResult(bool isSuccess, string accessToken, string errorMessage)
+    private AuthenticationResult(bool isSuccess, string accessToken, string errorMessage)
     {
         IsSuccess = isSuccess;
         AccessToken = accessToken;
         ErrorMessage = errorMessage;
+    }
+
+    public static AuthenticationResult Success(string accessToken)
+    {
+        return new AuthenticationResult(true, accessToken, string.Empty);
+    }
+
+    public static AuthenticationResult Failure(string errorMessage)
+    {
+        return new AuthenticationResult(false, string.Empty, errorMessage);
     }
 }
