@@ -19,6 +19,8 @@ public partial class RegisterPage
         {
             await _userSessionService.SaveTokenAsync(result.AccessToken);
             await _authStateProvider.GetAuthenticationStateAsync();
+
+            _navigationManager.NavigateTo("/", true);
         }
     }
 }

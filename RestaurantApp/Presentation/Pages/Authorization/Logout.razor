@@ -1,0 +1,14 @@
+﻿@page "/logout"
+
+@inject IUserSessionService _userSessionService
+@inject AuthenticationStateProvider _authStatePrivider
+@inject NavigationManager _navigationManager
+
+@code {
+	protected override async Task OnInitializedAsync()
+	{
+		await _userSessionService.RemoveTokenAsync();
+		await _authStatePrivider.GetAuthenticationStateAsync();
+		_navigationManager.NavigateTo("/login", true);	
+	}
+}

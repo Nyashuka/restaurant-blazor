@@ -3,6 +3,7 @@
 @inject IUserSessionService _userSessionService
 @inject IAuthenticationService _authenticationService
 @inject AuthenticationStateProvider _authStateProvider
+@inject NavigationManager _navigationManager
 
 <MudPaper MaxWidth="500px" Style="margin: 100px auto 0 auto;">
 
@@ -17,7 +18,7 @@
                               @bind-Value="LoginDto.Password" For="@(() => LoginDto.Password)" InputType="InputType.Password"/>
             </MudCardContent>
             <MudCardActions>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
             </MudCardActions>
         </MudCard>
 
