@@ -4,6 +4,8 @@ namespace RestaurantApp.Presentation.Pages.Authorization;
 
 public partial class LoginPage
 {
+
+
     private LoginDto LoginDto { get; set; } = new ();
 
     public async Task OnValidSubmit()
@@ -17,8 +19,9 @@ public partial class LoginPage
         {
             await _userSessionService.SaveTokenAsync(result.AccessToken);
             await _authStateProvider.GetAuthenticationStateAsync();
-            
+
             _navigationManager.NavigateTo("/", true);
+
         }
     }
 }

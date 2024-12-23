@@ -1,4 +1,3 @@
-
 using Blazored.LocalStorage;
 
 using Microsoft.AspNetCore.Components.Authorization;
@@ -15,6 +14,8 @@ using RestaurantApp.Infrastructure.Persistence.Interfaces;
 using RestaurantApp.Infrastructure.Persistence.Repositories;
 using RestaurantApp.Presentation.Interfaces;
 using RestaurantApp.Presentation.Services;
+
+namespace RestaurantApp.DependencyInjection;
 
 public static class ServiceCollectionExtension
 {
@@ -36,7 +37,11 @@ public static class ServiceCollectionExtension
 
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserSessionService, UserSessionService>();
+        services.AddScoped<IEventTypeService, EventTypeService>();
+
         services.AddScoped<AuthenticationStateProvider, UserAuthenticationStateProvider>();
+
+        services.AddSingleton<SidebarStateService>();
 
         return services;
     }
@@ -46,6 +51,7 @@ public static class ServiceCollectionExtension
     )
     {
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IEventTypeRepository, EventTypeRepository>();
 
         return services;
     }

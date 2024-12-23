@@ -13,6 +13,17 @@ public class User
     public byte[] PasswordSalt { get; private set; } = null!;
 
     private User() {}
+    
+    public User(int id, RoleEnum role, string firstName, string lastName, string email, byte[] passwordHash, byte[] passwordSalt)
+    {
+        Id = id;
+        Role = role;
+        FirstName = firstName;
+        LastName = lastName;
+        Email = email;
+        PasswordHash = passwordHash;
+        PasswordSalt = passwordSalt;
+    }
 
     public User(RoleEnum role, string firstName, string lastName, string email, byte[] passwordHash, byte[] passwordSalt)
     {

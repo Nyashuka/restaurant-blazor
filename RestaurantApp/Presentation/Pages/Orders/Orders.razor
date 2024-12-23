@@ -1,0 +1,26 @@
+@page "/orders"
+@attribute [Authorize(Roles = "User")]
+
+<MudLink Variant="Variant.Filled" 
+		Color="Color.Primary"
+        style="font-size: 24px; margin-left: 10px;"
+		href="/orders/create">
+    Create order
+</MudLink>
+<MudGrid Class="mt-1">
+    <MudItem Style="width: 100%; display: block;">
+        <MudPaper Class="pa-4" Style="width: 100%; display: block;">
+            <div style="display: inline-block; max-width: 100%; width: auto;">
+                <MudStack>
+                    <MudText Typo="Typo.h2" Align="Align.Left">
+                        Marriage
+                    </MudText>
+                    <MudDivider style="border: 2px solid;" />
+                    <MudText Typo="Typo.h6">
+                        @(DateTime.Now.ToString($"dd.MM.yyyy - hh:mm"))
+                    </MudText>
+                </MudStack>
+            </div>
+        </MudPaper>
+    </MudItem>
+</MudGrid>

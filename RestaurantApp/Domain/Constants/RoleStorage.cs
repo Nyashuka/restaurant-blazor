@@ -2,7 +2,7 @@ namespace RestaurantApp.Domain.Constants;
 
 using RestaurantApp.Domain.Enums;
 
-public class RoleStorage
+public static class RoleStorage
 {
     public static readonly Dictionary<RoleEnum, string> Roles = new Dictionary<RoleEnum, string>()
     {

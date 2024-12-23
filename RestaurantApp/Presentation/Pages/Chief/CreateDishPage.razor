@@ -1,0 +1,42 @@
+﻿@page "/chief/dishes/create"
+
+<h2>Додати нову страву</h2>
+
+<div style="max-width: 30%;">
+    <MudStack>
+        <MudTextField Variant="Variant.Outlined" Label="Dish Name" @bind-Value="@DishDto.Name"/>
+        <MudTextField Variant="Variant.Outlined" Label="Weight" @bind-Value="@DishDto.Weight"/>
+        <MudTextField Variant="Variant.Outlined" Label="Price" @bind-Value="@DishDto.Price"/>
+    </MudStack>
+
+    <MudPaper style="padding: 10px; margin-top: 10px;">
+        <MudStack Row="true" AlignItems="AlignItems.Center">
+            <MudTextField Variant="Variant.Outlined" Label="Ingredient Name" @bind-Value="@AddIngredientDto.Name" />
+            <MudTextField Variant="Variant.Outlined" Label="Weight" @bind-Value="@AddIngredientDto.Weight" />
+            <MudButton Style="height: 40px;" Variant="Variant.Filled" Color="Color.Success"
+                @onclick="OnAddIngredientClicked">Add</MudButton>
+        </MudStack>
+
+        <MudStack style="margin-top: 10px; ">
+            @foreach(var ingredient in DishDto.Ingredients)
+            {
+                <MudStack Row="true" AlignItems="AlignItems.Stretch" >
+                    <!-- Задаємо flex-grow: 1 для MudPaper -->
+                    <MudPaper Outlined="true" style="margin: 0 10px; padding: 10px; flex-grow: 1;">
+                        <MudStack Row="true">
+                            <MudText>@ingredient.Name</MudText>
+                            <MudSpacer />
+                            <MudText>@ingredient.Weight g</MudText>
+                        </MudStack>
+                    </MudPaper>
+
+                    <!-- Видаляємо фіксовану висоту і не вказуємо розтягування -->
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary">
+                        Remove
+                    </MudButton>
+                </MudStack>
+                <MudDivider style="margin: 5px 0;" />
+            }
+        </MudStack>
+    </MudPaper>
+</div>

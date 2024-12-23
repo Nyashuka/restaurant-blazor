@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@inject SidebarStateService _sidebarStateService
+
+@implements IDisposable
+
+@inherits LayoutComponentBase
 
 @* Required *@
 <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
@@ -12,35 +16,76 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-	<MudAppBar Elevation="1">
-		<MudText Typo="Typo.h5" Class="ml-3">Event Restaurant</MudText>
-		<MudSpacer />
-		<AuthorizeView>
-			<NotAuthorized>
-				<MudLink Href="login">
-					<MudButton>
-						Login
-					</MudButton>
-				</MudLink>
-				<MudLink Href="register">
-					<MudButton>
-						Register
-					</MudButton>
-				</MudLink>
-			</NotAuthorized>
-		</AuthorizeView>
+    <MudAppBar Elevation="1">
+        <AuthorizeView Roles="Chief,Manager">
+            <Authorized>
+                <MudSpacer/>
+            </Authorized>
+        </AuthorizeView>
+        
+        <AuthorizeView Roles="User">
+            <Authorized>
+                @if (_sidebarStateService.IsSidebarVisible)
+                {
+                    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())"/>
+                }
+                <MudSpacer/>
+                <MudLink Href="Orders">
+                    <MudButton>
+                        Orders
+                    </MudButton>
+                </MudLink>
+            </Authorized>
+        </AuthorizeView>
 
-		<AuthorizeView>
-			<Authorized>
-				@* <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" /> *@
-				<MudLink Href="Logout">
-					<MudButton>
-						Logout
-					</MudButton>
-				</MudLink>
-			</Authorized>
-		</AuthorizeView>
-	</MudAppBar>
+
+        <AuthorizeView>
+            <NotAuthorized>
+                <MudLink Href="login">
+                    <MudButton>
+                        Login
+                    </MudButton>
+                </MudLink>
+                <MudLink Href="register">
+                    <MudButton>
+                        Register
+                    </MudButton>
+                </MudLink>
+            </NotAuthorized>
+
+            <Authorized>
+                <MudLink Href="Logout">
+                    <MudButton>
+                        Logout
+                    </MudButton>
+                </MudLink>
+            </Authorized>
+        </AuthorizeView>
+
+    </MudAppBar>
+    
+    <AuthorizeView Roles="User">
+        <Authorized>
+            @if(_sidebarStateService.IsSidebarVisible)
+            {
+                <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
+                    <MudDrawerHeader>
+                        Categories
+                    </MudDrawerHeader>
+                    <NavMenuCategories/>
+                </MudDrawer>
+            }
+        </Authorized>
+    </AuthorizeView>
+
+    <AuthorizeView Roles="Chief">
+        <Authorized >
+            <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
+                <NavMenu/>
+            </MudDrawer>
+        </Authorized>
+    </AuthorizeView>
+
 	<MudMainContent Class="mt-4 px-4 pb-4">
 		@Body
 	</MudMainContent>
@@ -50,7 +95,6 @@
 	private bool _drawerOpen = true;
 	private bool _isDarkMode = true;
 	private MudTheme? _theme = null;
-	private string _selectedCarName = string.Empty;
 
 	protected override void OnInitialized()
 	{
@@ -60,8 +104,14 @@
 				PaletteDark = _darkPalette,
 				LayoutProperties = new LayoutProperties()
 			};
+
+		_sidebarStateService.OnSidebarStateChanged += UpdateView;
 	}
 
+    private void UpdateView()
+    {
+        StateHasChanged();
+    }
 
 	private void DrawerToggle()
 	{
@@ -117,4 +167,12 @@
 		true => Icons.Material.Rounded.AutoMode,
 		false => Icons.Material.Outlined.DarkMode,
 	};
+
+
+
+    void IDisposable.Dispose()
+    {
+        _sidebarStateService.OnSidebarStateChanged -= UpdateView;
+        _sidebarStateService.IsSidebarVisible = false;
+    }
 }
