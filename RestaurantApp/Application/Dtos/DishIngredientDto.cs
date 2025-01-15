@@ -1,4 +1,4 @@
-namespace RestaurantApp.Presentation.Dtos;
+namespace RestaurantApp.Application.Dtos;
 
 public class DishIngredientDto
 {

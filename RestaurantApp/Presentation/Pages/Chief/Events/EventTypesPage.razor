@@ -1,0 +1,26 @@
+@page "/chief/event-types"
+@attribute [Authorize(Roles = "Chief")]
+
+@inject IEventTypeService EventTypeService
+@inject RestaurantDialogFactory DialogFactory
+@inject ISnackbar Snackbar
+
+<MudTable T="EventType" Items="_eventTypes" Dense="true" Hover="true" RowsPerPage="7">
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate Context="eventType">
+        <MudTd>@eventType.Name</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary" />
+            <MudIconButton OnClick="@(() => DeleteItem(eventType))" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddNewEventType">Add new Event Type</MudButton>
+

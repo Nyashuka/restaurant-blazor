@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 using RestaurantApp.Domain.Models;
 using RestaurantApp.Infrastructure.Persistence.DbContexts;
@@ -7,37 +6,37 @@ using RestaurantApp.Infrastructure.Persistence.Interfaces;
 
 namespace RestaurantApp.Infrastructure.Persistence.Repositories;
 
-public class EventTypeRepository(IDbContextFactory<RestaurantDbContext> dbContextFactory) : IEventTypeRepository
+public class DishRepository(IDbContextFactory<RestaurantDbContext> dbContextFactory) : IDishRepository
 {
     private readonly IDbContextFactory<RestaurantDbContext> _dbContextFactory = dbContextFactory;
 
-    public async Task AddAsync(EventType eventType)
+    public async Task AddAsync(Dish dish)
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        context.EventTypes.Add(eventType);
+        context.Dishes.Add(dish);
         await context.SaveChangesAsync();
     }
 
-    public async Task<List<EventType>> GetAllAsync()
+    public async Task<List<Dish>> GetAllAsync()
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.EventTypes.ToListAsync();
+        return await context.Dishes.ToListAsync();
     }
 
-    public async Task<EventType?> GetByIdAsync(int id)
+    public async Task<Dish?> GetByIdAsync(int id)
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return context.EventTypes.SingleOrDefault(et => et.Id == id);
+        return context.Dishes.SingleOrDefault(x => x.Id == id);
     }
 
-    public async Task RemoveAsync(EventType eventType)
+    public async Task RemoveAsync(Dish dish)
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        context.EventTypes.Remove(eventType);
+        context.Dishes.Remove(dish);
         await context.SaveChangesAsync();
     }
 }

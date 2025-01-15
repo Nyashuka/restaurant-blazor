@@ -1,6 +1,4 @@
 
-using Microsoft.AspNetCore.Mvc;
-
 using RestaurantApp.Application.Dtos;
 using RestaurantApp.Application.Errors;
 using RestaurantApp.Application.Interfaces;

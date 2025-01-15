@@ -13,7 +13,9 @@ using RestaurantApp.Infrastructure.Persistence.DbContexts;
 using RestaurantApp.Infrastructure.Persistence.Interfaces;
 using RestaurantApp.Infrastructure.Persistence.Repositories;
 using RestaurantApp.Presentation.Interfaces;
+using RestaurantApp.Presentation.Factories;
 using RestaurantApp.Presentation.Services;
+using RestaurantApp.Domain.Models;
 
 namespace RestaurantApp.DependencyInjection;
 
@@ -33,11 +35,16 @@ public static class ServiceCollectionExtension
         this IServiceCollection services
     )
     {
+        services.AddScoped<RestaurantDialogFactory>();
+
+
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserSessionService, UserSessionService>();
         services.AddScoped<IEventTypeService, EventTypeService>();
+        services.AddScoped<IDishTypeService, DishTypeService>();
+        services.AddScoped<IDishService, DishService>();
 
         services.AddScoped<AuthenticationStateProvider, UserAuthenticationStateProvider>();
 
@@ -53,6 +60,10 @@ public static class ServiceCollectionExtension
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IEventTypeRepository, EventTypeRepository>();
 
+        services.AddScoped<IDishTypeRepository, DishTypeRepository>();
+        services.AddScoped<IDishIngredientRepository, DishIngredientRepository>();
+        services.AddScoped<IDishRepository, DishRepository>();
+
         return services;
     }
 
@@ -65,7 +76,6 @@ public static class ServiceCollectionExtension
 
         services.AddScoped<RestaurantDbContext>(provider =>
         provider.GetRequiredService<IDbContextFactory<RestaurantDbContext>>().CreateDbContext());
-
 
         return services;
     }

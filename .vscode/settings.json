@@ -1,7 +1,9 @@
 {
-    "cSpell.words": [
-        "Blazor",
-        "Blazored",
-        "Dtos"
-    ]
+    "dotnet.server.useOmnisharp": true,
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true,
+        "**/.idea" : true,
+        "**/.vscode": true,
+    },
 }

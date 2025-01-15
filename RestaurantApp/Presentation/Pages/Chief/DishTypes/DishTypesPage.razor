@@ -1,0 +1,31 @@
+@page "/chief/dish-types"
+@attribute [Authorize(Roles = "Chief")]
+
+@inject IDishTypeService DishTypeService
+@inject RestaurantDialogFactory DialogFactory
+@inject ISnackbar Snackbar
+
+<MudTable T="DishType" Items="_dishTypes" Dense="true" Hover="true" RowsPerPage="7">
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate Context="dishType">
+        <MudTd>@dishType.Name</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary" />
+            <MudIconButton OnClick="@(() => DeleteItem(dishType))" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudStack Row="true" >
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddNewDishType" style="margin: 10px; padding: 10px;">
+                Add new Dish Type
+            </MudButton>
+            <MudSpacer/>
+            <MudTablePager />
+        </MudStack>
+    </PagerContent>
+</MudTable>
+
+

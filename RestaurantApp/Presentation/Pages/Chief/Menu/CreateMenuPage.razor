@@ -1,0 +1,52 @@
+@page "/chief/menu/create"
+
+@inject IDishService DishService
+@inject IEventTypeService EventTypeService
+
+<MudStack Row="true">
+    <MudButton>
+        Відмінити
+    </MudButton>
+    <MudButton OnClick="@CreateDishAsync">
+        Додати нове меню
+    </MudButton>
+</MudStack>
+
+<MudTextField style="max-width: 300px;" Label="Menu name"
+    Variant="Variant.Outlined"
+    @bind-Value="@MenuName" />
+
+<MudAutocomplete T="EventType" Label="Event Type"
+    @bind-Value="@SelectedEventType" SearchFunc="@SearchEventType"
+    ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+    Variant="Variant.Outlined" />
+
+<MudPaper style="padding: 10px; margin-top: 10px;">
+    <MudStack Row="true" AlignItems="AlignItems.Center">
+        <MudAutocomplete T="Dish" Label="Dish Name"
+            @bind-Value="@SelectedDishToAdd" SearchFunc="@SearchDish"
+            ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+            Variant="Variant.Outlined" />
+        <MudButton Style="height: 40px;" Variant="Variant.Filled" Color="Color.Success"
+            OnClick="OnAddDish">Add</MudButton>
+    </MudStack>
+
+    <MudStack style="margin-top: 10px; ">
+        @foreach(var dish in MenuDishes)
+        {
+            <MudStack Row="true" AlignItems="AlignItems.Stretch" >
+                <MudPaper Outlined="true" style="margin: 0 10px; padding: 10px; flex-grow: 1;">
+                    <MudStack Row="true">
+                        <MudText>@dish.Name</MudText>
+                        <MudSpacer />
+                    </MudStack>
+                </MudPaper>
+
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary">
+                    Remove
+                </MudButton>
+            </MudStack>
+            <MudDivider style="margin: 5px 0;" />
+        }
+    </MudStack>
+</MudPaper>

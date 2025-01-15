@@ -1,0 +1,26 @@
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Add Dish Type
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudTextField Label="Dish Type Name" @bind-Value="_model.Name" />
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Save" Color="Color.Primary">Save</MudButton>
+        <MudButton OnClick="Cancel" Color="Color.Secondary">Cancel</MudButton>
+    </DialogActions>
+
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+
+    private CreateDishTypeDto _model = new();
+
+    private void Save() => MudDialog.Close(DialogResult.Ok(_model));
+
+    private void Cancel() => MudDialog.Cancel();
+}

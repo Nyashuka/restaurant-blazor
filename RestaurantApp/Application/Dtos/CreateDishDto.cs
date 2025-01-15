@@ -1,9 +1,11 @@
-namespace RestaurantApp.Presentation.Dtos;
+using RestaurantApp.Domain.Models;
 
-public class AddDishDto
+namespace RestaurantApp.Application.Dtos;
+
+public class CreateDishDto
 {
     public string Name { get; set; } = string.Empty;
-    public DishTypeDto DishType { get; set; } = new DishTypeDto();
+    public DishType? DishType { get; set; }
     public int Weight { get; set; }
     public int ServingPerUnit { get; set; } = 1;
     public double PricePerUnit { get; set; }

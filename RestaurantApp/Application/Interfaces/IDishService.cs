@@ -3,9 +3,9 @@ using RestaurantApp.Domain.Models;
 
 namespace RestaurantApp.Application.Interfaces;
 
-public interface IEventTypeService
+public interface IDishService
 {
-    Task CreateAsync(CreateEventTypeDto createEventTypeDto);
+    Task CreateAsync(CreateDishDto createDishDto);
     Task RemoveAsync(int id);
-    Task<List<EventType>> GetAllAsync();
+    Task<List<Dish>> GetAllAsync();
 }
