@@ -1,23 +1,17 @@
-using Microsoft.AspNetCore.HttpOverrides;
-
 using RestaurantApp.Application.Dtos;
 using RestaurantApp.Application.Services;
 using RestaurantApp.Domain.Models;
 
-namespace RestaurantApp.Presentation.Pages.Chief.Menu;
+namespace RestaurantApp.Presentation.Pages.Chief.Menus;
 
 public partial class CreateMenuPage
 {
-    private string MenuName { get; set; } = string.Empty;
+    private CreateMenuDto CreateMenuDto { get; set;} = new CreateMenuDto();
 
     private List<Dish> AllDishes { get; set; }= [];
+    private List<EventType> EventTypes { get; set; } = [];
 
     private Dish? SelectedDishToAdd { get; set; } = null;
-    private List<Dish> MenuDishes { get; set; } = [];
-
-    private EventType? SelectedEventType { get; set; }
-
-    private List<EventType> EventTypes { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,8 +24,15 @@ public partial class CreateMenuPage
         if(SelectedDishToAdd == null)
             return;
 
-        MenuDishes.Add(SelectedDishToAdd);
+        CreateMenuDto.Dishes.Add(SelectedDishToAdd);
         SelectedDishToAdd = null;
+    }
+
+    private async Task CreateMenuAsync()
+    {
+        await MenuService.CreateAsync(CreateMenuDto);
+
+        NavigationManager.NavigateTo("/chief/menu", true);
     }
 
     private async Task<IEnumerable<Dish>> SearchDish(string value, CancellationToken token)

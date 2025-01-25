@@ -6,4 +6,5 @@
         "**/.idea" : true,
         "**/.vscode": true,
     },
+    "csharp.format.enable": true,
 }

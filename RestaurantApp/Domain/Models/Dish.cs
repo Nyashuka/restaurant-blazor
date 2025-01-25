@@ -16,7 +16,7 @@ public class Dish
     private Dish() {}
 
     public int Id { get; private set; }
-    public string Name { get; private set; }
+    public string Name { get; private set; } = string.Empty;
     public int DishTypeId { get; private set; }
     public DishType? DishType { get; private set; }
     public int Weight { get; private set; }

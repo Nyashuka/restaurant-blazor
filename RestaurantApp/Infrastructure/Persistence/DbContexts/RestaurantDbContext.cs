@@ -14,6 +14,8 @@ public class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) 
     public DbSet<DishType> DishTypes { get; set; }
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<DishIngredient> DishIngredients { get; set; }
+    public DbSet<Menu> Menus { get; set; }
+    public DbSet<MenuItem> MenuItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,6 +24,8 @@ public class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) 
         modelBuilder.ApplyConfiguration(new DishTypeConfigurations());
         modelBuilder.ApplyConfiguration(new DishConfiguration());
         modelBuilder.ApplyConfiguration(new DishIngredientConfiguration());
+        modelBuilder.ApplyConfiguration(new MenuConfiguration());
+        modelBuilder.ApplyConfiguration(new MenuItemConfiguration());
 
         CreateDefaultUsers(modelBuilder);
     }

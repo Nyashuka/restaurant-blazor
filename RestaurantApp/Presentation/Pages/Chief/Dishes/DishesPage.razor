@@ -1,6 +1,41 @@
 @page "/chief/dishes"
 
 @inject IDishService DishService
+@inject RestaurantDialogFactory DialogFactory
+@inject ISnackbar Snackbar
+
+<MudLink Href="/chief/dishes/create" >
+    Add new dish
+</MudLink>
+
+<div class="dishes-container">
+    @foreach(var dish in Dishes)
+    {
+        <MudPaper class="dish-container">
+            <div class="dish-picture">
+
+            </div>
+
+            <div class="dish-title">
+                <h1><MudLink Href="/chief/dishes/1">@dish.Name</MudLink></h1>
+
+            </div>
+            <div class="dish-buttons">
+                <MudStack Row="true">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" >
+                        Details
+                    </MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary">
+                        Edit
+                    </MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnDeleteAsync(dish.Id))">
+                        Remove
+                    </MudButton>
+                </MudStack>
+            </div>
+        </MudPaper>
+    }
+</div>
 
 <style>
     .dishes-container {
@@ -34,25 +69,8 @@
         width: 100%;
         align-items: start;
     }
-</style>
-
-<MudLink Href="/chief/dishes/create" >
-    Add new dish
-</MudLink>
-
-<div class="dishes-container">
-    @foreach(var dish in Dishes)
-    {
-        <MudPaper class="dish-container">
-            <div class="dish-picture">
-
-            </div>
-
-            <div class="dish-title">
-                <h1><MudLink Href="/chief/dishes/1">@dish.Name</MudLink></h1>
-
-            </div>
-        </MudPaper>
+    .dish-buttons {
+        width: 100%;
+        align-items: start;
     }
-</div>
-
+</style>

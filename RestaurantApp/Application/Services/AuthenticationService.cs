@@ -26,12 +26,7 @@ public class AuthenticationService : IAuthenticationService
     {
         var user = await _userRepository.GetUserByEmailAsync(email);
 
-        if(user == null)
-        {
-            return AuthenticationResult.Failure(ErrorMessages.InvalidEmailOrPassword);
-        }
-
-        if(!PasswordHasher.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+        if(user == null || !PasswordHasher.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
         {
             return AuthenticationResult.Failure(ErrorMessages.InvalidEmailOrPassword);
         }

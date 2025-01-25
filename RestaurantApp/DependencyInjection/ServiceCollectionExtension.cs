@@ -37,7 +37,6 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<RestaurantDialogFactory>();
 
-
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
         services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -45,6 +44,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IEventTypeService, EventTypeService>();
         services.AddScoped<IDishTypeService, DishTypeService>();
         services.AddScoped<IDishService, DishService>();
+        services.AddScoped<IMenuService, MenuService>();
 
         services.AddScoped<AuthenticationStateProvider, UserAuthenticationStateProvider>();
 
@@ -63,6 +63,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IDishTypeRepository, DishTypeRepository>();
         services.AddScoped<IDishIngredientRepository, DishIngredientRepository>();
         services.AddScoped<IDishRepository, DishRepository>();
+        services.AddScoped<IMenuRepository, MenuRepository>();
+        services.AddScoped<IMenuItemRepository, MenuItemRepository>();
 
         return services;
     }

@@ -1,5 +1,7 @@
 @page "/chief/menu/create"
 
+@inject NavigationManager NavigationManager
+@inject IMenuService MenuService
 @inject IDishService DishService
 @inject IEventTypeService EventTypeService
 
@@ -7,17 +9,17 @@
     <MudButton>
         Відмінити
     </MudButton>
-    <MudButton OnClick="@CreateDishAsync">
+    <MudButton OnClick="@CreateMenuAsync">
         Додати нове меню
     </MudButton>
 </MudStack>
 
 <MudTextField style="max-width: 300px;" Label="Menu name"
     Variant="Variant.Outlined"
-    @bind-Value="@MenuName" />
+    @bind-Value="@CreateMenuDto.Name" />
 
 <MudAutocomplete T="EventType" Label="Event Type"
-    @bind-Value="@SelectedEventType" SearchFunc="@SearchEventType"
+    @bind-Value="@CreateMenuDto.EventType" SearchFunc="@SearchEventType"
     ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
     Variant="Variant.Outlined" />
 
@@ -32,7 +34,7 @@
     </MudStack>
 
     <MudStack style="margin-top: 10px; ">
-        @foreach(var dish in MenuDishes)
+        @foreach(var dish in CreateMenuDto.Dishes)
         {
             <MudStack Row="true" AlignItems="AlignItems.Stretch" >
                 <MudPaper Outlined="true" style="margin: 0 10px; padding: 10px; flex-grow: 1;">
