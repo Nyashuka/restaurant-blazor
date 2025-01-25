@@ -3,36 +3,40 @@
 @inject IMenuService MenuService
 
 <style>
-    .dishes-container {
+    .menus-container {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
     }
 
-    .dish-container {
+    .menu-container {
         width: calc(33.333% - 10px);
         display: flex;
         align-items: center;
-        justify-content: center;
+        @* justify-content: center; *@
 
         flex-direction: column;
-        align-items: center;
         gap: 10px;
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 10px;
     }
 
-    .dish-picture {
+    .menu-picture {
         width: 100%;
         margin: 10px;
         background-color: blue;
         height: 100px;
     }
 
-    .dish-title {
+    .menu-content {
         width: 100%;
-        align-items: start;
+        text-align: left;
+    }
+
+    .menu-title {
+        font-size: inherit;
+        font-weight: inherit;
     }
 </style>
 
@@ -40,18 +44,36 @@
     Create Menu
 </MudLink>
 
-<div class="dishes-container">
+<div class="menus-container">
     @foreach(var menu in MenuList)
     {
-        <MudPaper class="dish-container">
-            <div class="dish-picture">
+        <MudPaper class="menu-container">
+            <div class="menu-picture">
 
             </div>
 
-            <div class="dish-title">
-                <h1><MudLink Href="/chief/menu/1">@menu.Name</MudLink></h1>
+            <div class="menu-content">
+                <h1>
+                    <MudLink class="menu-title" Href="/chief/menu/1">@menu.Name</MudLink>
+                </h1>
 
+                <MudPaper  Style="background-color: green; padding: 0 5px; display: inline-block; width: auto; margin: 5px 0;">
+                    <MudText Typo="Typo.subtitle2" Style="color: white;">@menu.EventType.Name</MudText>
+                </MudPaper>
+
+                <MudStack Row="true">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" >
+                        Details
+                    </MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary">
+                        Edit
+                    </MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary">
+                        Remove
+                    </MudButton>
+                </MudStack>
             </div>
+
         </MudPaper>
     }
 </div>

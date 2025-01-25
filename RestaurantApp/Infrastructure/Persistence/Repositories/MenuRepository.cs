@@ -27,14 +27,14 @@ public class MenuRepository : IMenuRepository
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.Menus.ToListAsync();
+        return await context.Menus.Include(x => x.EventType).ToListAsync();
     }
 
     public async Task<Menu?> GetByIdAsync(int id)
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.Menus.SingleOrDefaultAsync(x => x.Id == id);
+        return await context.Menus.Include(x => x.EventType).SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task RemoveAsync(Menu menu)
