@@ -4,95 +4,52 @@
 @inject IEventTypeService _eventTypeService
 @inject SidebarStateService _sidebarStateService
 
-<MudStack>
 
-	<MudButton OnClick="OnExpandCollapseBaseInfoClick">
-		@(_expandedBaseInfo ? "Hide Base Information" : "Show Base Information")
-	</MudButton>
-	<MudDivider />
-	<MudCollapse Expanded="_expandedBaseInfo">
-		<div style="max-width: 300px;" Align="left">
+<MudTabs Elevation="1" Rounded="true" PanelClass="pa-6" >
+    <MudTabPanel Text="Base Info">
+        <div style="max-width: 300px;" Align="left">
 
-			<MudAutocomplete T="EventType"
-							 Label="Event Type"
-							 @bind-Value="@SelectedEventType"
-							 SearchFunc="@SearchEventType"
-							 ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-							 Variant="Variant.Outlined" />
+            <MudAutocomplete T="EventType" Label="Event Type" @bind-Value="@BaseInfo.SelectedEventType"
+                SearchFunc="@SearchEventType" ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+                Variant="Variant.Outlined" />
 
+            <MudDivider style="margin: 10px 0;" />
 
-			@if (_stage > 0)
-			{
+            <MudDatePicker @bind-Date="@BaseInfo.SelectedDate" style="max-width: 300px;" Label="Please, select data"
+                IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
+                AdditionalDateClassesFunc="@((DateTime dt)=>"" )" />
 
-				<MudDivider style="margin: 10px 0;" />
+            <MudDivider style="margin: 10px 0; max-width: 300px;" />
 
-				<MudDatePicker @bind-Date="@SelectedDate"
-							   style="max-width: 300px;"
-							   Label="Please, select data"
-							   IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
-							   AdditionalDateClassesFunc="@((DateTime dt)=>"" )" />
+            <MudTextField style="max-width: 300px;" Label="Guest count" Variant="Variant.Outlined"
+                @bind-Value="@BaseInfo.GuestCount" />
+        </div>
+    </MudTabPanel>
+    @if(BaseInfo.IsSuccess)
+    {
+        <MudTabPanel Text="Suggestions">
+            <MudStack>
+                @for (int i = 0; i < 5; i++)
+                {
+                    <MudButton style="width: 80px; height: 80px">
+                        Pattern + @i
+                    </MudButton>
+                }
+            </MudStack>
+        </MudTabPanel>
 
-				<MudDivider style="margin: 10px 0; max-width: 300px;" />
+        <MudTabPanel Text="Add dishes">
+        </MudTabPanel>
 
-				<MudTextField style="max-width: 300px;" 
-					Label="Guest count" 
-					Variant="Variant.Outlined"
-					@bind-Value="@GuestCount" />
-			}
-		</div>
-	</MudCollapse>
-</MudStack>
-
-@if (_stage > 1)
-{
-	@* <MudPaper Class="pa-4"> *@
-	<MudStack Spacing="2">
-		<MudButton OnClick="OnExpandCollapseMenuClick">
-			@(_expandedMenu ? "Hide Menu" : "Expand Menu")
-		</MudButton>
-		<MudDivider />
-		<MudCollapse Expanded="_expandedMenu">
-
-			<MudTabs Elevation="1" Rounded="true" PanelClass="pa-6">
-				<MudTabPanel Text="Suggestions">
-					<MudStack>
-						@for (int i = 0; i < 5; i++)
-						{
-							<MudButton style="width: 80px; height: 80px">
-								Pattern + @i
-							</MudButton>
-						}
-					</MudStack>
-				</MudTabPanel>
-
-				<MudTabPanel Text="Add dishes">
-					<MudButton @onclick="ToggleCategories">Categories</MudButton>
-				</MudTabPanel>
-
-				<MudTabPanel Text="Selected Dishes">
-					<MudStack>
-						@for (int i = 0; i < 5; i++)
-						{
-							<MudButton style="width: 80px; height: 80px">
-								Dish + @i
-							</MudButton>
-						}
-					</MudStack>
-				</MudTabPanel>
-
-			</MudTabs>
-
-			@* <MudStack Spacing="2">
-                        <MudButton OnClick="OnExpandCollapseDishesClick">@(_expandedDishes ? "Hide Dishes" : "Expand Dishes")</MudButton>
-
-                        <MudDivider />
-
-                        <MudCollapse Expanded="_expandedDishes">
-                            <MudAlert Severity="Severity.Info">Suggestions</MudAlert>
-                        </MudCollapse>
-                    </MudStack> *@
-
-		</MudCollapse>
-	</MudStack>
-	@* </MudPaper> *@
-}
+        <MudTabPanel Text="Selected Dishes">
+            <MudStack>
+                @for (int i = 0; i < 5; i++)
+                {
+                    <MudButton style="width: 80px; height: 80px">
+                        Dish + @i
+                    </MudButton>
+                }
+            </MudStack>
+        </MudTabPanel>
+    }
+</MudTabs>

@@ -1,8 +1,13 @@
+@inject IDishTypeService DishTypeService
+
 <MudNavMenu>
     <AuthorizeView >
         <Authorized>
-            <MudNavLink Href="/NamNam" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Garage">Home</MudNavLink>
-            <MudNavLink Href="/FuFu" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled._60fps">Orders</MudNavLink>
+            @foreach (var category in DishTypes)
+            {
+                <MudNavLink Href="@($"/services/category/{category.Id}")" Match="NavLinkMatch.All">@category.Name
+                </MudNavLink>
+            }
         </Authorized>
     </AuthorizeView>
 </MudNavMenu>
@@ -12,9 +17,16 @@
 
     private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
+    private List<DishType> DishTypes { get; set; } = [];
+
     private void ToggleNavMenu()
     {
         _collapseNavMenu = !_collapseNavMenu;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        DishTypes = await DishTypeService.GetAllAsync();
     }
 }
 

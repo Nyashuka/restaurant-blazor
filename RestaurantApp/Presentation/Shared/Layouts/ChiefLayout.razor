@@ -1,0 +1,25 @@
+<MudAppBar Elevation="1">
+    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
+        OnClick="@((e) => DrawerToggle())" />
+    <MudSpacer />
+    <MudLink Href="Logout">
+        <MudButton>
+            Logout
+        </MudButton>
+    </MudLink>
+</MudAppBar>
+<MudDrawer @bind-Open="_drawerOpen" Elevation="2" Style="margin-top: -16px;">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h5" Class="mt-1">Chief's Cabinet</MudText>
+    </MudDrawerHeader>
+    <NavMenu/>
+</MudDrawer>
+
+@code {
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}

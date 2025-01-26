@@ -4,64 +4,8 @@ namespace RestaurantApp.Presentation.Pages.Orders;
 
 public partial class CreateOrder
 {
-    bool _expandedBaseInfo = true;
-    bool _expandedMenu = false;
+    private BaseOrderInfo BaseInfo { get; set; } = new();
 
-    private void ToggleSection(ref bool sectionToToggle, ref bool otherSection)
-    {
-        if (!sectionToToggle)
-        {
-            otherSection = false;
-        }
-
-        sectionToToggle = !sectionToToggle;
-    }
-
-    private void OnExpandCollapseBaseInfoClick()
-    {
-        ToggleSection(ref _expandedBaseInfo, ref _expandedMenu);
-    }
-
-    private void OnExpandCollapseMenuClick()
-    {
-        ToggleSection(ref _expandedMenu, ref _expandedBaseInfo);
-    }
-
-
-    private int _stage = 0;
-
-    private int GuestCount { get; set; } = 10;
-
-    private DateTime? _selectedDate;
-    private DateTime? SelectedDate
-    {
-        get => _selectedDate;
-        set
-        {
-            _selectedDate = value;
-            _stage = 2;
-
-            StateHasChanged();
-        }
-    }
-
-    private EventType? _selectedEventType;
-    private EventType? SelectedEventType
-    {
-        get => _selectedEventType;
-        set
-        {
-            _selectedEventType = value;
-            _stage = 1;
-
-            StateHasChanged();
-        }
-    }
-
-    private void ToggleCategories()
-    {
-        _sidebarStateService.IsSidebarVisible = !_sidebarStateService.IsSidebarVisible;
-    }
 
     private List<EventType> EventTypes = new();
 
