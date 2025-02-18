@@ -8,9 +8,10 @@ public class RestaurantDialogFactory(IDialogService dialogService)
 {
     private IDialogService DialogService { get; } = dialogService;
 
-    public async Task<DialogResult?> CreateAsync<T>() where T : ComponentBase
+    public async Task<DialogResult?> CreateAsync<T>(DialogParameters? parameters = null) where T : ComponentBase
     {
-        var parameters = new DialogParameters { };
+        parameters ??= [];
+
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
 
         var dialog = await DialogService.ShowAsync<T>("", parameters, options);

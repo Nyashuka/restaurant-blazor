@@ -1,0 +1,35 @@
+@page "/chief/subcategories"
+@attribute [Authorize(Roles = "Chief")]
+
+@inject IDishSubcategoryService DishSubcategoryService
+@inject RestaurantDialogFactory DialogFactory
+@inject ISnackbar Snackbar
+
+<MudTable T="DishSubcategory" Items="DishSubcategories" Dense="true" Hover="true" RowsPerPage="7">
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Category</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate Context="dishSubcategory">
+        <MudTd>@dishSubcategory.Name</MudTd>
+        <MudTd>@dishSubcategory.Category.Name</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary" />
+            <MudIconButton OnClick="@(() => DeleteItem(dishSubcategory))" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudStack Row="true" >
+            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                OnClick="AddNewDishType"
+                style="margin: 10px; padding: 10px;">
+                Add new Subcategory
+            </MudButton>
+            <MudSpacer/>
+            <MudTablePager />
+        </MudStack>
+    </PagerContent>
+</MudTable>
+
+

@@ -2,14 +2,14 @@
 
 public class Dish
 {
-    public Dish(int id, string name, int dishTypeId, DishType? dishType, int weight, int servingPerUnit, double pricePerUnit)
+    public Dish(int id, string name, int dishCategoryId, DishCategory? dishCategory, int weight, int recommendedWeightPerPortion, double pricePerUnit)
     {
         Id = id;
         Name = name;
-        DishTypeId = dishTypeId;
-        DishType = dishType;
+        DishCategoryId = dishCategoryId;
+        DishCategory = dishCategory;
         Weight = weight;
-        ServingPerUnit = servingPerUnit;
+        RecommendedWeightPerPortion = recommendedWeightPerPortion;
         PricePerUnit = pricePerUnit;
     }
 
@@ -17,9 +17,9 @@ public class Dish
 
     public int Id { get; private set; }
     public string Name { get; private set; } = string.Empty;
-    public int DishTypeId { get; private set; }
-    public DishType? DishType { get; private set; }
+    public int DishCategoryId { get; private set; }
+    public DishCategory? DishCategory { get; private set; }
     public int Weight { get; private set; }
-    public int ServingPerUnit { get; private set; }
+    public int RecommendedWeightPerPortion { get; private set; }
     public double PricePerUnit { get; private set; }
 }

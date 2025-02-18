@@ -41,6 +41,16 @@ public class MenuService : IMenuService
         return await _menuRepository.GetAllAsync();
     }
 
+    public async Task<Menu?> GetByIdAsync(int id)
+    {
+        return await _menuRepository.GetByIdAsync(id);
+    }
+
+    public async Task<List<MenuItem>> GetMenuItemsByMenuId(int id)
+    {
+        return await _menuItemRepository.GetAllByMenuIdAsync(id);
+    }
+
     public async Task RemoveAsync(int id)
     {
         if(await _menuRepository.GetByIdAsync(id) is Menu menu)

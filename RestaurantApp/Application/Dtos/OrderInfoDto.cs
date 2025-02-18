@@ -1,22 +1,13 @@
 using RestaurantApp.Domain.Models;
+using RestaurantApp.Presentation.Dtos;
 
-namespace RestaurantApp.Presentation.Pages.Orders;
+namespace RestaurantApp.Application.Dtos;
 
-public class BaseOrderInfo
+public class OrderInfoDto
 {
     public bool IsSuccess { get; private set; }
     public int GuestCount { get; set; } = 10;
-
-    private DateTime? _selectedDate;
-    public DateTime? SelectedDate
-    {
-        get => _selectedDate;
-        set
-        {
-            _selectedDate = value;
-            UpdateStatus();
-        }
-    }
+    public List<MenuForDate> MenusForDate { get; set; } = [];
 
     private EventType? _selectedEventType;
     public EventType? SelectedEventType
@@ -36,6 +27,6 @@ public class BaseOrderInfo
 
     public bool CheckSuccessStatus()
     {
-        return SelectedEventType != null && SelectedDate != null;
+        return SelectedEventType != null;
     }
 }

@@ -1,6 +1,5 @@
 using Blazored.LocalStorage;
 
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 using MudBlazor.Services;
@@ -16,6 +15,7 @@ using RestaurantApp.Presentation.Interfaces;
 using RestaurantApp.Presentation.Factories;
 using RestaurantApp.Presentation.Services;
 using RestaurantApp.Domain.Models;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace RestaurantApp.DependencyInjection;
 
@@ -42,7 +42,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserSessionService, UserSessionService>();
         services.AddScoped<IEventTypeService, EventTypeService>();
-        services.AddScoped<IDishTypeService, DishTypeService>();
+        services.AddScoped<IDishCategoryService, DishCategoryService>();
         services.AddScoped<IDishService, DishService>();
         services.AddScoped<IMenuService, MenuService>();
 
@@ -60,11 +60,13 @@ public static class ServiceCollectionExtension
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IEventTypeRepository, EventTypeRepository>();
 
-        services.AddScoped<IDishTypeRepository, DishTypeRepository>();
+        services.AddScoped<IDishCategoryRepository, DishCategoryRepository>();
         services.AddScoped<IDishIngredientRepository, DishIngredientRepository>();
         services.AddScoped<IDishRepository, DishRepository>();
         services.AddScoped<IMenuRepository, MenuRepository>();
         services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+
+        services.AddScoped<IOrderMenuItemRepository, OrderMenuItemRepository>();
 
         return services;
     }

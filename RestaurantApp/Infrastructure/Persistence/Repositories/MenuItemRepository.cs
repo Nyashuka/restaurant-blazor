@@ -39,6 +39,13 @@ public class MenuItemRepository : IMenuItemRepository
         return await context.MenuItems.ToListAsync();
     }
 
+    public async Task<List<MenuItem>> GetAllByMenuIdAsync(int id)
+    {
+        await using var context = _dbContextFactory.CreateDbContext();
+
+        return await context.MenuItems.Where(x => x.MenuId == id).ToListAsync();
+    }
+
     public async Task<MenuItem?> GetByIdAsync(int id)
     {
         await using var context = _dbContextFactory.CreateDbContext();

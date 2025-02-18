@@ -47,6 +47,16 @@ public class DishService : IDishService
         return await _dishRepository.GetAllAsync();
     }
 
+    public async Task<List<Dish>> GetByCategoryAsync(int categoryId)
+    {
+        return await _dishRepository.GetByCategoryAsync(categoryId);
+    }
+
+    public async Task<Dish?> GetByIdAsync(int id)
+    {
+        return await _dishRepository.GetByIdAsync(id);
+    }
+
     public async Task RemoveAsync(int id)
     {
         var dish = await _dishRepository.GetByIdAsync(id) ?? throw new Exception("DISH IS NOT EXISTS");

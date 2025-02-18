@@ -22,14 +22,21 @@ public class DishRepository(IDbContextFactory<RestaurantDbContext> dbContextFact
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.Dishes.ToListAsync();
+        return await context.Dishes.Include(x => x.DishCategory).ToListAsync();
+    }
+
+    public async Task<List<Dish>> GetByCategoryAsync(int categoryId)
+    {
+        await using var context = _dbContextFactory.CreateDbContext();
+
+        return await context.Dishes.Where(x => x.DishCategoryId == categoryId).Include(x => x.DishCategory).ToListAsync();
     }
 
     public async Task<Dish?> GetByIdAsync(int id)
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return context.Dishes.SingleOrDefault(x => x.Id == id);
+        return context.Dishes.Include(x => x.DishCategory).SingleOrDefault(x => x.Id == id);
     }
 
     public async Task RemoveAsync(Dish dish)

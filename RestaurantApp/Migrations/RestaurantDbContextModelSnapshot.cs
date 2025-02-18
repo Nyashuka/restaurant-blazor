@@ -30,7 +30,7 @@ namespace RestaurantApp.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DishTypeId")
+                    b.Property<int>("DishCategoryId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -41,7 +41,7 @@ namespace RestaurantApp.Migrations
                     b.Property<double>("PricePerUnit")
                         .HasColumnType("double precision");
 
-                    b.Property<int>("ServingPerUnit")
+                    b.Property<int>("RecommendedWeightPerPortion")
                         .HasColumnType("integer");
 
                     b.Property<int>("Weight")
@@ -49,9 +49,30 @@ namespace RestaurantApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DishTypeId");
+                    b.HasIndex("DishCategoryId");
 
                     b.ToTable("Dishes", (string)null);
+                });
+
+            modelBuilder.Entity("RestaurantApp.Domain.Models.DishCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsShared")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DishCategories", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantApp.Domain.Models.DishIngredient", b =>
@@ -78,24 +99,6 @@ namespace RestaurantApp.Migrations
                     b.HasIndex("DishId");
 
                     b.ToTable("DishIngredients", (string)null);
-                });
-
-            modelBuilder.Entity("RestaurantApp.Domain.Models.DishType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DishTypes", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantApp.Domain.Models.EventType", b =>
@@ -152,18 +155,85 @@ namespace RestaurantApp.Migrations
                     b.Property<int>("MenuId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("MenuId1")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DishId");
 
                     b.HasIndex("MenuId");
 
-                    b.HasIndex("MenuId1");
-
                     b.ToTable("MenuItems", (string)null);
+                });
+
+            modelBuilder.Entity("RestaurantApp.Domain.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("PeopleCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("RestaurantApp.Domain.Models.OrderDay", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderDays", (string)null);
+                });
+
+            modelBuilder.Entity("RestaurantApp.Domain.Models.OrderMenuItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DishId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OrderDayId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DishId");
+
+                    b.HasIndex("OrderDayId");
+
+                    b.ToTable("OrderMenuItems", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantApp.Domain.Models.User", b =>
@@ -211,8 +281,8 @@ namespace RestaurantApp.Migrations
                             Email = "chief@gmail.com",
                             FirstName = "Chief",
                             LastName = "",
-                            PasswordHash = new byte[] { 8, 84, 98, 245, 156, 75, 67, 191, 36, 125, 34, 126, 185, 24, 214, 112, 191, 248, 149, 39, 35, 164, 6, 192, 47, 243, 2, 46, 177, 234, 26, 228, 201, 175, 63, 206, 52, 55, 243, 230, 102, 203, 196, 131, 6, 57, 215, 204, 224, 111, 247, 112, 91, 16, 132, 21, 226, 144, 5, 74, 156, 211, 93, 67 },
-                            PasswordSalt = new byte[] { 84, 106, 208, 208, 205, 130, 233, 13, 102, 198, 35, 191, 216, 241, 105, 32, 149, 118, 36, 106, 136, 62, 42, 100, 5, 174, 76, 12, 240, 121, 118, 105, 242, 36, 248, 170, 170, 207, 98, 94, 241, 25, 135, 80, 64, 52, 86, 55, 80, 105, 173, 72, 4, 148, 253, 90, 65, 126, 51, 23, 10, 89, 2, 37, 157, 6, 3, 79, 247, 177, 216, 181, 83, 153, 57, 164, 221, 128, 25, 73, 97, 247, 162, 98, 4, 219, 161, 128, 206, 70, 230, 229, 182, 14, 240, 106, 21, 155, 128, 93, 70, 104, 79, 208, 239, 68, 244, 124, 206, 118, 96, 7, 65, 191, 161, 247, 209, 240, 40, 201, 143, 144, 198, 24, 177, 38, 86, 71 },
+                            PasswordHash = new byte[] { 98, 156, 19, 170, 113, 243, 21, 125, 105, 109, 151, 101, 163, 208, 168, 229, 185, 12, 124, 146, 123, 105, 99, 154, 111, 102, 237, 118, 25, 108, 247, 208, 180, 220, 159, 55, 137, 25, 25, 167, 233, 8, 253, 187, 24, 48, 173, 52, 151, 146, 207, 148, 150, 66, 184, 197, 194, 214, 170, 13, 99, 162, 23, 93 },
+                            PasswordSalt = new byte[] { 73, 127, 61, 107, 100, 170, 205, 194, 132, 150, 214, 161, 177, 13, 86, 67, 113, 115, 237, 159, 166, 31, 170, 156, 61, 154, 53, 139, 33, 200, 10, 110, 27, 46, 60, 245, 67, 248, 21, 45, 186, 114, 201, 96, 41, 204, 121, 95, 128, 13, 143, 53, 56, 162, 55, 49, 213, 93, 228, 136, 174, 67, 241, 199, 23, 211, 198, 6, 26, 19, 44, 160, 19, 64, 133, 152, 111, 57, 153, 223, 73, 149, 207, 210, 231, 85, 87, 203, 227, 254, 152, 221, 208, 138, 218, 174, 64, 129, 6, 241, 235, 243, 217, 195, 171, 81, 206, 154, 152, 175, 103, 138, 31, 77, 35, 90, 214, 79, 105, 84, 70, 232, 160, 237, 108, 91, 243, 234 },
                             Role = 2
                         },
                         new
@@ -221,21 +291,21 @@ namespace RestaurantApp.Migrations
                             Email = "manager@gmail.com",
                             FirstName = "Manager",
                             LastName = "",
-                            PasswordHash = new byte[] { 8, 84, 98, 245, 156, 75, 67, 191, 36, 125, 34, 126, 185, 24, 214, 112, 191, 248, 149, 39, 35, 164, 6, 192, 47, 243, 2, 46, 177, 234, 26, 228, 201, 175, 63, 206, 52, 55, 243, 230, 102, 203, 196, 131, 6, 57, 215, 204, 224, 111, 247, 112, 91, 16, 132, 21, 226, 144, 5, 74, 156, 211, 93, 67 },
-                            PasswordSalt = new byte[] { 84, 106, 208, 208, 205, 130, 233, 13, 102, 198, 35, 191, 216, 241, 105, 32, 149, 118, 36, 106, 136, 62, 42, 100, 5, 174, 76, 12, 240, 121, 118, 105, 242, 36, 248, 170, 170, 207, 98, 94, 241, 25, 135, 80, 64, 52, 86, 55, 80, 105, 173, 72, 4, 148, 253, 90, 65, 126, 51, 23, 10, 89, 2, 37, 157, 6, 3, 79, 247, 177, 216, 181, 83, 153, 57, 164, 221, 128, 25, 73, 97, 247, 162, 98, 4, 219, 161, 128, 206, 70, 230, 229, 182, 14, 240, 106, 21, 155, 128, 93, 70, 104, 79, 208, 239, 68, 244, 124, 206, 118, 96, 7, 65, 191, 161, 247, 209, 240, 40, 201, 143, 144, 198, 24, 177, 38, 86, 71 },
+                            PasswordHash = new byte[] { 98, 156, 19, 170, 113, 243, 21, 125, 105, 109, 151, 101, 163, 208, 168, 229, 185, 12, 124, 146, 123, 105, 99, 154, 111, 102, 237, 118, 25, 108, 247, 208, 180, 220, 159, 55, 137, 25, 25, 167, 233, 8, 253, 187, 24, 48, 173, 52, 151, 146, 207, 148, 150, 66, 184, 197, 194, 214, 170, 13, 99, 162, 23, 93 },
+                            PasswordSalt = new byte[] { 73, 127, 61, 107, 100, 170, 205, 194, 132, 150, 214, 161, 177, 13, 86, 67, 113, 115, 237, 159, 166, 31, 170, 156, 61, 154, 53, 139, 33, 200, 10, 110, 27, 46, 60, 245, 67, 248, 21, 45, 186, 114, 201, 96, 41, 204, 121, 95, 128, 13, 143, 53, 56, 162, 55, 49, 213, 93, 228, 136, 174, 67, 241, 199, 23, 211, 198, 6, 26, 19, 44, 160, 19, 64, 133, 152, 111, 57, 153, 223, 73, 149, 207, 210, 231, 85, 87, 203, 227, 254, 152, 221, 208, 138, 218, 174, 64, 129, 6, 241, 235, 243, 217, 195, 171, 81, 206, 154, 152, 175, 103, 138, 31, 77, 35, 90, 214, 79, 105, 84, 70, 232, 160, 237, 108, 91, 243, 234 },
                             Role = 3
                         });
                 });
 
             modelBuilder.Entity("RestaurantApp.Domain.Models.Dish", b =>
                 {
-                    b.HasOne("RestaurantApp.Domain.Models.DishType", "DishType")
+                    b.HasOne("RestaurantApp.Domain.Models.DishCategory", "DishCategory")
                         .WithMany()
-                        .HasForeignKey("DishTypeId")
+                        .HasForeignKey("DishCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DishType");
+                    b.Navigation("DishCategory");
                 });
 
             modelBuilder.Entity("RestaurantApp.Domain.Models.DishIngredient", b =>
@@ -269,18 +339,44 @@ namespace RestaurantApp.Migrations
                         .IsRequired();
 
                     b.HasOne("RestaurantApp.Domain.Models.Menu", "Menu")
-                        .WithMany()
+                        .WithMany("MenuItems")
                         .HasForeignKey("MenuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RestaurantApp.Domain.Models.Menu", null)
-                        .WithMany("MenuItems")
-                        .HasForeignKey("MenuId1");
-
                     b.Navigation("Dish");
 
                     b.Navigation("Menu");
+                });
+
+            modelBuilder.Entity("RestaurantApp.Domain.Models.OrderDay", b =>
+                {
+                    b.HasOne("RestaurantApp.Domain.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("RestaurantApp.Domain.Models.OrderMenuItem", b =>
+                {
+                    b.HasOne("RestaurantApp.Domain.Models.Dish", "Dish")
+                        .WithMany()
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RestaurantApp.Domain.Models.OrderDay", "OrderDay")
+                        .WithMany()
+                        .HasForeignKey("OrderDayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("OrderDay");
                 });
 
             modelBuilder.Entity("RestaurantApp.Domain.Models.Menu", b =>

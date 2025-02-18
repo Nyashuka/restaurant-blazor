@@ -33,4 +33,17 @@ public class SidebarStateService
             }
         }
     }
+
+    public event Func<int, Task>? OnCategorySelected;
+
+    public async Task SelectCategory(int categoryId)
+    {
+        if (OnCategorySelected is not null)
+        {
+            var handlers = OnCategorySelected.GetInvocationList()
+                                             .Cast<Func<int, Task>>();
+
+            await Task.WhenAll(handlers.Select(handler => handler(categoryId)));
+        }
+    }
 }

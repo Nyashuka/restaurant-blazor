@@ -3,7 +3,7 @@
 
 @inject NavigationManager NavigationManager
 @inject IDishService DishService
-@inject IDishTypeService DishTypeService
+@inject IDishCategoryService DishCategoryService
 
 <MudStack Row="true">
     <MudButton>
@@ -17,7 +17,7 @@
 <div style="max-width: 30%;">
     <MudStack>
         <MudTextField Variant="Variant.Outlined" Label="Dish Name" @bind-Value="@DishDto.Name"/>
-        <MudAutocomplete T="DishType" Label="Dish Category"
+        <MudAutocomplete T="DishCategory" Label="Dish Category"
             @bind-Value="@DishDto.DishType" SearchFunc="@SearchDishType"
             ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
             Variant="Variant.Outlined" />

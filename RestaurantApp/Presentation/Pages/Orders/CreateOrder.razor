@@ -1,9 +1,12 @@
 @page "/orders/create"
 @attribute [Authorize(Roles = "User")]
 
-@inject IEventTypeService _eventTypeService
-@inject SidebarStateService _sidebarStateService
-
+@inject RestaurantDialogFactory DialogFactory
+@inject ISnackbar Snackbar
+@inject IDishService DishService
+@inject IMenuService MenuService
+@inject IEventTypeService EventTypeService
+@inject SidebarStateService SidebarStateService
 
 <MudTabs Elevation="1" Rounded="true" PanelClass="pa-6" >
     <MudTabPanel Text="Base Info">
@@ -15,9 +18,14 @@
 
             <MudDivider style="margin: 10px 0;" />
 
-            <MudDatePicker @bind-Date="@BaseInfo.SelectedDate" style="max-width: 300px;" Label="Please, select data"
-                IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
-                AdditionalDateClassesFunc="@((DateTime dt)=>"" )" />
+            @foreach(var date in BaseInfo.MenusForDate)
+            {
+                <MudDatePicker @bind-Date="@date.Date" style="max-width: 300px;" Label="Select Date"
+                    IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
+                    AdditionalDateClassesFunc="@((DateTime dt)=>"" )" />
+            }
+
+            <MudButton @onclick="AddDate">Add Date</MudButton>
 
             <MudDivider style="margin: 10px 0; max-width: 300px;" />
 
@@ -25,30 +33,46 @@
                 @bind-Value="@BaseInfo.GuestCount" />
         </div>
     </MudTabPanel>
-    @if(BaseInfo.IsSuccess)
+
+    @if(true)
     {
         <MudTabPanel Text="Suggestions">
             <MudStack>
-                @for (int i = 0; i < 5; i++)
+                @foreach(var menuItem in MenuVariants)
                 {
-                    <MudButton style="width: 80px; height: 80px">
-                        Pattern + @i
-                    </MudButton>
+                    <MenuItemComponent MenuData="@menuItem" UseClicked="OnUseMenuClicked"/>
                 }
             </MudStack>
         </MudTabPanel>
 
         <MudTabPanel Text="Add dishes">
+            <MudStack>
+            </MudStack>
         </MudTabPanel>
 
         <MudTabPanel Text="Selected Dishes">
+            <MudStack Row="true">
+            <MudAutocomplete T="MenuForDate" Label="Select Date" @bind-Value="@CurrentMenuForDate"
+                SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
+                Variant="Variant.Outlined" />
+
+            <MudButton @onclick="CalculateQuantity">Auto quantity calculation</MudButton>
+            </MudStack>
+
             <MudStack>
-                @for (int i = 0; i < 5; i++)
+                @if (CurrentMenuForDate != null)
                 {
-                    <MudButton style="width: 80px; height: 80px">
-                        Dish + @i
-                    </MudButton>
+                    @foreach (var dish in CurrentMenuForDate.SelectedDishes)
+                    {
+                        <SelectedDishComponent SelectedDish="@dish"></SelectedDishComponent>
+                    }
                 }
+            </MudStack>
+        </MudTabPanel>
+
+        <MudTabPanel Text="Summary and Confirmation">
+            <MudStack>
+                <MudButton @onclick="CreateOrderAsync"></MudButton>
             </MudStack>
         </MudTabPanel>
     }

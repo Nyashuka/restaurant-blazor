@@ -10,11 +10,11 @@ namespace RestaurantApp.Presentation.Pages.Chief.Dishes
         private CreateDishDto DishDto { get; set; } = new CreateDishDto();
         private DishIngredientDto AddIngredientDto { get; set; } = new DishIngredientDto();
 
-        private List<DishType> DishTypes { get; set; } = [];
+        private List<DishCategory> DishCategories { get; set; } = [];
 
         protected override async Task OnInitializedAsync()
         {
-            DishTypes = await DishTypeService.GetAllAsync();
+            DishCategories = await DishCategoryService.GetAllAsync();
         }
 
         private void OnAddIngredientClicked()
@@ -44,14 +44,14 @@ namespace RestaurantApp.Presentation.Pages.Chief.Dishes
             NavigationManager.NavigateTo("/chief/dishes", true);
         }
 
-        private async Task<IEnumerable<DishType>> SearchDishType(string value, CancellationToken token)
+        private async Task<IEnumerable<DishCategory>> SearchDishType(string value, CancellationToken token)
         {
             if(string.IsNullOrEmpty(value))
             {
-                return DishTypes;
+                return DishCategories;
             }
 
-            return DishTypes.Where(x => x.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+            return DishCategories.Where(x => x.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

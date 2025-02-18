@@ -5,11 +5,11 @@ using RestaurantApp.Domain.Models;
 
 namespace RestaurantApp.Infrastructure.Persistence.Configurations;
 
-public class DishTypeConfigurations : IEntityTypeConfiguration<DishType>
+public class DishCategoryConfigurations : IEntityTypeConfiguration<DishCategory>
 {
-    public void Configure(EntityTypeBuilder<DishType> builder)
+    public void Configure(EntityTypeBuilder<DishCategory> builder)
     {
-        builder.ToTable("DishTypes");
+        builder.ToTable("DishCategories");
 
         builder.HasKey(dt => dt.Id);
 
@@ -19,5 +19,8 @@ public class DishTypeConfigurations : IEntityTypeConfiguration<DishType>
         builder.Property(dt => dt.Name)
             .IsRequired()
             .HasMaxLength(50);
+
+        builder.Property(dt => dt.IsShared)
+            .IsRequired();
     }
 }

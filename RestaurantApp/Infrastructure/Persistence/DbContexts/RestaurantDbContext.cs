@@ -11,21 +11,30 @@ public class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) 
 {
     public DbSet<User> Users { get; set; }
     public DbSet<EventType> EventTypes { get; set; }
-    public DbSet<DishType> DishTypes { get; set; }
+    public DbSet<DishCategory> DishCategories { get; set; }
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<DishIngredient> DishIngredients { get; set; }
     public DbSet<Menu> Menus { get; set; }
     public DbSet<MenuItem> MenuItems { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderDay> OrderDays { get; set; }
+    public DbSet<OrderMenuItem> OrderMenuItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new EventTypeConfiguration());
-        modelBuilder.ApplyConfiguration(new DishTypeConfigurations());
+
+        modelBuilder.ApplyConfiguration(new DishCategoryConfigurations());
         modelBuilder.ApplyConfiguration(new DishConfiguration());
         modelBuilder.ApplyConfiguration(new DishIngredientConfiguration());
+
         modelBuilder.ApplyConfiguration(new MenuConfiguration());
         modelBuilder.ApplyConfiguration(new MenuItemConfiguration());
+
+        modelBuilder.ApplyConfiguration(new OrderConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderDayConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderMenuItemConfiguration());
 
         CreateDefaultUsers(modelBuilder);
     }

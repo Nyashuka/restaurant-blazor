@@ -20,9 +20,9 @@ public class DishConfiguration : IEntityTypeConfiguration<Dish>
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.HasOne(x => x.DishType)
+        builder.HasOne(x => x.DishCategory)
             .WithMany()
-            .HasForeignKey(x => x.DishTypeId);
+            .HasForeignKey(x => x.DishCategoryId);
 
         builder.Property(x => x.PricePerUnit)
             .IsRequired();
@@ -30,7 +30,7 @@ public class DishConfiguration : IEntityTypeConfiguration<Dish>
         builder.Property(x => x.Weight)
             .IsRequired();
 
-        builder.Property(x => x.ServingPerUnit)
+        builder.Property(x => x.RecommendedWeightPerPortion)
             .IsRequired();
     }
 }

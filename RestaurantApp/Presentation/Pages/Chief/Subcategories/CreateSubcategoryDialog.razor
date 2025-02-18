@@ -1,0 +1,28 @@
+@inject IDishCategoryService DishCategoryService
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Creating Dish Subcategory
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudTextField Label="Subcategory Name" @bind-Value="_model.Name" />
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Save" Color="Color.Primary">Save</MudButton>
+        <MudButton OnClick="Cancel" Color="Color.Secondary">Cancel</MudButton>
+    </DialogActions>
+
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+
+    private CreateDishSubcategoryDto _model = new();
+
+    private void Save() => MudDialog.Close(DialogResult.Ok(_model));
+
+    private void Cancel() => MudDialog.Cancel();
+}

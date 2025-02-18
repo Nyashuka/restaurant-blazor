@@ -1,0 +1,31 @@
+<MudDialog>
+    <TitleContent>
+        <MudStack>
+            @foreach (var menu in MenusForDate)
+            {
+                <MudStack Row="true" AlignItems="AlignItems.Center">
+                    <h3>@menu.Date</h3>
+                    <MudButton @onclick="@(() => Select(@menu))">
+                        Select
+                    </MudButton>
+                </MudStack>
+            }
+        </MudStack>
+    </TitleContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public List<MenuForDate> MenusForDate { get; set; }
+
+    private void Select(MenuForDate menu)
+    {
+        MudDialog.Close(DialogResult.Ok(menu));
+    }
+
+    private void Ok() => MudDialog.Close();
+
+    private void Cancel() => MudDialog.Cancel();
+}

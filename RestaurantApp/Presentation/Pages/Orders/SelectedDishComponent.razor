@@ -1,0 +1,78 @@
+@* <MudPaper class="dish-container">
+    <div class="dish-picture">
+
+    </div>
+
+    <div class="dish-title">
+        <h1>
+            @SelectedDish.Dish.Name
+        </h1>
+    </div>
+    <div class="dish-buttons">
+        <MudStack Row="true">
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary">
+                Remove
+            </MudButton>
+        </MudStack>
+        <MudStack Row="true">
+            <MudButton>-</MudButton>
+            <MudTextField @bind-Value="SelectedDish.Count"></MudTextField>
+            <MudButton>+</MudButton>
+        </MudStack>
+    </div>
+</MudPaper> *@
+
+<MudPaper class="dish-container">
+    <MudStack Row="true">
+        <div class="dish-picture">
+        </div>
+
+        <MudStack>
+            <h1>
+                @SelectedDish.Dish.Name
+            </h1>
+
+            <MudStack Row="true" >
+                <MudButton @onclick="@(() => { SelectedDish.Count = SelectedDish.Count > 1 ? --SelectedDish.Count : 1 ;})" Variant="Variant.Filled">-</MudButton>
+                <MudTextField Style="text-align: center;" @bind-Value="SelectedDish.Count"></MudTextField>
+                <MudButton @onclick="@(() => { SelectedDish.Count++; })" Variant="Variant.Filled">+</MudButton>
+            </MudStack>
+
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary">
+                Remove
+            </MudButton>
+        </MudStack>
+    </MudStack>
+</MudPaper>
+
+<style>
+    .dish-container {
+        gap: 10px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+
+    .dish-picture {
+        width: 300px;
+        max-width: 300px;
+        margin: 10px;
+        background-color: blue;
+        height: 100px;
+    }
+
+    .dish-title {
+        width: 100%;
+        align-items: start;
+    }
+    .dish-buttons {
+        width: 100%;
+        align-items: start;
+    }
+</style>
+
+@code {
+    [Parameter] public SelectedDishDto? SelectedDish { get; set; }
+
+
+}

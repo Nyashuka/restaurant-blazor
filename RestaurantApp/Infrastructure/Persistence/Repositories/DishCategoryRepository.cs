@@ -6,36 +6,36 @@ using RestaurantApp.Infrastructure.Persistence.Interfaces;
 
 namespace RestaurantApp.Infrastructure.Persistence.Repositories;
 
-public class DishTypeRepository(IDbContextFactory<RestaurantDbContext> dbContextFactory) : IDishTypeRepository
+public class DishCategoryRepository(IDbContextFactory<RestaurantDbContext> dbContextFactory) : IDishCategoryRepository
 {
     private readonly IDbContextFactory<RestaurantDbContext> _dbContextFactory = dbContextFactory;
 
-    public async Task AddAsync(DishType dishType)
+    public async Task AddAsync(DishCategory dishSubcategory)
     {
         await using var dbContext = _dbContextFactory.CreateDbContext();
 
-        dbContext.DishTypes.Add(dishType);
+        dbContext.DishCategories.Add(dishSubcategory);
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<DishType>> GetAllAsync()
+    public async Task<List<DishCategory>> GetAllAsync()
     {
         await using var dbContext = _dbContextFactory.CreateDbContext();
 
-        return await dbContext.DishTypes.ToListAsync();
+        return await dbContext.DishCategories.ToListAsync();
     }
 
-    public async Task<DishType?> GetByIdAsync(int id)
+    public async Task<DishCategory?> GetByIdAsync(int id)
     {
         await using var dbContext = _dbContextFactory.CreateDbContext();
 
-        return dbContext.DishTypes.SingleOrDefault(dt => dt.Id == id);
+        return dbContext.DishCategories.SingleOrDefault(dt => dt.Id == id);
     }
 
-    public async Task RemoveAsync(DishType dishType)
+    public async Task RemoveAsync(DishCategory dishSubcategory)
     {
         await using var dbContext = _dbContextFactory.CreateDbContext();
 
-        dbContext.DishTypes.Remove(dishType);
+        dbContext.DishCategories.Remove(dishSubcategory);
     }
 }

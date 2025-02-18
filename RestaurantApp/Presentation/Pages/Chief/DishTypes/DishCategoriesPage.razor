@@ -1,11 +1,11 @@
-@page "/chief/dish-types"
+@page "/chief/dish-categories"
 @attribute [Authorize(Roles = "Chief")]
 
-@inject IDishTypeService DishTypeService
+@inject IDishCategoryService DishCategoryService
 @inject RestaurantDialogFactory DialogFactory
 @inject ISnackbar Snackbar
 
-<MudTable T="DishType" Items="_dishTypes" Dense="true" Hover="true" RowsPerPage="7">
+<MudTable T="DishCategory" Items="_dishCategories" Dense="true" Hover="true" RowsPerPage="7">
     <HeaderContent>
         <MudTh>Name</MudTh>
         <MudTh>Actions</MudTh>
