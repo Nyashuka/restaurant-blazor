@@ -3,6 +3,8 @@ using RestaurantApp.Domain.Models;
 using RestaurantApp.Presentation.Dtos;
 using RestaurantApp.Presentation.Dialogs;
 using MudBlazor;
+using RestaurantApp.Presentation.Services;
+using RestaurantApp.Presentation.Pages.Constants;
 
 namespace RestaurantApp.Presentation.Pages.Orders;
 
@@ -12,26 +14,47 @@ public partial class CreateOrder
     private MenuForDate? CurrentMenuForDate { get; set; }
 
     private List<EventType> EventTypes { get; set; } = [];
-    private List<Dish> FilteredDishes { get; set; } = [];
+    private List<DishToSelect> FilteredDishes { get; set; } = [];
     private List<Menu> MenuVariants { get; set; } = [];
+
+    public int DaysCount => BaseInfo.MenusForDate.Count(x => x.Date != null);
 
     protected override async Task OnInitializedAsync()
     {
         EventTypes = await EventTypeService.GetAllAsync();
         SidebarStateService.OnCategorySelected += LoadDishesByCategory;
-        FilteredDishes = await DishService.GetAllAsync();
         MenuVariants = await MenuService.GetAllAsync();
     }
 
     private async Task LoadDishesByCategory(int categoryId)
     {
-        FilteredDishes = await DishService.GetByCategoryAsync(categoryId);
-        StateHasChanged();
+        var dishes = await DishService.GetByCategoryAsync(categoryId);
+        FilteredDishes = [];
+        foreach(var dish in dishes)
+        {
+            bool isSelected = CurrentMenuForDate?.SelectedDishes.Any(x => x.Dish.Id == dish.Id) == true;
+
+            FilteredDishes.Add(new DishToSelect(){
+                IsSelected = isSelected,
+                Dish = dish
+            });
+        }
+        await InvokeAsync(StateHasChanged);
     }
 
     public async Task CreateOrderAsync()
     {
+        var authenticationState = await AuthStateProvider.GetAuthenticationStateAsync();
+        if(authenticationState == null || authenticationState?.User == null)
+            return;
 
+        string? userIdString = authenticationState.GetUserId();
+        if (string.IsNullOrEmpty(userIdString))
+            return;
+
+        await OrderService.CreateOrderAsync(Convert.ToInt32(userIdString), BaseInfo);
+
+        NavigationManager.NavigateTo(NavigationManager.BaseUri + Urls.OrdersUrl, true);
     }
 
     private async Task CalculateQuantity()
@@ -100,7 +123,15 @@ public partial class CreateOrder
         StateHasChanged();
     }
 
-    
+    private void OnAddDish(Dish dish)
+    {
+        CurrentMenuForDate?.AddDish(new SelectedDishDto(dish, 1));
+    }
+
+    private void OnRemoveDish(Dish dish)
+    {
+        CurrentMenuForDate?.RemoveDish(dish.Id);
+    }
 
     private async Task OnUseMenuClicked(int menuId)
     {
@@ -119,7 +150,6 @@ public partial class CreateOrder
         if(result?.Data is MenuForDate menu)
         {
             Snackbar.Add("Selected something!", Severity.Warning);
-            FilteredDishes = await DishService.GetAllAsync();
 
             var menuItems = await MenuService.GetMenuItemsByMenuId(menuId);
             menu.SelectedDishes = [];
@@ -166,6 +196,6 @@ public partial class CreateOrder
     {
         await Task.Delay(5, token);
 
-        return BaseInfo.MenusForDate;
+        return BaseInfo.MenusForDate.Where(x => x.Date != null);
     }
 }

@@ -1,0 +1,41 @@
+@page "/orders"
+@attribute [Authorize(Roles = "User")]
+
+@inject IOrderService OrderService
+
+<MudLink Variant="Variant.Filled" 
+		Color="Color.Primary"
+        style="font-size: 24px; margin-left: 10px;"
+		href="/orders/create">
+    Create order
+</MudLink>
+
+<MudGrid Class="mt-1">
+@foreach(var order in Orders)
+{
+    <MudItem Style="width: 100%; display: block;">
+        <MudPaper Class="pa-4" Style="width: 100%; display: block;">
+            <div style="display: inline-block; max-width: 100%; width: auto;">
+                <MudStack>
+                    <MudLink Variant="Variant.Filled" Color="Color.Primary" style="font-size: 24px;"
+                        href="@($"/orders/{order.Id}")">
+                        №@order.Id
+                    </MudLink>
+                    <MudDivider style="border: 2px solid;" />
+                    <MudText Typo="Typo.h5">
+                        Marriage
+                    </MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Left">
+                        @(DateTime.Now.ToString($"dd.MM.yyyy")) - @(DateTime.Now.AddDays(3).ToString($"dd.MM.yyyy"))
+                    </MudText>
+                </MudStack>
+                <MudPaper
+                    Style="background-color: red; padding: 0 5px; display: inline-block; width: auto; margin-top: 15px;"
+                    FlexGrow="0">
+                    <MudText Typo="Typo.subtitle2" Style="color: white;">@order.Status.ToString()</MudText>
+                </MudPaper>
+            </div>
+        </MudPaper>
+    </MudItem>
+}
+</MudGrid>

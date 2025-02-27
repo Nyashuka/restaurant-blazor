@@ -45,10 +45,13 @@ public static class ServiceCollectionExtension
         services.AddScoped<IDishCategoryService, DishCategoryService>();
         services.AddScoped<IDishService, DishService>();
         services.AddScoped<IMenuService, MenuService>();
+        services.AddScoped<IOrderService, OrderService>();
 
         services.AddScoped<AuthenticationStateProvider, UserAuthenticationStateProvider>();
 
         services.AddSingleton<SidebarStateService>();
+
+        services.AddHttpContextAccessor();
 
         return services;
     }
@@ -66,6 +69,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IMenuRepository, MenuRepository>();
         services.AddScoped<IMenuItemRepository, MenuItemRepository>();
 
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IOrderDayRepository, OrderDayRepository>();
         services.AddScoped<IOrderMenuItemRepository, OrderMenuItemRepository>();
 
         return services;

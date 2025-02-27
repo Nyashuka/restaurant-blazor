@@ -27,14 +27,14 @@
         <div class="dish-picture">
         </div>
 
-        <MudStack>
+        <MudStack Align="AlignItems.Start">
             <h1>
                 @SelectedDish.Dish.Name
             </h1>
 
             <MudStack Row="true" >
                 <MudButton @onclick="@(() => { SelectedDish.Count = SelectedDish.Count > 1 ? --SelectedDish.Count : 1 ;})" Variant="Variant.Filled">-</MudButton>
-                <MudTextField Style="text-align: center;" @bind-Value="SelectedDish.Count"></MudTextField>
+                <MudTextField Class="centered-input" @bind-Value="SelectedDish.Count"></MudTextField>
                 <MudButton @onclick="@(() => { SelectedDish.Count++; })" Variant="Variant.Filled">+</MudButton>
             </MudStack>
 
@@ -68,6 +68,9 @@
     .dish-buttons {
         width: 100%;
         align-items: start;
+    }
+    .centered-input input{
+        text-align: center;
     }
 </style>
 

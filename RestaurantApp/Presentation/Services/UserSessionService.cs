@@ -2,7 +2,6 @@
 using Blazored.LocalStorage;
 
 using RestaurantApp.Presentation.Constants;
-using RestaurantApp.Presentation.Dtos;
 using RestaurantApp.Presentation.Interfaces;
 
 namespace RestaurantApp.Presentation.Services;

@@ -2,10 +2,14 @@
 @attribute [Authorize(Roles = "User")]
 
 @inject RestaurantDialogFactory DialogFactory
-@inject ISnackbar Snackbar
 @inject IDishService DishService
 @inject IMenuService MenuService
 @inject IEventTypeService EventTypeService
+@inject IOrderService OrderService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+
+@inject ISnackbar Snackbar
 @inject SidebarStateService SidebarStateService
 
 <MudTabs Elevation="1" Rounded="true" PanelClass="pa-6" >
@@ -47,6 +51,14 @@
 
         <MudTabPanel Text="Add dishes">
             <MudStack>
+                <MudAutocomplete T="MenuForDate" Label="Select Date" @bind-Value="@CurrentMenuForDate"
+                    SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
+                    Variant="Variant.Outlined" />
+
+                @foreach(var item in FilteredDishes)
+                {
+                    <DishToAddComponent DishToAdd="@item" OnAddDish="OnAddDish" OnRemoveDish="OnRemoveDish"/>
+                }
             </MudStack>
         </MudTabPanel>
 
@@ -56,7 +68,7 @@
                 SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
                 Variant="Variant.Outlined" />
 
-            <MudButton @onclick="CalculateQuantity">Auto quantity calculation</MudButton>
+            <MudButton @onclick="CalculateQuantity" Variant="Variant.Filled" Color="Color.Primary">Auto quantity calculation</MudButton>
             </MudStack>
 
             <MudStack>
@@ -70,10 +82,26 @@
             </MudStack>
         </MudTabPanel>
 
-        <MudTabPanel Text="Summary and Confirmation">
-            <MudStack>
-                <MudButton @onclick="CreateOrderAsync"></MudButton>
+        <MudTabPanel Text="Summary and Confirmation" >
+            <MudStack Align="AlignItems.Start" Class="left-aligned">
+                <MudText>
+                    @DaysCount x 5000 UAH
+                </MudText>
+                <MudText>
+                    To pay in sum @(DaysCount * 5000) UAH
+                </MudText>
+                <MudButton @onclick="CreateOrderAsync" Variant="Variant.Filled" Color="Color.Primary" FullWidth="false">
+                    Create Order
+                </MudButton>
             </MudStack>
         </MudTabPanel>
     }
 </MudTabs>
+
+<style>
+        .left-aligned {
+            align-items: flex-start !important;
+            width: auto !important;
+            max-width: fit-content;
+        }
+</style>

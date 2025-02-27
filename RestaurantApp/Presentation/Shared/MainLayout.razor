@@ -17,22 +17,24 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-   <AuthorizeView>
+    <AuthorizeView>
         <NotAuthorized>
-            <GuestLayout/>
+            <GuestLayout />
         </NotAuthorized>
-   </AuthorizeView>
+    </AuthorizeView>
 
     <AuthorizeView Roles="User">
         <Authorized>
             <UserLayout />
         </Authorized>
     </AuthorizeView>
+
     <AuthorizeView Roles="Chief">
         <Authorized>
             <ChiefLayout />
         </Authorized>
     </AuthorizeView>
+
     <AuthorizeView Roles="Manager">
         <Authorized>
             <ManagerLayout />

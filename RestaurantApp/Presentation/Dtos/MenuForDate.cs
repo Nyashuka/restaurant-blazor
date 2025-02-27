@@ -16,4 +16,12 @@ public class MenuForDate
     {
         SelectedDishes.Add(selectedDishDto);
     }
+
+    public void RemoveDish(int id)
+    {
+        var dishToRemove = SelectedDishes.SingleOrDefault(x => x.Dish.Id == id);
+
+        if(dishToRemove != null)
+            SelectedDishes.Remove(dishToRemove);
+    }
 }

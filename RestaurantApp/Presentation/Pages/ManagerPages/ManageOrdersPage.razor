@@ -1,0 +1,47 @@
+@page "/manager/orders"
+@attribute [Authorize(Roles = "Manager")]
+
+@inject IOrderService OrderService
+
+<MudAutocomplete T="OrderStatusEnum"
+    Label="Status Filter"
+    SearchFunc="@SearchOrderStatus"
+    Variant="Variant.Outlined"
+    Value="@SelectedOrderStatus"
+    ValueChanged="OnSelectedStatus"
+    ToStringFunc="@(e=> e==null?null : $"{e}")"
+    Style="display: inline-block; width: auto; min-width: 150px;" />
+
+<MudGrid Class="mt-1">
+@foreach(var order in Orders)
+{
+    <MudItem Style="width: 100%; display: block;">
+        <MudPaper Class="pa-4" Style="width: 100%; display: block;">
+            <div style="display: inline-block; max-width: 100%; width: auto;">
+                <MudStack>
+                    <MudLink Variant="Variant.Filled" Color="Color.Primary" style="font-size: 24px;"
+                        href="@($"/manager/orders/{order.Id}")">
+                        №@order.Id
+                    </MudLink>
+                    <MudDivider style="border: 2px solid;" />
+                    <MudText Typo="Typo.h5" Align="Align.Left">
+                        @(DateTime.Now.ToString($"dd.MM.yyyy")) - @(DateTime.Now.AddDays(3).ToString($"dd.MM.yyyy"))
+                    </MudText>
+                    <MudText Typo="Typo.h5">
+                        Marriage
+                    </MudText>
+                </MudStack>
+                <MudPaper
+                    Style="background-color: red; padding: 0 5px; display: inline-block; width: auto; margin: 5px 0; "
+                    FlexGrow="0">
+                    <MudText Typo="Typo.subtitle2" Style="color: white;">@order.Status.ToString()</MudText>
+                </MudPaper>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                    Style="display: block; margin-top: 15px;">
+                    Approve
+                </MudButton>
+            </div>
+        </MudPaper>
+    </MudItem>
+}
+</MudGrid>

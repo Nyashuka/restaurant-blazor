@@ -1,6 +1,7 @@
-
 using RestaurantApp.Application.Dtos;
+using RestaurantApp.Application.Errors;
 using RestaurantApp.Application.Interfaces;
+using RestaurantApp.Domain.Enums;
 using RestaurantApp.Domain.Models;
 using RestaurantApp.Infrastructure.Persistence.Interfaces;
 
@@ -22,20 +23,45 @@ public class OrderService : IOrderService
         _orderMenuItemRepository = orderMenuItemRepository;
     }
 
-    public Task CreateOrderAsync(OrderInfoDto orderInfo)
+    public async Task CreateOrderAsync(int userId, OrderInfoDto orderInfo)
     {
+        if(orderInfo.SelectedEventType == null || !orderInfo.MenusForDate.Any(x => x.Date != null))
+        {
+            throw new Exception(ErrorMessages.OrderInfoInNotValid);
+        }
 
-        throw new NotImplementedException();
+        var order = new Order(userId, orderInfo.SelectedEventType.Id, null, orderInfo.GuestCount, OrderStatusEnum.Processing, 0);
+        await _orderRepository.AddAsync(order);
+
+        foreach (var menuDay in orderInfo.MenusForDate)
+        {
+            if(menuDay.Date == null)
+                continue;
+
+            var orderDay = new OrderDay(order.Id, null, (DateTime)menuDay.Date);
+            await _orderDayRepository.AddAsync(orderDay);
+
+            foreach(var menuItem in menuDay.SelectedDishes)
+            {
+                var orderMenuItem = new OrderMenuItem(orderDay.Id, null, menuItem.Dish.Id, null, menuItem.Count);
+                await _orderMenuItemRepository.AddAsync(orderMenuItem);
+            }
+        }
     }
 
-    public Task<List<Order>> GetAllAsync()
+    public async Task<List<Order>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _orderRepository.GetAllAsync();
     }
 
     public Task<Order?> GetByIdAsync(int id)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<List<Order>> GetByUserIdAsync(int userId)
+    {
+        return await _orderRepository.GetByUserIdAsync(userId);
     }
 
     public Task RemoveAsync(int id)

@@ -19,5 +19,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(t => t.Status)
             .IsRequired()
             .HasConversion<int>();
+
+        builder.HasOne(x => x.EventType)
+            .WithMany()
+            .HasForeignKey(x => x.EventTypeId);
     }
 }
