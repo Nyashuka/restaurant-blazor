@@ -1,5 +1,7 @@
 ﻿@page "/"
 
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @using RestaurantApp.Presentation.Pages.Authorization
 
 
@@ -18,3 +20,31 @@
         <SurveyPrompt Title="How is Blazor working for you?" />
     </Authorized>
 </AuthorizeView>
+
+@code {
+    private bool _redirected = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_redirected)
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (user.Identity.IsAuthenticated)
+            {
+                _redirected = true;
+                if (user.IsInRole("User"))
+                {
+                    Navigation.NavigateTo("/orders");
+                }
+            }
+            else
+            {
+                _redirected = true;
+                Navigation.NavigateTo("/login");
+            }
+        }
+
+    } 
+}

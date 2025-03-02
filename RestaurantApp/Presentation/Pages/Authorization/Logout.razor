@@ -9,6 +9,6 @@
 	{
 		await _userSessionService.RemoveTokenAsync();
 		await _authStateProvider.GetAuthenticationStateAsync();
-		_navigationManager.NavigateTo("/login", true);
+		_navigationManager.NavigateTo("/login");
 	}
 }
