@@ -1,4 +1,5 @@
-﻿using RestaurantApp.Domain.Enums;
+﻿
+using RestaurantApp.Domain.Enums;
 
 namespace RestaurantApp.Domain.Models;
 
@@ -23,4 +24,36 @@ public class Order
     public int PeopleCount { get; private set; }
     public OrderStatusEnum Status { get; private set; }
     public double Cost { get; private set; }
+    public ICollection<OrderDay> OrderDays { get; private set; } = [];
+
+    public void ChangeStatus(OrderStatusEnum newStatus)
+    {
+        if (!IsValidStatusChange(newStatus))
+        {
+            throw new InvalidOperationException($"Cannot change status from {Status} to {newStatus}");
+        }
+
+        Status = newStatus;
+    }
+
+
+    private bool IsValidStatusChange(OrderStatusEnum newStatus)
+    {
+        return Status switch
+        {
+            OrderStatusEnum.Created =>
+                newStatus is OrderStatusEnum.AwaitingPayment or OrderStatusEnum.Canceled,
+
+            OrderStatusEnum.AwaitingPayment =>
+                newStatus is OrderStatusEnum.Paid or OrderStatusEnum.Canceled,
+
+            OrderStatusEnum.Paid =>
+                newStatus is OrderStatusEnum.Confirmed or OrderStatusEnum.Canceled,
+
+            OrderStatusEnum.Confirmed =>
+                newStatus is OrderStatusEnum.Completed or OrderStatusEnum.Canceled,
+
+            _ => false
+        };
+    }
 }

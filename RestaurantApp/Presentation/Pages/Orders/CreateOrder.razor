@@ -1,7 +1,6 @@
 @page "/orders/create"
 @attribute [Authorize(Roles = "User")]
 
-@inject RestaurantDialogFactory DialogFactory
 @inject IDishService DishService
 @inject IMenuService MenuService
 @inject IEventTypeService EventTypeService
@@ -10,6 +9,8 @@
 @inject NavigationManager NavigationManager
 
 @inject ISnackbar Snackbar
+@inject RestaurantDialogFactory DialogFactory
+
 @inject SidebarStateService SidebarStateService
 
 <MudTabs Elevation="1" Rounded="true" PanelClass="pa-6" >
@@ -28,6 +29,10 @@
                     IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
                     AdditionalDateClassesFunc="@((DateTime dt)=>"" )" />
             }
+            <MudDateRangePicker @bind-DateRange="@DateRange" MinDate="_minDate" MaxDate="@_maxDate"
+                IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
+                Margin="Margin.Dense" HelperText="@HelperText" Variant="Variant.Outlined" Label="Range" 
+                />
 
             <MudButton @onclick="AddDate">Add Date</MudButton>
 

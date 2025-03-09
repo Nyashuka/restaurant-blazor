@@ -24,7 +24,7 @@ public class DishService : IDishService
             createDishDto.DishType.Id,
             null,
             createDishDto.Weight,
-            createDishDto.ServingPerUnit,
+            createDishDto.RecommendedWeightPerPerson,
             createDishDto.PricePerUnit);
 
         await _dishRepository.AddAsync(model);

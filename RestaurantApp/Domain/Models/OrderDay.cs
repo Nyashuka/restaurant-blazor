@@ -15,4 +15,5 @@ public class OrderDay
     public int OrderId { get; private set; }
     public Order? Order { get; private set; }
     public DateTime Date { get; private set; }
+    public ICollection<OrderMenuItem> OrderMenuItems { get; private set; } = [];
 }

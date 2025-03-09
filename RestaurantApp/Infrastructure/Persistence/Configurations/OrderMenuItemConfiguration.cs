@@ -22,7 +22,7 @@ public class OrderMenuItemConfiguration : IEntityTypeConfiguration<OrderMenuItem
             .HasForeignKey(x => x.DishId);
 
         builder.HasOne(x => x.OrderDay)
-            .WithMany()
+            .WithMany(od => od.OrderMenuItems)
             .HasForeignKey(x => x.OrderDayId);
     }
 }

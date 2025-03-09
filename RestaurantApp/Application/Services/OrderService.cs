@@ -23,6 +23,26 @@ public class OrderService : IOrderService
         _orderMenuItemRepository = orderMenuItemRepository;
     }
 
+    public async Task ApproveOrderAsync(int orderId)
+    {
+        var order = await _orderRepository.GetByIdAsync(orderId);
+
+        if (order is null)
+            throw new NullReferenceException("Order is not exists");
+
+        var crossedOrders = await _orderRepository.GetCrossedOrdersAsync(order.Id);
+
+        foreach(var crossedOrder in crossedOrders)
+        {
+            crossedOrder.ChangeStatus(OrderStatusEnum.Canceled);
+            await _orderRepository.UpdateAsync(crossedOrder);
+        }
+
+        order.ChangeStatus(OrderStatusEnum.AwaitingPayment);
+
+        await _orderRepository.UpdateAsync(order);
+    }
+
     public async Task CreateOrderAsync(int userId, OrderInfoDto orderInfo)
     {
         if(orderInfo.SelectedEventType == null || !orderInfo.MenusForDate.Any(x => x.Date != null))
@@ -30,7 +50,7 @@ public class OrderService : IOrderService
             throw new Exception(ErrorMessages.OrderInfoInNotValid);
         }
 
-        var order = new Order(userId, orderInfo.SelectedEventType.Id, null, orderInfo.GuestCount, OrderStatusEnum.Processing, 0);
+        var order = new Order(userId, orderInfo.SelectedEventType.Id, null, orderInfo.GuestCount, OrderStatusEnum.Created, 0);
         await _orderRepository.AddAsync(order);
 
         foreach (var menuDay in orderInfo.MenusForDate)
@@ -59,9 +79,19 @@ public class OrderService : IOrderService
         throw new NotImplementedException();
     }
 
+    public async Task<List<Order>> GetByStatusAsync(OrderStatusEnum status)
+    {
+        return await _orderRepository.GetByStatusAsync(status);
+    }
+
     public async Task<List<Order>> GetByUserIdAsync(int userId)
     {
         return await _orderRepository.GetByUserIdAsync(userId);
+    }
+
+    public async Task<List<Order>> GetCrossedOrdersAsync(int orderId)
+    {
+        return await _orderRepository.GetCrossedOrdersAsync(orderId);
     }
 
     public Task RemoveAsync(int id)

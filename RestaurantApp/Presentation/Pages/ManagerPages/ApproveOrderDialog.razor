@@ -1,0 +1,55 @@
+<MudDialog>
+    @* <TitleContent>
+        <MudText Typo="Typo.h6">
+            Are you sure about that?
+        </MudText>
+    </TitleContent> *@
+
+    <DialogContent>
+        @if(CrossingOrders.Count == 0)
+        {
+            <MudText Typo="Typo.h6" Align="Align.Left" Color="Color.Success">
+                No Crossed Orders.
+            </MudText>
+        }
+        else
+        {
+            <MudText Typo="Typo.h6" Align="Align.Left" Color="Color.Error">
+                @CrossingOrders.Count orders are Crossed and will canceled if you approve this.
+            </MudText>
+            <MudStack AlignItems="AlignItems.Start">
+                @foreach (var order in CrossingOrders)
+                {
+                    <MudStack Row="true">
+                        <MudText Typo="Typo.subtitle2" Color="Color.Error">
+                            №@order.Id
+                        </MudText>
+                        <MudText Typo="Typo.subtitle2" >
+                            -  @order.Cost UAH
+                        </MudText>
+                    </MudStack>
+                }
+            </MudStack>
+        }
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Ok" Color="Color.Error">Approve</MudButton>
+        <MudButton OnClick="Cancel" >Cancel</MudButton>
+    </DialogActions>
+
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+    
+    [Parameter]
+    public Order OrderForApprove { get; set; }
+
+    [Parameter]
+    public List<Order> CrossingOrders { get; set; }
+
+    private void Ok() => MudDialog.Close();
+
+    private void Cancel() => MudDialog.Cancel();
+}

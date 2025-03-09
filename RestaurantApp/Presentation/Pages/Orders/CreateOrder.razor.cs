@@ -57,13 +57,20 @@ public partial class CreateOrder
         NavigationManager.NavigateTo(NavigationManager.BaseUri + Urls.OrdersUrl, true);
     }
 
+    private async Task Calc(List<SelectedDishDto> dishes)
+    {
+        
+    }
+
     private async Task CalculateQuantity()
     {
+        // страви відгруповані по категоріям, щоб обрахувати кількість в межах категорії
         Dictionary<int, List<SelectedDishDto>> categorizedDishes = [];
 
         if(CurrentMenuForDate == null)
             return;
 
+        // групуємо по категоріям обрані страви
         foreach (var selectedDish in CurrentMenuForDate.SelectedDishes)
         {
             if(selectedDish.Dish is not null)
@@ -79,13 +86,18 @@ public partial class CreateOrder
             }
         }
 
+        // основний цикл, проходиться по категоріям страв
         foreach (var categorizedDish in categorizedDishes)
         {
-            int count = categorizedDishes.Values.Count;
-            int countPerDishForCategory = BaseInfo.GuestCount / count;
-            int remainder = BaseInfo.GuestCount % count;
+            // кількість категорій
+            int categoryCount = categorizedDishes.Values.Count;
+            // кількість страв на 1 категорію
+            int countPerDishForCategory = BaseInfo.GuestCount / categoryCount;
+            // залишок кількості
+            int remainder = BaseInfo.GuestCount % categoryCount;
             bool isShared = false;
 
+            // проходимося по кожній страві в вибраній категорії
             foreach (var item in categorizedDish.Value)
             {
                 if(item.Dish == null || item.Dish.DishCategory == null)
@@ -95,6 +107,7 @@ public partial class CreateOrder
 
                 if(isShared)
                 {
+                    // обрахувати скільки 
                     int neededWeight = item.Dish.RecommendedWeightPerPortion * countPerDishForCategory;
 
                     item.Count = (neededWeight / item.Dish.Weight) + (neededWeight % item.Dish.Weight);
@@ -198,4 +211,40 @@ public partial class CreateOrder
 
         return BaseInfo.MenusForDate.Where(x => x.Date != null);
     }
+
+
+    private DateRange _dateRange = new();
+    private DateRange DateRange
+    {
+        get => _dateRange;
+        set
+        {
+            _dateRange = value;
+        }
+    }
+    private DateTime _minDate = DateTime.Now.Date;
+    private DateTime _maxDate = DateTime.Now.Date.AddMonths(1);
+    private const int _maxDays = 7; // Ліміт у 7 днів
+
+    private async Task OnDateRangeChanged(DateRange newRange)
+    {
+        _dateRange = newRange;
+
+        if (newRange.Start.HasValue)
+        {
+            // Додаємо в _disabledDates всі дати, які виходять за ліміт
+            for (DateTime date = _minDate; date <= _maxDate; date = date.AddDays(1))
+            {
+                if (date < newRange.Start || date > newRange.Start.Value.AddDays(_maxDays - 1))
+                {
+                    _disabledDates.Add(date);
+                }
+            }
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    private string HelperText => $"Range: {_minDate:M} to {_maxDate:M}";
 }

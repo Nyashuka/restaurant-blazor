@@ -17,7 +17,7 @@ public class OrderDayConfiguration : IEntityTypeConfiguration<OrderDay>
             .ValueGeneratedOnAdd();
 
         builder.HasOne(x => x.Order)
-            .WithMany()
+            .WithMany(o => o.OrderDays)
             .HasForeignKey(x => x.OrderId);
 
         builder.Property(t => t.Date)

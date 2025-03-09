@@ -3,6 +3,9 @@
 
 @inject IOrderService OrderService
 
+@inject ISnackbar Snackbar
+@inject RestaurantDialogFactory DialogFactory
+
 <MudAutocomplete T="OrderStatusEnum"
     Label="Status Filter"
     SearchFunc="@SearchOrderStatus"
@@ -36,10 +39,14 @@
                     FlexGrow="0">
                     <MudText Typo="Typo.subtitle2" Style="color: white;">@order.Status.ToString()</MudText>
                 </MudPaper>
-                <MudButton Variant="Variant.Filled" Color="Color.Primary"
-                    Style="display: block; margin-top: 15px;">
-                    Approve
-                </MudButton>
+                <MudStack Row="true" Style="display: block; margin-top: 15px;">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => OnConfirmOrderClicked(order))">
+                        Confirm
+                    </MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="@(() => OnDeclineOrderClicked(order))">
+                        Decline
+                    </MudButton>
+                </MudStack>
             </div>
         </MudPaper>
     </MudItem>

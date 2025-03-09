@@ -23,7 +23,7 @@
             Variant="Variant.Outlined" />
         <MudCheckBox @bind-Value="IsAutoCalculateWeight" Label="Auto calculate weight" Color="Color.Primary"/>
         <MudTextField Variant="@(IsAutoCalculateWeight ? Variant.Text : Variant.Outlined)" ReadOnly="@IsAutoCalculateWeight" Label="Weight" @bind-Value="@DishDto.Weight"/>
-        <MudTextField Variant="Variant.Outlined" Label="Serving Per Unit" @bind-Value="@DishDto.ServingPerUnit"/>
+        <MudTextField Variant="Variant.Outlined" Label="Recommended Weight Per Person" @bind-Value="@DishDto.ServingPerUnit"/>
         <MudTextField Variant="Variant.Outlined" Label="Price" @bind-Value="@DishDto.PricePerUnit"/>
     </MudStack>
 
