@@ -60,7 +60,7 @@
 				LayoutProperties = new LayoutProperties()
 			};
 
-		_sidebarStateService.OnSidebarStateChanged += UpdateView;
+		_sidebarStateService.SidebarStateChanged += UpdateView;
 	}
 
     private void UpdateView()
@@ -127,7 +127,7 @@
 
     void IDisposable.Dispose()
     {
-        _sidebarStateService.OnSidebarStateChanged -= UpdateView;
+        _sidebarStateService.SidebarStateChanged -= UpdateView;
         _sidebarStateService.IsSidebarVisible = false;
     }
 }

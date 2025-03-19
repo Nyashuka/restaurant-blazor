@@ -1,8 +1,10 @@
+using RestaurantApp.Domain.Models;
+
 namespace RestaurantApp.Presentation.Services;
 
 public class SidebarStateService
 {
-    public event Action? OnSidebarStateChanged;
+    public event Action? SidebarStateChanged;
 
     private bool _isSidebarVisible = false;
     public bool IsSidebarVisible
@@ -13,7 +15,7 @@ public class SidebarStateService
             if (_isSidebarVisible != value)
             {
                 _isSidebarVisible = value;
-                OnSidebarStateChanged?.Invoke();
+                SidebarStateChanged?.Invoke();
             }
         }
     }
@@ -29,21 +31,21 @@ public class SidebarStateService
             if (_isSidebarOpen != value)
             {
                 _isSidebarOpen = value;
-                OnSidebarStateChanged?.Invoke();
+                SidebarStateChanged?.Invoke();
             }
         }
     }
 
-    public event Func<int, Task>? OnCategorySelected;
+    public event Func<CategoryBase, Task>? OnCategorySelected;
 
-    public async Task SelectCategory(int categoryId)
+    public async Task SelectCategory(CategoryBase category)
     {
         if (OnCategorySelected is not null)
         {
             var handlers = OnCategorySelected.GetInvocationList()
-                                             .Cast<Func<int, Task>>();
+                                             .Cast<Func<CategoryBase, Task>>();
 
-            await Task.WhenAll(handlers.Select(handler => handler(categoryId)));
+            await Task.WhenAll(handlers.Select(handler => handler(category)));
         }
     }
 }

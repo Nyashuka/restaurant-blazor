@@ -9,6 +9,7 @@ public class CreateDishDto
     public int Weight { get; set; }
     public int RecommendedWeightPerPerson { get; set; } = 1;
     public double PricePerUnit { get; set; }
+    public string ImageUrl { get; set; } = string.Empty;
 
     public List<DishIngredientDto> Ingredients { get; set; } = [];
 }

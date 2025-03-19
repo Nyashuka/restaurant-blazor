@@ -1,27 +1,40 @@
 using RestaurantApp.Application.Dtos;
+using RestaurantApp.Domain.Models;
 
 namespace RestaurantApp.Presentation.Dtos;
 
 public class MenuForDate
 {
-    public DateTime? Date { get; set; }
-    public List<SelectedDishDto> SelectedDishes { get; set; } = [];
+    public event Action DateChanged;
+
+    private DateTime? _date;
+    public DateTime? Date
+    {
+        get => _date;
+        set
+        {
+            _date = value;
+            DateChanged?.Invoke();
+        }
+    }
+
+    public List<SelectedFoodItem> SelectedFoodItems { get; set; } = [];
 
     public MenuForDate(DateTime? date)
     {
         Date = date;
     }
 
-    public void AddDish(SelectedDishDto selectedDishDto)
+    public void AddFoodItem(SelectedFoodItem selectedItem)
     {
-        SelectedDishes.Add(selectedDishDto);
+        SelectedFoodItems.Add(selectedItem);
     }
 
-    public void RemoveDish(int id)
+    public void RemoveFoodItem(int id)
     {
-        var dishToRemove = SelectedDishes.SingleOrDefault(x => x.Dish.Id == id);
+        var foodItemToRemove = SelectedFoodItems.SingleOrDefault(x => x.Item.Id == id);
 
-        if(dishToRemove != null)
-            SelectedDishes.Remove(dishToRemove);
+        if(foodItemToRemove != null)
+            SelectedFoodItems.Remove(foodItemToRemove);
     }
 }

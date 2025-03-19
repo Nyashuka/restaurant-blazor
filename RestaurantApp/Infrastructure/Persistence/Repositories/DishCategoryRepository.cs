@@ -10,11 +10,11 @@ public class DishCategoryRepository(IDbContextFactory<RestaurantDbContext> dbCon
 {
     private readonly IDbContextFactory<RestaurantDbContext> _dbContextFactory = dbContextFactory;
 
-    public async Task AddAsync(DishCategory dishSubcategory)
+    public async Task AddAsync(DishCategory dishCategory)
     {
         await using var dbContext = _dbContextFactory.CreateDbContext();
 
-        dbContext.DishCategories.Add(dishSubcategory);
+        dbContext.DishCategories.Add(dishCategory);
         await dbContext.SaveChangesAsync();
     }
 
@@ -32,10 +32,10 @@ public class DishCategoryRepository(IDbContextFactory<RestaurantDbContext> dbCon
         return dbContext.DishCategories.SingleOrDefault(dt => dt.Id == id);
     }
 
-    public async Task RemoveAsync(DishCategory dishSubcategory)
+    public async Task RemoveAsync(DishCategory dishCategory)
     {
         await using var dbContext = _dbContextFactory.CreateDbContext();
 
-        dbContext.DishCategories.Remove(dishSubcategory);
+        dbContext.DishCategories.Remove(dishCategory);
     }
 }

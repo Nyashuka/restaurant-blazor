@@ -1,0 +1,112 @@
+<MudPaper class="food-item-container">
+    <MudStack Row="true">
+        <div class="food-item-picture">
+        </div>
+
+        <MudStack Spacing="0">
+            @if(MenuItem.Item is Dish dish)
+            {
+                <h1>
+                    @dish.Name
+                </h1>
+
+                <h3>
+                    Категорія: @dish.DishCategory.Name
+                </h3>
+                <h3>
+                    Порційна: @(dish.DishCategory.IsShared ? "так" : "ні")
+                </h3>
+                <h3>
+                    Вага: @(dish.Weight) г.
+                </h3>
+                if (dish.DishCategory.IsShared)
+                {
+                    <h3>
+                        Вага порції: @(dish.RecommendedWeightPerPortion) г.
+                    </h3>
+                }
+
+            }
+            else if(MenuItem.Item is Drink drink)
+            {
+                <h1>
+                    @drink.Name
+                </h1>
+
+                <h3>
+                    Категорія: @drink.DrinkCategory.Name
+                </h3>
+                <h3>
+                    Розливається: @(drink.DrinkCategory.IsShared ? "так" : "ні")
+                </h3>
+                <h3>
+                    Об'єм: @(drink.Volume) мл.
+                </h3>
+                if (drink.DrinkCategory.IsShared)
+                {
+                    <h3>
+                        мл на 1 людину: @(drink.VolumePerPerson) г.
+                    </h3>
+                }
+            }
+
+
+            @if(MenuItem.IsSelected)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="OnRemoveClicked">
+                    Видалити
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="OnAddClicked">
+                    Додати
+                </MudButton>
+            }
+        </MudStack>
+    </MudStack>
+</MudPaper>
+
+<style>
+    .food-item-container {
+        gap: 10px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+
+    .food-item-picture {
+        width: 300px;
+        max-width: 300px;
+        margin: 10px;
+        background-color: blue;
+        height: 100px;
+    }
+
+    .food-item-title {
+        width: 100%;
+        align-items: start;
+    }
+    .food-item-buttons {
+        width: 100%;
+        align-items: start;
+    }
+</style>
+
+@code {
+    [Parameter] public MenuItemToSelect? MenuItem { get; set; }
+    [Parameter] public EventCallback<FoodItem> OnAddItem { get; set; }
+    [Parameter] public EventCallback<FoodItem> OnRemoveItem { get; set; }
+
+    private async Task OnAddClicked()
+    {
+        MenuItem.IsSelected = true;
+        await OnAddItem.InvokeAsync(MenuItem.Item);
+    }
+
+    private async Task OnRemoveClicked()
+    {
+        MenuItem.IsSelected = false;
+        await OnRemoveItem.InvokeAsync(MenuItem.Item);
+    }
+}

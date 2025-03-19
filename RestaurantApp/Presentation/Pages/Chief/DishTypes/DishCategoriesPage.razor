@@ -7,11 +7,13 @@
 
 <MudTable T="DishCategory" Items="_dishCategories" Dense="true" Hover="true" RowsPerPage="7">
     <HeaderContent>
-        <MudTh>Name</MudTh>
-        <MudTh>Actions</MudTh>
+        <MudTh>Назва</MudTh>
+        <MudTh>Категорія розподіляється?</MudTh>
+        <MudTh>Дії</MudTh>
     </HeaderContent>
     <RowTemplate Context="dishType">
         <MudTd>@dishType.Name</MudTd>
+        <MudTd>@(dishType.IsShared ? "Так" : "Ні")</MudTd>
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary" />
             <MudIconButton OnClick="@(() => DeleteItem(dishType))" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
@@ -20,7 +22,7 @@
     <PagerContent>
         <MudStack Row="true" >
             <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddNewDishType" style="margin: 10px; padding: 10px;">
-                Add new Dish Type
+                +    
             </MudButton>
             <MudSpacer/>
             <MudTablePager />

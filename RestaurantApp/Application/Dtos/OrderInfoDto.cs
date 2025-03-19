@@ -5,8 +5,20 @@ namespace RestaurantApp.Application.Dtos;
 
 public class OrderInfoDto
 {
+    private const int MIN_GUEST_COUNT = 35;
     public bool IsSuccess { get; private set; }
-    public int GuestCount { get; set; } = 10;
+
+    private int _guestCount = MIN_GUEST_COUNT;
+    public int GuestCount
+    {
+        get => _guestCount;
+        set
+        {
+            _guestCount = value;
+            UpdateStatus();
+        }
+    }
+
     public List<MenuForDate> MenusForDate { get; set; } = [];
 
     private EventType? _selectedEventType;
@@ -20,6 +32,17 @@ public class OrderInfoDto
         }
     }
 
+    public OrderInfoDto()
+    {
+        var menu = new MenuForDate(null);
+        menu.DateChanged += UpdateStatus;
+
+        MenusForDate = new List<MenuForDate>()
+        {
+            menu
+        };
+    }
+
     private void UpdateStatus()
     {
         IsSuccess = CheckSuccessStatus();
@@ -27,6 +50,6 @@ public class OrderInfoDto
 
     public bool CheckSuccessStatus()
     {
-        return SelectedEventType != null;
+        return SelectedEventType != null && MenusForDate.SingleOrDefault(x => x.Date != null) != null && GuestCount >= MIN_GUEST_COUNT;
     }
 }

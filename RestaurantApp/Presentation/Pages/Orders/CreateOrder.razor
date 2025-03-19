@@ -2,6 +2,7 @@
 @attribute [Authorize(Roles = "User")]
 
 @inject IDishService DishService
+@inject IDrinkService DrinkService
 @inject IMenuService MenuService
 @inject IEventTypeService EventTypeService
 @inject IOrderService OrderService
@@ -13,39 +14,57 @@
 
 @inject SidebarStateService SidebarStateService
 
-<MudTabs Elevation="1" Rounded="true" PanelClass="pa-6" >
-    <MudTabPanel Text="Base Info">
+
+<MudDrawer @bind-Open="DrawerOpen" Elevation="2">
+    <NavMenuCategories />
+</MudDrawer>
+
+<MudTabs Elevation="1" Rounded="true" PanelClass="pa-6" ActivePanelIndexChanged="OnActivePanelIndexChanged">
+    <MudTabPanel Text="Інформація">
         <div style="max-width: 300px;" Align="left">
 
-            <MudAutocomplete T="EventType" Label="Event Type" @bind-Value="@BaseInfo.SelectedEventType"
+            <MudAutocomplete T="EventType" Label="Івент" @bind-Value="@BaseInfo.SelectedEventType"
                 SearchFunc="@SearchEventType" ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
                 Variant="Variant.Outlined" />
 
             <MudDivider style="margin: 10px 0;" />
 
+            @{
+                int i = 1;
+            }
             @foreach(var date in BaseInfo.MenusForDate)
             {
-                <MudDatePicker @bind-Date="@date.Date" style="max-width: 300px;" Label="Select Date"
-                    IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
-                    AdditionalDateClassesFunc="@((DateTime dt)=>"" )" />
-            }
-            <MudDateRangePicker @bind-DateRange="@DateRange" MinDate="_minDate" MaxDate="@_maxDate"
-                IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
-                Margin="Margin.Dense" HelperText="@HelperText" Variant="Variant.Outlined" Label="Range" 
-                />
+                if(i > 1)
+                {
+                    <MudDatePicker @bind-Date="@date.Date" style="max-width: 300px;" ReadOnly="true"
+                        IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
+                        AdditionalDateClassesFunc="@((DateTime dt)=>"" )" />
+                }
+                else
+                {
+                    <MudDatePicker @bind-Date="@date.Date" style="max-width: 300px;" Label="Оберіть дату"
+                        IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
+                        AdditionalDateClassesFunc="@((DateTime dt)=>"" )" />
+                }
 
-            <MudButton @onclick="AddDate">Add Date</MudButton>
+                i++;
+            }
+
+            @if(BaseInfo.MenusForDate.Count < 2)
+            {
+                <MudButton @onclick="AddDate">Додати ще один день</MudButton>
+            }
 
             <MudDivider style="margin: 10px 0; max-width: 300px;" />
 
-            <MudTextField style="max-width: 300px;" Label="Guest count" Variant="Variant.Outlined"
+            <MudTextField style="max-width: 300px;" Label="Кількість гостей" Variant="Variant.Outlined"
                 @bind-Value="@BaseInfo.GuestCount" />
         </div>
     </MudTabPanel>
 
-    @if(true)
+    @if(BaseInfo.IsSuccess)
     {
-        <MudTabPanel Text="Suggestions">
+        <MudTabPanel Text="Пропозиції меню">
             <MudStack>
                 @foreach(var menuItem in MenuVariants)
                 {
@@ -54,40 +73,51 @@
             </MudStack>
         </MudTabPanel>
 
-        <MudTabPanel Text="Add dishes">
-            <MudStack>
-                <MudAutocomplete T="MenuForDate" Label="Select Date" @bind-Value="@CurrentMenuForDate"
-                    SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
-                    Variant="Variant.Outlined" />
+        <MudTabPanel Text="Додати страви">
+            <MudAutocomplete T="MenuForDate" Label="Select Date" @bind-Value="@CurrentMenuForDate"
+                SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
+                Variant="Variant.Outlined" 
+                Style="width: fit-content;"/>
 
-                @foreach(var item in FilteredDishes)
+            <MudStack>
+
+                @foreach(var item in MenuItemsToSelect)
                 {
-                    <DishToAddComponent DishToAdd="@item" OnAddDish="OnAddDish" OnRemoveDish="OnRemoveDish"/>
+                    <MenuItemToSelectComponent MenuItem="@item" OnAddItem="OnAddItem" OnRemoveItem="OnRemoveItem"/>
                 }
             </MudStack>
         </MudTabPanel>
 
-        <MudTabPanel Text="Selected Dishes">
-            <MudStack Row="true">
-            <MudAutocomplete T="MenuForDate" Label="Select Date" @bind-Value="@CurrentMenuForDate"
-                SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
-                Variant="Variant.Outlined" />
+        <MudTabPanel Text="Вибрані страви">
+            <MudStack Row="true" Align="Align.Start" AlignItems="AlignItems.Center" Spacing="1" Style="width: fit-content;">
+                <MudAutocomplete T="MenuForDate" Label="Дата для страв" @bind-Value="@CurrentMenuForDate"
+                    SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
+                    Variant="Variant.Outlined" 
+                    Style="width: fit-content;"/>
 
-            <MudButton @onclick="CalculateQuantity" Variant="Variant.Filled" Color="Color.Primary">Auto quantity calculation</MudButton>
+                @* <MudAutocomplete T="MenuForDate" Label="Select Date" @bind-Value="@CurrentMenuForDate"
+                    SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
+                    Variant="Variant.Outlined" 
+                    Style="width: fit-content;"/> *@
+
+                <MudButton @onclick="CalculateQuantity"
+                    Variant="Variant.Filled" Color="Color.Primary">
+                    Розрахувати кількість
+                </MudButton>
             </MudStack>
 
             <MudStack>
                 @if (CurrentMenuForDate != null)
                 {
-                    @foreach (var dish in CurrentMenuForDate.SelectedDishes)
+                    @foreach (var item in CurrentMenuForDate.SelectedFoodItems)
                     {
-                        <SelectedDishComponent SelectedDish="@dish"></SelectedDishComponent>
+                        <SelectedFoodItemComponent SelectedFoodItem="@item"/>
                     }
                 }
             </MudStack>
         </MudTabPanel>
 
-        <MudTabPanel Text="Summary and Confirmation" >
+        <MudTabPanel Text="Підтвердження" >
             <MudStack Align="AlignItems.Start" Class="left-aligned">
                 <MudText>
                     @DaysCount x 5000 UAH

@@ -10,7 +10,7 @@
         Відмінити
     </MudButton>
     <MudButton OnClick="@CreateDishAsync">
-        Додати нову страву
+        Зберегти
     </MudButton>
 </MudStack>
 
@@ -19,11 +19,14 @@
         <MudTextField Variant="Variant.Outlined" Label="Dish Name" @bind-Value="@DishDto.Name"/>
         <MudAutocomplete T="DishCategory" Label="Dish Category"
             @bind-Value="@DishDto.DishType" SearchFunc="@SearchDishType"
-            ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+            ToStringFunc="@(e=> e==null?null : $"{e.Name}({(e.IsShared ? "розподіляється" : "не розподіляється")})")"
             Variant="Variant.Outlined" />
         <MudCheckBox @bind-Value="IsAutoCalculateWeight" Label="Auto calculate weight" Color="Color.Primary"/>
         <MudTextField Variant="@(IsAutoCalculateWeight ? Variant.Text : Variant.Outlined)" ReadOnly="@IsAutoCalculateWeight" Label="Weight" @bind-Value="@DishDto.Weight"/>
-        <MudTextField Variant="Variant.Outlined" Label="Recommended Weight Per Person" @bind-Value="@DishDto.ServingPerUnit"/>
+        @if(DishDto.DishType != null && DishDto.DishType.IsShared)
+        {
+            <MudTextField Variant="Variant.Outlined" Label="Recommended Weight Per Person" @bind-Value="@DishDto.RecommendedWeightPerPerson"/>
+        }
         <MudTextField Variant="Variant.Outlined" Label="Price" @bind-Value="@DishDto.PricePerUnit"/>
     </MudStack>
 

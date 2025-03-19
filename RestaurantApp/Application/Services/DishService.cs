@@ -19,13 +19,13 @@ public class DishService : IDishService
     public async Task CreateAsync(CreateDishDto createDishDto)
     {
         var model = new Dish(
-            0,
             createDishDto.Name,
+            createDishDto.PricePerUnit,
             createDishDto.DishType.Id,
-            null,
             createDishDto.Weight,
             createDishDto.RecommendedWeightPerPerson,
-            createDishDto.PricePerUnit);
+            createDishDto.ImageUrl
+            );
 
         await _dishRepository.AddAsync(model);
 

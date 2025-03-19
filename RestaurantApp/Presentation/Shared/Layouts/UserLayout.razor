@@ -1,18 +1,15 @@
 @inject SidebarStateService _sidebarStateService
 
 <MudAppBar Elevation="1">
-    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
-        OnClick="@((e) => DrawerToggle())" />
-    <MudSpacer />
-    @if (_sidebarStateService.IsSidebarVisible)
+    @* @if (_sidebarStateService.IsSidebarVisible)
     {
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
             OnClick="@((e) => DrawerToggle())" />
-    }
+    } *@
     <MudSpacer />
     <MudLink Href="Orders">
         <MudButton>
-            Orders
+            Мої замовлення
         </MudButton>
     </MudLink>
     <MudLink Href="Logout">
@@ -21,21 +18,6 @@
         </MudButton>
     </MudLink>
 </MudAppBar>
-
-
-<MudDrawer @bind-Open="_drawerOpen" Elevation="2">
-    <MudDrawerHeader>
-        Categories
-    </MudDrawerHeader>
-    <NavMenuCategories />
-</MudDrawer>
-
-@* <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
-    <MudDrawerHeader>
-        <MudText Typo="Typo.h5" Class="mt-1">Chief's Cabinet</MudText>
-    </MudDrawerHeader>
-    NavMenu
-</MudDrawer> *@
 
 @code {
     bool _drawerOpen = true;

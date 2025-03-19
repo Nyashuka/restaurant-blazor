@@ -42,8 +42,13 @@ public static class ServiceCollectionExtension
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserSessionService, UserSessionService>();
         services.AddScoped<IEventTypeService, EventTypeService>();
+
         services.AddScoped<IDishCategoryService, DishCategoryService>();
         services.AddScoped<IDishService, DishService>();
+
+        services.AddScoped<IDrinkCategoryService, DrinkCategoryService>();
+        services.AddScoped<IDrinkService, DrinkService>();
+
         services.AddScoped<IMenuService, MenuService>();
         services.AddScoped<IOrderService, OrderService>();
 
@@ -66,6 +71,10 @@ public static class ServiceCollectionExtension
         services.AddScoped<IDishCategoryRepository, DishCategoryRepository>();
         services.AddScoped<IDishIngredientRepository, DishIngredientRepository>();
         services.AddScoped<IDishRepository, DishRepository>();
+
+        services.AddScoped<IDrinkCategoryRepository, DrinkCategoryRepository>();
+        services.AddScoped<IDrinkRepository, DrinkRepository>();
+
         services.AddScoped<IMenuRepository, MenuRepository>();
         services.AddScoped<IMenuItemRepository, MenuItemRepository>();
 

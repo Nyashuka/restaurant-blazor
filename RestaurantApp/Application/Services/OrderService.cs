@@ -61,9 +61,9 @@ public class OrderService : IOrderService
             var orderDay = new OrderDay(order.Id, null, (DateTime)menuDay.Date);
             await _orderDayRepository.AddAsync(orderDay);
 
-            foreach(var menuItem in menuDay.SelectedDishes)
+            foreach(var menuItem in menuDay.SelectedFoodItems)
             {
-                var orderMenuItem = new OrderMenuItem(orderDay.Id, null, menuItem.Dish.Id, null, menuItem.Count);
+                var orderMenuItem = new OrderMenuItem(orderDay.Id,menuItem.Item.Id, menuItem.Count);
                 await _orderMenuItemRepository.AddAsync(orderMenuItem);
             }
         }

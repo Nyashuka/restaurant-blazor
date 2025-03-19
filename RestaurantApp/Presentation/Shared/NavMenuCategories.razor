@@ -1,13 +1,22 @@
 @inject IDishCategoryService DishCategoryService
+@inject IDrinkCategoryService DrinkCategoryService
 @inject SidebarStateService SidebarStateService
 
 <MudNavMenu>
     <AuthorizeView >
         <Authorized>
-            <MudNavGroup Title="Categories">
+            <MudNavGroup Title="Категорії страв">
                 @foreach (var category in DishCategories)
                 {
-                    <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category.Id))">
+                    <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category))">
+                        @category.Name
+                    </MudNavLink>
+                }
+            </MudNavGroup>
+            <MudNavGroup Title="Категорії напоїв">
+                @foreach (var category in DrinkCategories)
+                {
+                    <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category))">
                         @category.Name
                     </MudNavLink>
                 }
@@ -22,6 +31,7 @@
     private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
     private List<DishCategory> DishCategories { get; set; } = [];
+    private List<DrinkCategory> DrinkCategories { get; set; } = [];
 
     private void ToggleNavMenu()
     {
@@ -31,6 +41,7 @@
     protected override async Task OnInitializedAsync()
     {
         DishCategories = await DishCategoryService.GetAllAsync();
+        DrinkCategories = await DrinkCategoryService.GetAllAsync();
     }
 }
 

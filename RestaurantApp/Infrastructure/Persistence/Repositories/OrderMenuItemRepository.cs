@@ -28,7 +28,7 @@ public class OrderMenuItemRepository : IOrderMenuItemRepository
         await using var context = await _dbContextFactory.CreateDbContextAsync();
 
         return await context.OrderMenuItems
-            .Include(x => x.Dish)
+            .Include(x => x.FoodItem)
             .Include(x => x.OrderDay)
             .ToListAsync();
     }
@@ -38,7 +38,7 @@ public class OrderMenuItemRepository : IOrderMenuItemRepository
         await using var context = await _dbContextFactory.CreateDbContextAsync();
 
         return await context.OrderMenuItems
-            .Include(x => x.Dish)
+            .Include(x => x.FoodItem)
             .Include(x => x.OrderDay)
             .Where(x => x.OrderDayId == orderDayId)
             .ToListAsync();
@@ -49,7 +49,7 @@ public class OrderMenuItemRepository : IOrderMenuItemRepository
         await using var context = await _dbContextFactory.CreateDbContextAsync();
 
         return await context.OrderMenuItems
-            .Include(x => x.Dish)
+            .Include(x => x.FoodItem)
             .Include(x => x.OrderDay)
             .SingleOrDefaultAsync(x => x.Id == id);
     }

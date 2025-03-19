@@ -17,9 +17,9 @@ public class OrderMenuItemConfiguration : IEntityTypeConfiguration<OrderMenuItem
         builder.Property(x => x.Id)
             .ValueGeneratedOnAdd();
 
-        builder.HasOne(x => x.Dish)
+        builder.HasOne(x => x.FoodItem)
             .WithMany()
-            .HasForeignKey(x => x.DishId);
+            .HasForeignKey(x => x.FoodItemId);
 
         builder.HasOne(x => x.OrderDay)
             .WithMany(od => od.OrderMenuItems)

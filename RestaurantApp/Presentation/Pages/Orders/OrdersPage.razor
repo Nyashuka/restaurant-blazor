@@ -7,7 +7,7 @@
 		Color="Color.Primary"
         style="font-size: 24px; margin-left: 10px;"
 		href="/orders/create">
-    Create order
+    Створити замовлення
 </MudLink>
 
 <MudGrid Class="mt-1">
@@ -23,7 +23,7 @@
                     </MudLink>
                     <MudDivider style="border: 2px solid;" />
                     <MudText Typo="Typo.h5">
-                        Marriage
+                        @order.EventType.Name
                     </MudText>
                     <MudText Typo="Typo.h5" Align="Align.Left">
                         @(DateTime.Now.ToString($"dd.MM.yyyy")) - @(DateTime.Now.AddDays(3).ToString($"dd.MM.yyyy"))

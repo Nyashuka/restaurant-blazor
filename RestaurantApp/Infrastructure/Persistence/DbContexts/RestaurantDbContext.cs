@@ -12,6 +12,9 @@ public class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) 
     public DbSet<User> Users { get; set; }
     public DbSet<EventType> EventTypes { get; set; }
     public DbSet<DishCategory> DishCategories { get; set; }
+    public DbSet<DrinkCategory> DrinkCategories { get; set; }
+    public DbSet<FoodItem> FoodItems { get; set; }
+    public DbSet<Drink> Drinks { get; set; }
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<DishIngredient> DishIngredients { get; set; }
     public DbSet<Menu> Menus { get; set; }
@@ -25,9 +28,15 @@ public class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new EventTypeConfiguration());
 
+        modelBuilder.ApplyConfiguration(new FoodItemConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryBaseConfiguration());
+
         modelBuilder.ApplyConfiguration(new DishCategoryConfigurations());
         modelBuilder.ApplyConfiguration(new DishConfiguration());
         modelBuilder.ApplyConfiguration(new DishIngredientConfiguration());
+
+        modelBuilder.ApplyConfiguration(new DrinkCategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new DrinkConfiguration());
 
         modelBuilder.ApplyConfiguration(new MenuConfiguration());
         modelBuilder.ApplyConfiguration(new MenuItemConfiguration());

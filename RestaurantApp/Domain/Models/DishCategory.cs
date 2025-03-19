@@ -1,17 +1,8 @@
 namespace RestaurantApp.Domain.Models;
 
-public class DishCategory
+public class DishCategory : CategoryBase
 {
-    public int Id { get; private set; }
-    public string Name { get; private set; } = string.Empty;
-    public bool IsShared { get; private set; }
-
-    public DishCategory(int id, string name, bool isShared)
+    public DishCategory(string name, bool isShared) : base(name, isShared)
     {
-        Id = id;
-        Name = name;
-        IsShared = isShared;
     }
-
-    private DishCategory() {}
 }

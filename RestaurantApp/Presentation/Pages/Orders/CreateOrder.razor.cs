@@ -5,40 +5,45 @@ using RestaurantApp.Presentation.Dialogs;
 using MudBlazor;
 using RestaurantApp.Presentation.Services;
 using RestaurantApp.Presentation.Pages.Constants;
+using RestaurantApp.Domain.Services;
 
 namespace RestaurantApp.Presentation.Pages.Orders;
 
-public partial class CreateOrder
+public partial class CreateOrder : IDisposable
 {
     private OrderInfoDto BaseInfo { get; set; } = new();
     private MenuForDate? CurrentMenuForDate { get; set; }
 
     private List<EventType> EventTypes { get; set; } = [];
-    private List<DishToSelect> FilteredDishes { get; set; } = [];
+    private List<MenuItemToSelect> MenuItemsToSelect { get; set; } = [];
     private List<Menu> MenuVariants { get; set; } = [];
 
     public int DaysCount => BaseInfo.MenusForDate.Count(x => x.Date != null);
 
+    private bool DrawerOpen { get; set; } = false;
+
     protected override async Task OnInitializedAsync()
     {
         EventTypes = await EventTypeService.GetAllAsync();
-        SidebarStateService.OnCategorySelected += LoadDishesByCategory;
+        SidebarStateService.OnCategorySelected += LoadFoodItemsByCategory;
         MenuVariants = await MenuService.GetAllAsync();
+
+        CurrentMenuForDate = BaseInfo.MenusForDate.FirstOrDefault();
     }
 
-    private async Task LoadDishesByCategory(int categoryId)
+    private async Task LoadFoodItemsByCategory(CategoryBase category)
     {
-        var dishes = await DishService.GetByCategoryAsync(categoryId);
-        FilteredDishes = [];
-        foreach(var dish in dishes)
-        {
-            bool isSelected = CurrentMenuForDate?.SelectedDishes.Any(x => x.Dish.Id == dish.Id) == true;
+        MenuItemsToSelect.Clear();
 
-            FilteredDishes.Add(new DishToSelect(){
-                IsSelected = isSelected,
-                Dish = dish
-            });
-        }
+        List<FoodItem> items = category switch
+        {
+            DishCategory => (await DishService.GetByCategoryAsync(category.Id)).Cast<FoodItem>().ToList(),
+            DrinkCategory => (await DrinkService.GetByCategoryAsync(category.Id)).Cast<FoodItem>().ToList(),
+        };
+
+        MenuItemsToSelect.AddRange(items.Select(item =>
+            new MenuItemToSelect(CurrentMenuForDate?.SelectedFoodItems.Any(x => x.Item.Id == item.Id) ?? false, item)));
+
         await InvokeAsync(StateHasChanged);
     }
 
@@ -57,93 +62,32 @@ public partial class CreateOrder
         NavigationManager.NavigateTo(NavigationManager.BaseUri + Urls.OrdersUrl, true);
     }
 
-    private async Task Calc(List<SelectedDishDto> dishes)
-    {
-        
-    }
-
     private async Task CalculateQuantity()
     {
-        // страви відгруповані по категоріям, щоб обрахувати кількість в межах категорії
-        Dictionary<int, List<SelectedDishDto>> categorizedDishes = [];
-
         if(CurrentMenuForDate == null)
             return;
 
-        // групуємо по категоріям обрані страви
-        foreach (var selectedDish in CurrentMenuForDate.SelectedDishes)
-        {
-            if(selectedDish.Dish is not null)
-            {
-                if(categorizedDishes.TryGetValue(selectedDish.Dish.DishCategoryId, out var dishes))
-                {
-                    dishes.Add(selectedDish);
-                }
-                else
-                {
-                    categorizedDishes.TryAdd(selectedDish.Dish.DishCategoryId, [ selectedDish ]);
-                }
-            }
-        }
+        var dishes = CurrentMenuForDate.SelectedFoodItems.Where(x => x.Item is Dish).ToList();
+        var drinks = CurrentMenuForDate.SelectedFoodItems.Where(x => x.Item is Drink).ToList();
 
-        // основний цикл, проходиться по категоріям страв
-        foreach (var categorizedDish in categorizedDishes)
-        {
-            // кількість категорій
-            int categoryCount = categorizedDishes.Values.Count;
-            // кількість страв на 1 категорію
-            int countPerDishForCategory = BaseInfo.GuestCount / categoryCount;
-            // залишок кількості
-            int remainder = BaseInfo.GuestCount % categoryCount;
-            bool isShared = false;
+        var dishesCalculator = new DishesQuantityCalculator();
+        var drinksCalculator = new DrinksQuantityCalculator();
 
-            // проходимося по кожній страві в вибраній категорії
-            foreach (var item in categorizedDish.Value)
-            {
-                if(item.Dish == null || item.Dish.DishCategory == null)
-                    continue;
-
-                isShared = item.Dish.DishCategory.IsShared;
-
-                if(isShared)
-                {
-                    // обрахувати скільки 
-                    int neededWeight = item.Dish.RecommendedWeightPerPortion * countPerDishForCategory;
-
-                    item.Count = (neededWeight / item.Dish.Weight) + (neededWeight % item.Dish.Weight);
-                }
-                else
-                {
-                    item.Count = countPerDishForCategory;
-                }
-            }
-
-            var firstDishInCategory = categorizedDish.Value.FirstOrDefault();
-            if (firstDishInCategory == null || firstDishInCategory.Dish == null)
-                continue;
-
-            if(isShared)
-            {
-                firstDishInCategory.Count +=
-                    firstDishInCategory.Dish.RecommendedWeightPerPortion * remainder / firstDishInCategory.Dish.Weight;
-            }
-            else
-            {
-                firstDishInCategory.Count += remainder;
-            }
-        }
+        var calculatedItems = new List<SelectedFoodItem>();
+        calculatedItems.AddRange(await dishesCalculator.CalculateQuantity(BaseInfo.GuestCount, dishes));
+        calculatedItems.AddRange(await drinksCalculator.CalculateQuantity(BaseInfo.GuestCount, drinks));
 
         StateHasChanged();
     }
 
-    private void OnAddDish(Dish dish)
+    private void OnAddItem(FoodItem foodItem)
     {
-        CurrentMenuForDate?.AddDish(new SelectedDishDto(dish, 1));
+        CurrentMenuForDate?.AddFoodItem(new SelectedFoodItem(foodItem, 1));
     }
 
-    private void OnRemoveDish(Dish dish)
+    private void OnRemoveItem(FoodItem foodItem)
     {
-        CurrentMenuForDate?.RemoveDish(dish.Id);
+        CurrentMenuForDate?.RemoveFoodItem(foodItem.Id);
     }
 
     private async Task OnUseMenuClicked(int menuId)
@@ -165,11 +109,11 @@ public partial class CreateOrder
             Snackbar.Add("Selected something!", Severity.Warning);
 
             var menuItems = await MenuService.GetMenuItemsByMenuId(menuId);
-            menu.SelectedDishes = [];
+            menu.SelectedFoodItems = [];
             foreach(var item in menuItems)
             {
-                menu.SelectedDishes.Add(
-                    new SelectedDishDto(
+                menu.SelectedFoodItems.Add(
+                    new SelectedFoodItem(
                         await DishService.GetByIdAsync(item.DishId),
                         1
                     )
@@ -182,11 +126,23 @@ public partial class CreateOrder
 
     private void AddDate()
     {
-        if(BaseInfo.MenusForDate.Count >= 4)
+        if(BaseInfo.MenusForDate.Count >= 2)
             return;
 
-        BaseInfo.MenusForDate.Add(new MenuForDate(null));
+        DateTime? nextDate = BaseInfo.MenusForDate.Last().Date;
+        if(nextDate == null)
+        {
+            return;
+        }
+
+        nextDate = ((DateTime)nextDate).Date.AddDays(1);
+        BaseInfo.MenusForDate.Add(new MenuForDate(nextDate));
         StateHasChanged();
+    }
+
+    private void OnActivePanelIndexChanged(int id)
+    {
+        DrawerOpen = id == 2;
     }
 
     private readonly List<DateTime> _disabledDates =
@@ -212,39 +168,8 @@ public partial class CreateOrder
         return BaseInfo.MenusForDate.Where(x => x.Date != null);
     }
 
-
-    private DateRange _dateRange = new();
-    private DateRange DateRange
+    void IDisposable.Dispose()
     {
-        get => _dateRange;
-        set
-        {
-            _dateRange = value;
-        }
+        SidebarStateService.IsSidebarVisible = false;
     }
-    private DateTime _minDate = DateTime.Now.Date;
-    private DateTime _maxDate = DateTime.Now.Date.AddMonths(1);
-    private const int _maxDays = 7; // Ліміт у 7 днів
-
-    private async Task OnDateRangeChanged(DateRange newRange)
-    {
-        _dateRange = newRange;
-
-        if (newRange.Start.HasValue)
-        {
-            // Додаємо в _disabledDates всі дати, які виходять за ліміт
-            for (DateTime date = _minDate; date <= _maxDate; date = date.AddDays(1))
-            {
-                if (date < newRange.Start || date > newRange.Start.Value.AddDays(_maxDays - 1))
-                {
-                    _disabledDates.Add(date);
-                }
-            }
-        }
-
-        await InvokeAsync(StateHasChanged);
-    }
-
-
-    private string HelperText => $"Range: {_minDate:M} to {_maxDate:M}";
 }

@@ -16,7 +16,7 @@ public class DishCategoryService : IDishCategoryService
 
     public async Task CreateAsync(CreateDishTypeDto createDishTypeDto)
     {
-        var model = new DishCategory(0, createDishTypeDto.Name, createDishTypeDto.IsShared);
+        var model = new DishCategory(createDishTypeDto.Name, createDishTypeDto.IsShared);
 
         await _dishCategoryRepository.AddAsync(model);
     }
