@@ -8,8 +8,16 @@ namespace RestaurantApp.Presentation.Pages.ManagerPages;
 public partial class ManageOrdersPage
 {
     public List<Order> Orders { get; set; } = [];
-    private OrderStatusEnum[] OrderStatuses { get; } = (OrderStatusEnum[])Enum.GetValues(typeof(OrderStatusEnum));
-    private OrderStatusEnum SelectedOrderStatus { get; set; } = OrderStatusEnum.Created;
+    private Dictionary<OrderStatusEnum, string> OrderStatuses = new()
+    {
+        { OrderStatusEnum.Created, "Потрібно підтвердити" },
+        { OrderStatusEnum.AwaitingPayment, "Очікує на оплату" },
+        { OrderStatusEnum.Confirmed, "Підтверджено" },
+        { OrderStatusEnum.Completed, "Завершено" },
+        { OrderStatusEnum.Canceled, "Відмінено" },
+    };
+    private KeyValuePair<OrderStatusEnum, string> SelectedOrderStatus { get; set; } =
+        new KeyValuePair<OrderStatusEnum, string>(OrderStatusEnum.Created, "");
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,13 +67,13 @@ public partial class ManageOrdersPage
 
     }
 
-    public async Task OnSelectedStatus(OrderStatusEnum status)
+    public async Task OnSelectedStatus(KeyValuePair<OrderStatusEnum, string> status)
     {
         SelectedOrderStatus = status;
-        Orders = await OrderService.GetByStatusAsync(status);
+        Orders = await OrderService.GetByStatusAsync(SelectedOrderStatus.Key);
     }
 
-    public async Task<IEnumerable<OrderStatusEnum>> SearchOrderStatus(string value, CancellationToken token)
+    public async Task<IEnumerable<KeyValuePair<OrderStatusEnum, string>>> SearchOrderStatus(string value, CancellationToken token)
     {
         await Task.Delay(5, token);
 

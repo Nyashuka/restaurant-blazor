@@ -1,6 +1,9 @@
-﻿using RestaurantApp.Application.Dtos;
+﻿using Microsoft.AspNetCore.Components.Forms;
+
+using RestaurantApp.Application.Dtos;
 using RestaurantApp.Application.Services;
 using RestaurantApp.Domain.Models;
+using RestaurantApp.Infrastructure.FileStorage;
 
 namespace RestaurantApp.Presentation.Pages.Chief.Dishes
 {
@@ -12,9 +15,29 @@ namespace RestaurantApp.Presentation.Pages.Chief.Dishes
 
         private List<DishCategory> DishCategories { get; set; } = [];
 
+        private IBrowserFile? File;
+
+        private string? ImagePreviewUrl { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             DishCategories = await DishCategoryService.GetAllAsync();
+        }
+
+        private async Task UploadFiles(IBrowserFile file)
+        {
+            var stream = file.OpenReadStream(long.MaxValue);
+            await using (MemoryStream memoryStream = new())
+            {
+                await stream.CopyToAsync(memoryStream);
+
+                var base64String = Convert.ToBase64String(memoryStream.ToArray());
+                ImagePreviewUrl = $"data:{file.ContentType};base64,{base64String}";
+            }
+
+            File = file;
+
+            StateHasChanged();
         }
 
         private void OnAddIngredientClicked()
@@ -39,6 +62,11 @@ namespace RestaurantApp.Presentation.Pages.Chief.Dishes
 
         private async Task CreateDishAsync()
         {
+            if(File != null)
+            {
+                DishDto.ImageUrl = await new FileStorageService().SaveFileAsync(File);
+            }
+
             await DishService.CreateAsync(DishDto);
 
             NavigationManager.NavigateTo("/chief/dishes", true);

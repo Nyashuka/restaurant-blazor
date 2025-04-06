@@ -23,7 +23,7 @@
                 <h1>@drink.Name</h1>
                 <MudPaper
                     Style="background-color: green; padding: 0 5px; display: inline-block; width: auto; margin: 5px 0;">
-                    <MudText Typo="Typo.subtitle2" Style="color: white;">@drink.DrinkCategory.Name</MudText>
+                    <MudText Typo="Typo.subtitle2" Style="color: white;">@drink.Category.Name</MudText>
                 </MudPaper>
             </div>
 
@@ -69,12 +69,13 @@
         justify-content: center; /* Центруємо картинку */
         align-items: center; /* Вирівнюємо картинку по центру */
         flex-grow: 1; /* Це дозволить картинці "зсувати" інші елементи */
+        height: 150px;
     }
 
     .food-item-picture img {
         width: 100%;
-        height: auto;
-        max-height: 200px;
+        height: 150px;
+        max-height: 150px;
         /* Ви можете налаштувати максимальну висоту картинки */
         object-fit: contain;
         /* Підтримка пропорцій зображення */

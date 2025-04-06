@@ -30,7 +30,10 @@ public class OrderRepository : IOrderRepository
     {
         await using var context = await _dbContextFactory.CreateDbContextAsync();
 
-        return await context.Orders.ToListAsync();
+        return await context.Orders
+            .Include(x => x.EventType)
+            .Include(x => x.OrderDays)
+            .ToListAsync();
     }
 
     public async Task<Order?> GetByIdAsync(int id)

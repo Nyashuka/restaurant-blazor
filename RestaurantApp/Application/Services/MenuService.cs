@@ -30,7 +30,11 @@ public class MenuService : IMenuService
         var menuItems = new List<MenuItem>();
         foreach (var item in createMenuDto.Dishes)
         {
-            menuItems.Add(new MenuItem(0, menu.Id, null, item.Id, null));
+            menuItems.Add(new MenuItem(menu.Id, item.Id));
+        }
+        foreach (var item in createMenuDto.Drinks)
+        {
+            menuItems.Add(new MenuItem(menu.Id, item.Id));
         }
 
         await _menuItemRepository.AddRangeAsync(menuItems);
@@ -44,6 +48,11 @@ public class MenuService : IMenuService
     public async Task<Menu?> GetByIdAsync(int id)
     {
         return await _menuRepository.GetByIdAsync(id);
+    }
+
+    public async Task<List<FoodItem>> GetFoodItemsByMenuId(int id)
+    {
+        return await _menuRepository.GetFoodItemsByMenuId(id);
     }
 
     public async Task<List<MenuItem>> GetMenuItemsByMenuId(int id)

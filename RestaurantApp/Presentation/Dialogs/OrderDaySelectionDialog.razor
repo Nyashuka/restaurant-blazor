@@ -1,12 +1,12 @@
 <MudDialog>
     <TitleContent>
         <MudStack>
-            @foreach (var menu in MenusForDate)
+            @foreach (var orderDay in OrderDays)
             {
                 <MudStack Row="true" AlignItems="AlignItems.Center">
-                    <h3>@menu.Date</h3>
-                    <MudButton @onclick="@(() => Select(@menu))">
-                        Select
+                    <h3>@orderDay.Date</h3>
+                    <MudButton @onclick="@(() => Select(@orderDay))">
+                        Обрати
                     </MudButton>
                 </MudStack>
             }
@@ -18,11 +18,11 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
 
     [Parameter]
-    public List<MenuForDate> MenusForDate { get; set; }
+    public List<OrderDayDto> OrderDays { get; set; }
 
-    private void Select(MenuForDate menu)
+    private void Select(OrderDayDto orderDay)
     {
-        MudDialog.Close(DialogResult.Ok(menu));
+        MudDialog.Close(DialogResult.Ok(orderDay));
     }
 
     private void Ok() => MudDialog.Close();

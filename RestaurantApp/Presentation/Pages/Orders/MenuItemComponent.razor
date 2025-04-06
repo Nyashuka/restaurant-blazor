@@ -1,3 +1,7 @@
+@inject OrderPageService OrderPageService
+@inject IMenuService MenuService
+@inject RestaurantDialogFactory DialogFactory
+
 <style>
     .menu-container {
         width: calc(33.333% - 10px);
@@ -47,6 +51,9 @@
             <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="OnUseClicked">
                 Використати
             </MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="OpenDetailsAsync">
+                Що входить?
+            </MudButton>
         </MudStack>
     </div>
 </MudPaper>
@@ -58,5 +65,27 @@
     private async Task OnUseClicked()
     {
         await UseClicked.InvokeAsync(MenuData.Id);
+    }
+
+    private async Task OpenDetailsAsync()
+    {
+        var menuFoodItems = await MenuService.GetFoodItemsByMenuId(MenuData.Id);
+        var foodItemsToSelect = OrderPageService.GenerateMenuItemsToSelect(menuFoodItems,
+                OrderPageService.CurrentOrderDay.SelectedFoodItems);
+
+        var parameters = new DialogParameters<MenuDetailsDialog>
+        {
+            {
+                "Items", foodItemsToSelect
+            },
+            {
+                "OnAddItem", EventCallback.Factory.Create<FoodItem>(this, OrderPageService.AddItem)
+            },
+            {
+                "OnRemoveItem", EventCallback.Factory.Create<FoodItem>(this, OrderPageService.RemoveItem)
+            }
+        };
+
+        var result = await DialogFactory.CreateAsync<MenuDetailsDialog>(parameters);
     }
 }

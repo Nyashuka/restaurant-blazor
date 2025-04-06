@@ -1,0 +1,65 @@
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Are you sure about that?
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+
+        <MudStack>
+            <h1>
+                @Item.Name
+            </h1>
+
+            @{
+                var dish = Item as Dish;
+            }
+            @if (dish != null)
+            {
+
+                <h3>
+                    Категорія: @dish.Category.Name
+                </h3>
+                <h3>
+                Порційна: @(dish.Category.IsShared ? "так" : "ні")
+                </h3>
+                <h3>
+                Вага: @dish.Weight г.
+                </h3>
+                if (dish.Category.IsShared)
+                {
+                    <h3>
+                        Потрібно на 1 людину: @dish.RecommendedWeightPerPortion г.
+                    </h3>
+                }
+            }
+            else if (Item is Drink drink)
+            {
+                <h3>
+                    Категорія: @drink.Category.Name
+                </h3>
+                <h3>
+                    Розливається: @(drink.Category.IsShared ? "так" : "ні")
+                </h3>
+                <h3>
+                    Об'єм: @(drink.Volume) мл.
+                </h3>
+                if (drink.Category.IsShared)
+                {
+                    <h3>
+                        Потрібно на 1 людину: @(drink.VolumePerPerson)мл.
+                    </h3>
+                }
+            }
+        </MudStack>
+
+    </DialogContent>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public FoodItem Item { get; set; }
+}

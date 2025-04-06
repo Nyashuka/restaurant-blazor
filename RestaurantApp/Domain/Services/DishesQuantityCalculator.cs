@@ -14,13 +14,13 @@ public class DishesQuantityCalculator
         {
             if(selectedItem.Item is Dish dish)
             {
-                if(categorizedItems.TryGetValue(dish.DishCategoryId, out var itemsByCategory))
+                if(categorizedItems.TryGetValue(dish.CategoryId, out var itemsByCategory))
                 {
                     itemsByCategory.Add(selectedItem);
                 }
                 else
                 {
-                    categorizedItems.TryAdd(dish.DishCategoryId, [ selectedItem ]);
+                    categorizedItems.TryAdd(dish.CategoryId, [ selectedItem ]);
                 }
             }
         }
@@ -30,7 +30,7 @@ public class DishesQuantityCalculator
         foreach(var categoryList in categorizedItems)
         {
             int itemsCountInCategory = categoryList.Value.Count;
-            bool isShared = ((Dish)categoryList.Value.First().Item).DishCategory.IsShared;
+            bool isShared = ((Dish)categoryList.Value.First().Item).Category.IsShared;
 
             foreach (var selectedItem in categoryList.Value)
             {

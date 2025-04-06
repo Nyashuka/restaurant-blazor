@@ -8,28 +8,27 @@
     Add new dish
 </MudLink>
 
-<div class="dishes-container">
+<div class="food-items-container">
     @foreach(var dish in Dishes)
     {
-        <MudPaper class="dish-container">
-            <div class="dish-picture">
-
+        <MudPaper class="food-item-container">
+            <div class="food-item-picture">
+                @if(!string.IsNullOrEmpty(dish.ImageUrl))
+                {
+                    <img src="@dish.ImageUrl" Alt="Food Image" Class="rounded-lg"/>
+                }
             </div>
 
-            <div class="dish-title">
-                <h1><MudLink Href="/chief/dishes/1">@dish.Name</MudLink></h1>
-
+            <div class="food-item-title">
+                <h1>@dish.Name</h1>
             </div>
-            <div class="dish-buttons">
+            <div class="food-item-buttons">
                 <MudStack Row="true">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" >
-                        Details
-                    </MudButton>
                     <MudButton Variant="Variant.Filled" Color="Color.Primary">
-                        Edit
+                        Редагувати
                     </MudButton>
                     <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnDeleteAsync(dish.Id))">
-                        Remove
+                        Видалити
                     </MudButton>
                 </MudStack>
             </div>
@@ -38,13 +37,13 @@
 </div>
 
 <style>
-    .dishes-container {
+    .food-items-container {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
     }
 
-    .dish-container {
+    .food-item-container {
         width: calc(33.333% - 10px);
         display: flex;
         align-items: center;
@@ -56,20 +55,31 @@
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 10px;
+        overflow: hidden; /* Щоб не виходило за межі контейнера */
     }
 
-    .dish-picture {
+    .food-item-picture {
         width: 100%;
-        margin: 10px;
-        background-color: blue;
-        height: 100px;
+        display: flex;
+        justify-content: center; /* Центруємо картинку */
+        align-items: center; /* Вирівнюємо картинку по центру */
+        flex-grow: 1; /* Це дозволить картинці "зсувати" інші елементи */
     }
 
-    .dish-title {
+    .food-item-picture img {
+        width: 100%;
+        height: auto;
+        max-height: 150px;
+        /* Ви можете налаштувати максимальну висоту картинки */
+        object-fit: contain;
+        /* Підтримка пропорцій зображення */
+    }
+
+    .food-item-title {
         width: 100%;
         align-items: start;
     }
-    .dish-buttons {
+    .food-item-buttons {
         width: 100%;
         align-items: start;
     }

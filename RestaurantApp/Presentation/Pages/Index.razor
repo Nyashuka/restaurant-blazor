@@ -2,12 +2,13 @@
 
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@using RestaurantApp.Presentation.Pages.Assortment
 @using RestaurantApp.Presentation.Pages.Authorization
 
 
 <AuthorizeView>
     <NotAuthorized>
-        <LoginPage/>
+        <AssortmentPage/>
     </NotAuthorized>
 
     <Authorized>
@@ -33,11 +34,12 @@
                     Navigation.NavigateTo("/orders");
                 }
             }
-            else
+            /*else
             {
                 _redirected = true;
                 Navigation.NavigateTo("/login");
-            }
+            } *@
+            */
         }
 
     } 

@@ -25,6 +25,10 @@
 <MudPaper class="food-item-container">
     <MudStack Row="true">
         <div class="food-item-picture">
+            @if(!string.IsNullOrEmpty(SelectedFoodItem.Item.ImageUrl))
+            {
+                <img src="@SelectedFoodItem.Item.ImageUrl" Alt="Food Image" Class="rounded-lg"/>
+            }
         </div>
 
         <MudStack Align="AlignItems.Start" Spacing="0">
@@ -35,18 +39,18 @@
                 </h1>
 
                 <h3>
-                    Категорія: @dish.DishCategory.Name
+                    Категорія: @dish.Category.Name
                 </h3>
                 <h3>
-                    Порційна: @(dish.DishCategory.IsShared ? "так" : "ні")
+                    Порційна: @(dish.Category.IsShared ? "так" : "ні")
                 </h3>
                 <h3>
                     Вага: @(dish.Weight) г.
                 </h3>
-                if (dish.DishCategory.IsShared)
+                if (dish.Category.IsShared)
                 {
                     <h3>
-                        Вага порції: @(dish.RecommendedWeightPerPortion) г.
+                        Потрібно на 1 людину: @(dish.RecommendedWeightPerPortion) г.
                     </h3>
                 }
             }
@@ -57,18 +61,18 @@
                 </h1>
 
                 <h3>
-                    Категорія: @drink.DrinkCategory.Name
+                    Категорія: @drink.Category.Name
                 </h3>
                 <h3>
-                    Розливається: @(drink.DrinkCategory.IsShared ? "так" : "ні")
+                    Розливається: @(drink.Category.IsShared ? "так" : "ні")
                 </h3>
                 <h3>
                     Об'єм: @(drink.Volume) мл.
                 </h3>
-                if (drink.DrinkCategory.IsShared)
+                if (drink.Category.IsShared)
                 {
                     <h3>
-                        мл на 1 людину: @(drink.VolumePerPerson) г.
+                        Потрібно на 1 людину: @(drink.VolumePerPerson)мл.
                     </h3>
                 }
             }
@@ -98,8 +102,17 @@
         width: 300px;
         max-width: 300px;
         margin: 10px;
-        background-color: blue;
-        height: 100px;
+        background-color: transparent;
+        height: 150px;
+    }
+
+    .food-item-picture img {
+        width: 100%;
+        height: auto;
+        max-height: 150px;
+        /* Ви можете налаштувати максимальну висоту картинки */
+        object-fit: contain;
+        /* Підтримка пропорцій зображення */
     }
 
     .food-item-title {

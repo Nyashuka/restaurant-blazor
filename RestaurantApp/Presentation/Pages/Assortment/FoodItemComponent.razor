@@ -1,0 +1,108 @@
+<MudPaper class="food-item-container">
+    <div class="food-item-picture">
+        @if (!string.IsNullOrEmpty(FoodItem.ImageUrl))
+        {
+            <img src="@FoodItem.ImageUrl" Alt="Food Image" Class="rounded-lg" />
+        }
+    </div>
+
+    <div class="food-item-title">
+        <MudStack Spacing="0">
+            @if (FoodItem is Dish dish)
+            {
+                <h1>
+                    @dish.Name
+                </h1>
+
+                <h3>
+                Категорія: @dish.Category.Name
+            </h3>
+                <h3>
+                Порційна: @(dish.Category.IsShared ? "так" : "ні")
+                </h3>
+                <h3>
+                Вага: @(dish.Weight) г.
+                </h3>
+                if (dish.Category.IsShared)
+                {
+                    <h3>
+                        Вага порції: @(dish.RecommendedWeightPerPortion) г.
+                    </h3>
+                }
+
+            }
+            else if (FoodItem is Drink drink)
+            {
+                <h1>
+                    @drink.Name
+                </h1>
+
+                <h3>
+                Категорія: @drink.Category.Name
+            </h3>
+
+                <h3>
+                Розливається: @(drink.Category.IsShared ? "так" : "ні")
+                </h3>
+                <h3>
+                Об'єм: @(drink.Volume) мл.
+                </h3>
+                if (drink.Category.IsShared)
+                {
+                    <h3>
+                        мл на 1 людину: @(drink.VolumePerPerson) г.
+                    </h3>
+                }
+            }
+        </MudStack>
+    </div>
+</MudPaper>
+
+<style>
+    .food-item-container {
+        width: calc(50% - 10px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        overflow: hidden;
+        /* Щоб не виходило за межі контейнера */
+    }
+
+    .food-item-picture {
+        width: 300px;
+        max-width: 300px;
+        margin: 10px;
+        background-color: transparent;
+        height: 150px;
+    }
+
+    .food-item-picture img {
+        width: 100%;
+        height: auto;
+        max-height: 150px;
+        /* Ви можете налаштувати максимальну висоту картинки */
+        object-fit: contain;
+        /* Підтримка пропорцій зображення */
+    }
+
+    .food-item-title {
+        width: 100%;
+        align-items: start;
+    }
+
+    .food-item-buttons {
+        width: 100%;
+        align-items: start;
+    }
+</style>
+
+@code {
+    [Parameter] public FoodItem? FoodItem { get; set; }
+}

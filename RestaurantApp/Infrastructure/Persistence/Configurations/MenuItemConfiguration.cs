@@ -16,8 +16,8 @@ public class MenuItemConfiguration : IEntityTypeConfiguration<MenuItem>
         builder.Property(x => x.Id)
             .ValueGeneratedOnAdd();
 
-        builder.HasOne(x => x.Dish)
+        builder.HasOne(x => x.FoodItem)
             .WithMany()
-            .HasForeignKey(x => x.DishId);
+            .HasForeignKey(x => x.FoodItemId);
     }
 }

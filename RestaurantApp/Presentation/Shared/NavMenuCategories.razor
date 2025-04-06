@@ -3,26 +3,22 @@
 @inject SidebarStateService SidebarStateService
 
 <MudNavMenu>
-    <AuthorizeView >
-        <Authorized>
-            <MudNavGroup Title="Категорії страв">
-                @foreach (var category in DishCategories)
-                {
-                    <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category))">
-                        @category.Name
-                    </MudNavLink>
-                }
-            </MudNavGroup>
-            <MudNavGroup Title="Категорії напоїв">
-                @foreach (var category in DrinkCategories)
-                {
-                    <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category))">
-                        @category.Name
-                    </MudNavLink>
-                }
-            </MudNavGroup>
-        </Authorized>
-    </AuthorizeView>
+    <MudNavGroup Title="Категорії страв">
+        @foreach (var category in DishCategories)
+        {
+            <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category))">
+                @category.Name
+            </MudNavLink>
+        }
+    </MudNavGroup>
+    <MudNavGroup Title="Категорії напоїв">
+        @foreach (var category in DrinkCategories)
+        {
+            <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category))">
+                @category.Name
+            </MudNavLink>
+        }
+    </MudNavGroup>
 </MudNavMenu>
 
 @code {

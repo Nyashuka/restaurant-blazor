@@ -11,18 +11,10 @@ public class DishConfiguration : IEntityTypeConfiguration<Dish>
     {
         builder.ToTable("Dishes");
 
-        builder.HasOne(x => x.DishCategory)
-            .WithMany()
-            .HasForeignKey(x => x.DishCategoryId);
-
         builder.Property(x => x.Weight)
             .IsRequired();
 
         builder.Property(x => x.RecommendedWeightPerPortion)
             .IsRequired();
-
-        builder.HasOne(x => x.DishCategory)
-            .WithMany()
-            .HasForeignKey(x => x.DishCategoryId);
     }
 }

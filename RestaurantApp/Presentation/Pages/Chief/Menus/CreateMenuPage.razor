@@ -3,6 +3,7 @@
 @inject NavigationManager NavigationManager
 @inject IMenuService MenuService
 @inject IDishService DishService
+@inject IDrinkService DrinkService
 @inject IEventTypeService EventTypeService
 
 <MudStack Row="true">
@@ -10,22 +11,22 @@
         Відмінити
     </MudButton>
     <MudButton OnClick="@CreateMenuAsync">
-        Додати нове меню
+        Зберегти
     </MudButton>
 </MudStack>
 
-<MudTextField style="max-width: 300px;" Label="Menu name"
+<MudTextField style="max-width: 300px;" Label="Назва сету меню"
     Variant="Variant.Outlined"
     @bind-Value="@CreateMenuDto.Name" />
 
-<MudAutocomplete T="EventType" Label="Event Type"
+<MudAutocomplete T="EventType" Label="Івент"
     @bind-Value="@CreateMenuDto.EventType" SearchFunc="@SearchEventType"
     ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
     Variant="Variant.Outlined" />
 
 <MudPaper style="padding: 10px; margin-top: 10px;">
     <MudStack Row="true" AlignItems="AlignItems.Center">
-        <MudAutocomplete T="Dish" Label="Dish Name"
+        <MudAutocomplete T="Dish" Label="Назва страви"
             @bind-Value="@SelectedDishToAdd" SearchFunc="@SearchDish"
             ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
             Variant="Variant.Outlined" />
@@ -34,12 +35,41 @@
     </MudStack>
 
     <MudStack style="margin-top: 10px; ">
-        @foreach(var dish in CreateMenuDto.Dishes)
+        @foreach(var item in CreateMenuDto.Dishes)
         {
             <MudStack Row="true" AlignItems="AlignItems.Stretch" >
                 <MudPaper Outlined="true" style="margin: 0 10px; padding: 10px; flex-grow: 1;">
                     <MudStack Row="true">
-                        <MudText>@dish.Name</MudText>
+                        <MudText>@item.Name</MudText>
+                        <MudSpacer />
+                    </MudStack>
+                </MudPaper>
+
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary">
+                    Remove
+                </MudButton>
+            </MudStack>
+            <MudDivider style="margin: 5px 0;" />
+        }
+    </MudStack>
+</MudPaper>
+<MudPaper style="padding: 10px; margin-top: 10px;">
+    <MudStack Row="true" AlignItems="AlignItems.Center">
+        <MudAutocomplete T="Drink" Label="Назва напою"
+            @bind-Value="@SelectedDrinkToAdd" SearchFunc="@SearchDrink"
+            ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+            Variant="Variant.Outlined" />
+        <MudButton Style="height: 40px;" Variant="Variant.Filled" Color="Color.Success"
+            OnClick="OnAddDrink">Add</MudButton>
+    </MudStack>
+
+    <MudStack style="margin-top: 10px; ">
+        @foreach(var item in CreateMenuDto.Drinks)
+        {
+            <MudStack Row="true" AlignItems="AlignItems.Stretch" >
+                <MudPaper Outlined="true" style="margin: 0 10px; padding: 10px; flex-grow: 1;">
+                    <MudStack Row="true">
+                        <MudText>@item.Name</MudText>
                         <MudSpacer />
                     </MudStack>
                 </MudPaper>

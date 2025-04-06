@@ -10,4 +10,9 @@ public partial class OrdersPage
     {
         Orders = await OrderService.GetAllAsync();
     }
+
+    private async Task PayForOrder(Order order)
+    {
+        
+    }
 }

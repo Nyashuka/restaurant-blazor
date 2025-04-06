@@ -45,9 +45,6 @@ public class Order
                 newStatus is OrderStatusEnum.AwaitingPayment or OrderStatusEnum.Canceled,
 
             OrderStatusEnum.AwaitingPayment =>
-                newStatus is OrderStatusEnum.Paid or OrderStatusEnum.Canceled,
-
-            OrderStatusEnum.Paid =>
                 newStatus is OrderStatusEnum.Confirmed or OrderStatusEnum.Canceled,
 
             OrderStatusEnum.Confirmed =>

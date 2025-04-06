@@ -11,6 +11,10 @@ public class FoodItemConfiguration : IEntityTypeConfiguration<FoodItem>
     {
         builder.ToTable("FoodItems");
 
+        builder.HasOne(x => x.Category)
+            .WithMany()
+            .HasForeignKey(x => x.CategoryId);
+
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Name)

@@ -28,7 +28,7 @@ public class DrinkRepository : IDrinkRepository
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.Drinks.Include(x => x.DrinkCategory).ToListAsync();
+        return await context.Drinks.Include(x => x.Category).ToListAsync();
     }
 
     public async Task<List<Drink>> GetByCategoryAsync(int categoryId)
@@ -36,8 +36,8 @@ public class DrinkRepository : IDrinkRepository
         await using var context = _dbContextFactory.CreateDbContext();
 
         return await context.Drinks
-            .Where(x => x.DrinkCategoryId == categoryId)
-            .Include(x => x.DrinkCategory).ToListAsync();
+            .Where(x => x.CategoryId == categoryId)
+            .Include(x => x.Category).ToListAsync();
     }
 
     public async Task<Drink?> GetByIdAsync(int id)
@@ -46,7 +46,7 @@ public class DrinkRepository : IDrinkRepository
 
         return context
             .Drinks
-            .Include(x => x.DrinkCategory)
+            .Include(x => x.Category)
             .SingleOrDefault(x => x.Id == id);
     }
 

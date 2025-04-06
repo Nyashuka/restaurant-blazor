@@ -8,4 +8,5 @@ public interface IMenuRepository
     Task RemoveAsync(Menu menu);
     Task<List<Menu>> GetAllAsync();
     Task<Menu?> GetByIdAsync(int id);
+    Task<List<FoodItem>> GetFoodItemsByMenuId(int id);
 }

@@ -6,13 +6,13 @@
 @inject ISnackbar Snackbar
 @inject RestaurantDialogFactory DialogFactory
 
-<MudAutocomplete T="OrderStatusEnum"
-    Label="Status Filter"
+<MudAutocomplete T="KeyValuePair<OrderStatusEnum, string>"
+    Label="Статус замовлення"
     SearchFunc="@SearchOrderStatus"
     Variant="Variant.Outlined"
     Value="@SelectedOrderStatus"
-    ValueChanged="OnSelectedStatus"
-    ToStringFunc="@(e=> e==null?null : $"{e}")"
+    ValueChanged="@OnSelectedStatus"
+    ToStringFunc="@(e => e.Value)"
     Style="display: inline-block; width: auto; min-width: 150px;" />
 
 <MudGrid Class="mt-1">
@@ -37,16 +37,19 @@
                 <MudPaper
                     Style="background-color: red; padding: 0 5px; display: inline-block; width: auto; margin-top: 15px; "
                     FlexGrow="0">
-                    <MudText Typo="Typo.subtitle2" Style="color: white;">@order.Status.ToString()</MudText>
+                    <MudText Typo="Typo.subtitle2" Style="color: white;">@OrderStatuses[order.Status]</MudText>
                 </MudPaper>
-                <MudStack Row="true" Style="display: block; margin-top: 15px;">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => OnConfirmOrderClicked(order))">
-                        Confirm
-                    </MudButton>
-                    <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="@(() => OnDeclineOrderClicked(order))">
-                        Decline
-                    </MudButton>
-                </MudStack>
+                @if(order.Status == OrderStatusEnum.Created)
+                {
+                    <MudStack Row="true" Style="display: block; margin-top: 15px;">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => OnConfirmOrderClicked(order))">
+                            Підтвердити
+                        </MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="@(() => OnDeclineOrderClicked(order))">
+                            Відхилити
+                        </MudButton>
+                    </MudStack>
+                }
             </div>
         </MudPaper>
     </MudItem>

@@ -1,0 +1,30 @@
+@using RestaurantApp.Presentation.Pages.Orders
+
+@inject OrderPageService OrderPageService
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Список страв сету
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudStack>
+            @foreach(var item in Items)
+            {
+                <MenuItemToSelectComponent MenuItem="@item" OnAddItem="OnAddItem" OnRemoveItem="OnRemoveItem"/>
+            }
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter] public List<MenuItemToSelect> Items { get; set; }
+    [Parameter] public EventCallback<FoodItem> OnAddItem { get; set; }
+    [Parameter] public EventCallback<FoodItem> OnRemoveItem { get; set; }
+
+
+}

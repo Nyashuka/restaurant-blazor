@@ -26,14 +26,40 @@
                         @order.EventType.Name
                     </MudText>
                     <MudText Typo="Typo.h5" Align="Align.Left">
-                        @(DateTime.Now.ToString($"dd.MM.yyyy")) - @(DateTime.Now.AddDays(3).ToString($"dd.MM.yyyy"))
+                        @if(order.OrderDays.Count > 1)
+                        {
+                                <text>@(order.OrderDays.Min(x => x.Date).Date.ToString($"dd.MM.yyyy")) - @(order.OrderDays.Max(x
+                            => x.Date).Date.ToString($"dd.MM.yyyy"))</text>
+                        }
+                        else
+                        {
+                                <text>@(order.OrderDays.FirstOrDefault().Date.ToString($"dd.MM.yyyy"))</text>
+                        }
                     </MudText>
                 </MudStack>
                 <MudPaper
-                    Style="background-color: red; padding: 0 5px; display: inline-block; width: auto; margin-top: 15px;"
+                    Style="background-color: gray; padding: 0 5px; display: inline-block; width: auto; margin-top: 15px;"
                     FlexGrow="0">
-                    <MudText Typo="Typo.subtitle2" Style="color: white;">@order.Status.ToString()</MudText>
+                    <MudText Typo="Typo.subtitle2" Style="color: black;">
+                        @if(order.Status == OrderStatusEnum.Created)
+                        {
+                            <text>очікує на підтвердження менеджера...</text>
+                        }
+                        else if(order.Status == OrderStatusEnum.AwaitingPayment)
+                        {
+                            <text>очікує на оплату</text>
+                        }
+                    </MudText>
                 </MudPaper>
+                <div style="margin-top: 15px;">
+                    @if(order.Status == OrderStatusEnum.AwaitingPayment)
+                    {
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                            @onclick="@(() => PayForOrder(order))">
+                            Оплатити
+                        </MudButton>
+                    }
+                </div>
             </div>
         </MudPaper>
     </MudItem>

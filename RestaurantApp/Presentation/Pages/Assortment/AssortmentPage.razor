@@ -1,0 +1,24 @@
+@page "/assortment/menu"
+
+@inject IDrinkService DrinkService
+@inject IDishService DishService
+@inject SidebarStateService SidebarStateService
+
+<MudDrawer @bind-Open="DrawerOpen" Elevation="2">
+    <NavMenuCategories />
+</MudDrawer>
+
+<div class="food-items-container">
+    @foreach(var item in FoodItems)
+    {
+        <FoodItemComponent FoodItem="@item"/>
+    }
+</div>
+
+<style>
+    .food-items-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+</style>

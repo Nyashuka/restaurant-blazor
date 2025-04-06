@@ -43,6 +43,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IUserSessionService, UserSessionService>();
         services.AddScoped<IEventTypeService, EventTypeService>();
 
+        services.AddScoped<IFoodItemService, FoodItemService>();
+
         services.AddScoped<IDishCategoryService, DishCategoryService>();
         services.AddScoped<IDishService, DishService>();
 
@@ -68,6 +70,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IEventTypeRepository, EventTypeRepository>();
 
+        services.AddScoped<IFoodItemRepository, FoodItemRepository>();
+
         services.AddScoped<IDishCategoryRepository, DishCategoryRepository>();
         services.AddScoped<IDishIngredientRepository, DishIngredientRepository>();
         services.AddScoped<IDishRepository, DishRepository>();
@@ -81,6 +85,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IOrderDayRepository, OrderDayRepository>();
         services.AddScoped<IOrderMenuItemRepository, OrderMenuItemRepository>();
+        services.AddScoped<OrderPageService>();
 
         return services;
     }

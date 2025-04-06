@@ -15,13 +15,13 @@ public class DrinksQuantityCalculator
         {
             if(selectedDrink.Item is Drink drink)
             {
-                if(categorizedItems.TryGetValue(drink.DrinkCategory.Id, out var itemsByCategory))
+                if(categorizedItems.TryGetValue(drink.CategoryId, out var itemsByCategory))
                 {
                     itemsByCategory.Add(selectedDrink);
                 }
                 else
                 {
-                    categorizedItems.TryAdd(drink.DrinkCategoryId, [ selectedDrink ]);
+                    categorizedItems.TryAdd(drink.CategoryId, [ selectedDrink ]);
                 }
             }
         }
@@ -31,7 +31,7 @@ public class DrinksQuantityCalculator
         foreach(var categoryList in categorizedItems)
         {
             int itemsCountInCategory = categoryList.Value.Count;
-            bool isShared = ((Drink)categoryList.Value.First().Item).DrinkCategory.IsShared;
+            bool isShared = categoryList.Value.First().Item.Category.IsShared;
 
             foreach (var selectedItem in categoryList.Value)
             {

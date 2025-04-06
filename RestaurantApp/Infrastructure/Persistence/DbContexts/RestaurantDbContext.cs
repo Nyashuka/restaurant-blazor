@@ -22,6 +22,7 @@ public class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) 
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDay> OrderDays { get; set; }
     public DbSet<OrderMenuItem> OrderMenuItems { get; set; }
+    public DbSet<Payment> Payments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,6 +45,8 @@ public class RestaurantDbContext(DbContextOptions<RestaurantDbContext> options) 
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
         modelBuilder.ApplyConfiguration(new OrderDayConfiguration());
         modelBuilder.ApplyConfiguration(new OrderMenuItemConfiguration());
+
+        modelBuilder.ApplyConfiguration(new PaymentConfigurations());
 
         CreateDefaultUsers(modelBuilder);
     }

@@ -37,6 +37,18 @@ public class MenuRepository : IMenuRepository
         return await context.Menus.Include(x => x.EventType).SingleOrDefaultAsync(x => x.Id == id);
     }
 
+    public async Task<List<FoodItem>> GetFoodItemsByMenuId(int id)
+    {
+        await using var context = _dbContextFactory.CreateDbContext();
+
+        return await context.MenuItems
+            .Where(mi => mi.MenuId == id)
+            .Include(mi => mi.FoodItem)
+            .Include(mi => mi.FoodItem.Category)
+            .Select(mi => mi.FoodItem)
+            .ToListAsync();
+    }
+
     public async Task RemoveAsync(Menu menu)
     {
         await using var context = _dbContextFactory.CreateDbContext();

@@ -24,7 +24,6 @@ namespace RestaurantApp.Presentation.Pages.Chief.Drinks
             DrinkCategories = await DrinkCategoryService.GetAllAsync();
         }
 
-
         private async Task UploadFiles(IBrowserFile file)
         {
             var stream = file.OpenReadStream(long.MaxValue);
@@ -41,7 +40,6 @@ namespace RestaurantApp.Presentation.Pages.Chief.Drinks
             StateHasChanged();
         }
 
-
         private async Task CreateDrinkAsync()
         {
             if(File != null)
@@ -56,7 +54,7 @@ namespace RestaurantApp.Presentation.Pages.Chief.Drinks
 
         private async Task<IEnumerable<DrinkCategory>> SearchDrinkCategory(string value, CancellationToken token)
         {
-            if(string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
                 return DrinkCategories;
             }

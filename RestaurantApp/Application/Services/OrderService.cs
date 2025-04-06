@@ -4,6 +4,7 @@ using RestaurantApp.Application.Interfaces;
 using RestaurantApp.Domain.Enums;
 using RestaurantApp.Domain.Models;
 using RestaurantApp.Infrastructure.Persistence.Interfaces;
+using RestaurantApp.Presentation.Dtos;
 
 namespace RestaurantApp.Application.Services;
 
@@ -43,17 +44,17 @@ public class OrderService : IOrderService
         await _orderRepository.UpdateAsync(order);
     }
 
-    public async Task CreateOrderAsync(int userId, OrderInfoDto orderInfo)
+    public async Task CreateOrderAsync(int userId, CreateOrderInfo orderInfo)
     {
-        if(orderInfo.SelectedEventType == null || !orderInfo.MenusForDate.Any(x => x.Date != null))
+        if(orderInfo.EventType == null || !orderInfo.OrderDays.Any(x => x.Date != null))
         {
             throw new Exception(ErrorMessages.OrderInfoInNotValid);
         }
 
-        var order = new Order(userId, orderInfo.SelectedEventType.Id, null, orderInfo.GuestCount, OrderStatusEnum.Created, 0);
+        var order = new Order(userId, orderInfo.EventType.Id, null, orderInfo.GuestCount, OrderStatusEnum.Created, 0);
         await _orderRepository.AddAsync(order);
 
-        foreach (var menuDay in orderInfo.MenusForDate)
+        foreach (var menuDay in orderInfo.OrderDays)
         {
             if(menuDay.Date == null)
                 continue;
