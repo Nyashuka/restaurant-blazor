@@ -2,6 +2,7 @@
 @attribute [Authorize(Roles = "User")]
 
 @inject IOrderService OrderService
+@inject IPaymentService PaymentService
 
 <MudLink Variant="Variant.Filled" 
 		Color="Color.Primary"

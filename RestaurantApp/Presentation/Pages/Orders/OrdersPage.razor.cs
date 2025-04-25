@@ -1,3 +1,4 @@
+using RestaurantApp.Application.Dtos;
 using RestaurantApp.Domain.Models;
 
 namespace RestaurantApp.Presentation.Pages.Orders;
@@ -13,6 +14,9 @@ public partial class OrdersPage
 
     private async Task PayForOrder(Order order)
     {
-        
+        PaymentCreating payment = new(order.Id, order.Cost, DateTime.Now);
+        await PaymentService.CreatePaymentAsync(payment);
+
+        Orders = await OrderService.GetAllAsync();
     }
 }

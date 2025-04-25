@@ -1,0 +1,20 @@
+@page "/assortment/menu-sets"
+
+@inject IMenuService MenuService
+@inject IFoodItemService DishService
+@inject SidebarStateService SidebarStateService
+
+<div class="food-items-container">
+    @foreach(var item in Menus)
+    {
+        <MenuComponent MenuData="@item"/>
+    }
+</div>
+
+<style>
+    .food-items-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+</style>

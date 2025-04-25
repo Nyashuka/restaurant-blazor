@@ -1,11 +1,12 @@
 @page "/chief/dishes"
+@attribute [Authorize(Roles = "Chief")]
 
 @inject IDishService DishService
 @inject RestaurantDialogFactory DialogFactory
 @inject ISnackbar Snackbar
 
 <MudLink Href="/chief/dishes/create" >
-    Add new dish
+    <h3>Додати страву</h3>
 </MudLink>
 
 <div class="food-items-container">

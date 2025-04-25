@@ -1,4 +1,3 @@
-@using RestaurantApp.Presentation.Pages.Assortment.Menus
 @using RestaurantApp.Presentation.Pages.Orders
 
 @inject OrderPageService OrderPageService
@@ -14,7 +13,7 @@
         <MudStack>
             @foreach(var item in Items)
             {
-                <MenuItemComponent Item="@item"/>
+                <MenuItemToSelectComponent MenuItem="@item" OnAddItem="OnAddItem" OnRemoveItem="OnRemoveItem"/>
             }
         </MudStack>
     </DialogContent>
@@ -23,5 +22,7 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
 
-    [Parameter] public List<FoodItem> Items { get; set; }
+    [Parameter] public List<MenuItemToSelect> Items { get; set; }
+    [Parameter] public EventCallback<FoodItem> OnAddItem { get; set; }
+    [Parameter] public EventCallback<FoodItem> OnRemoveItem { get; set; }
 }

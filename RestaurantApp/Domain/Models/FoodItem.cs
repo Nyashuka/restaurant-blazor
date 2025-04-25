@@ -18,4 +18,5 @@ public abstract class FoodItem
     public int CategoryId { get; protected set; }
     public CategoryBase Category { get; protected set; }
     public string ImageUrl { get; protected set; }
+    public bool IsEnabled { get; protected set; } = true;
 }

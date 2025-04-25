@@ -6,15 +6,14 @@ public class Menu
     public string Name { get; private set; } = string.Empty;
     public int EventTypeId { get; private set; }
     public EventType? EventType { get; private set; }
+    public string ImageUrl { get; private set; } = string.Empty;
     public List<MenuItem>? MenuItems { get; private set; }
 
-    public Menu(int id, string name, int eventTypeId, EventType? eventType, List<MenuItem>? menuItems)
+    public Menu(string name, int eventTypeId, string imageUrl)
     {
-        Id = id;
         Name = name;
         EventTypeId = eventTypeId;
-        EventType = eventType;
-        MenuItems = menuItems;
+        ImageUrl = imageUrl;
     }
 
     private Menu() {}

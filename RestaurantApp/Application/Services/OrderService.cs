@@ -44,6 +44,18 @@ public class OrderService : IOrderService
         await _orderRepository.UpdateAsync(order);
     }
 
+    public async Task PayForOrder(int orderId)
+    {
+        var order = await _orderRepository.GetByIdAsync(orderId);
+
+        if (order is null)
+            throw new NullReferenceException("Order is not exists");
+
+        order.ChangeStatus(OrderStatusEnum.Confirmed);
+
+        await _orderRepository.UpdateAsync(order);
+    }
+
     public async Task CreateOrderAsync(int userId, CreateOrderInfo orderInfo)
     {
         if(orderInfo.EventType == null || !orderInfo.OrderDays.Any(x => x.Date != null))
@@ -75,9 +87,9 @@ public class OrderService : IOrderService
         return await _orderRepository.GetAllAsync();
     }
 
-    public Task<Order?> GetByIdAsync(int id)
+    public async Task<Order?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _orderRepository.GetByIdAsync(id);
     }
 
     public async Task<List<Order>> GetByStatusAsync(OrderStatusEnum status)

@@ -68,12 +68,12 @@
     @if(OrderPageService.BaseInfoIsCorrect)
     {
         <MudTabPanel Text="Пропозиції меню">
-            <MudStack>
+            <div class="menus-container">
                 @foreach(var menuItem in MenuVariants)
                 {
-                    <MenuItemComponent MenuData="@menuItem" UseClicked="OnUseMenuClicked"/>
+                    <MenuItemCreatingOrderComponent MenuData="@menuItem" UseClicked="OnUseMenuClicked"/>
                 }
-            </MudStack>
+            </div>
         </MudTabPanel>
 
         <MudTabPanel Text="Додати страви">
@@ -139,9 +139,15 @@
 </MudTabs>
 
 <style>
-        .left-aligned {
-            align-items: flex-start !important;
-            width: auto !important;
-            max-width: fit-content;
-        }
+    .menus-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .left-aligned {
+        align-items: flex-start !important;
+        width: auto !important;
+        max-width: fit-content;
+    }
 </style>

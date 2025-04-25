@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Components.Forms;
+
 using RestaurantApp.Application.Dtos;
 using RestaurantApp.Domain.Models;
+using RestaurantApp.Infrastructure.FileStorage;
 
 namespace RestaurantApp.Presentation.Pages.Chief.Menus;
 
@@ -14,12 +17,33 @@ public partial class CreateMenuPage
     private Dish? SelectedDishToAdd { get; set; } = null;
     private Drink? SelectedDrinkToAdd { get; set; } = null;
 
+    private IBrowserFile? File;
+
+    private string? ImagePreviewUrl { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         EventTypes = await EventTypeService.GetAllAsync();
         AllDishes = await DishService.GetAllAsync();
         AllDrinks = await DrinkService.GetAllAsync();
     }
+
+    private async Task UploadFiles(IBrowserFile file)
+    {
+        var stream = file.OpenReadStream(long.MaxValue);
+        await using (MemoryStream memoryStream = new())
+        {
+            await stream.CopyToAsync(memoryStream);
+
+            var base64String = Convert.ToBase64String(memoryStream.ToArray());
+            ImagePreviewUrl = $"data:{file.ContentType};base64,{base64String}";
+        }
+
+        File = file;
+
+        StateHasChanged();
+    }
+
 
     private void OnAddDish()
     {
@@ -41,6 +65,11 @@ public partial class CreateMenuPage
 
     private async Task CreateMenuAsync()
     {
+        if (File != null)
+        {
+            CreateMenuDto.ImageUrl = await new FileStorageService().SaveFileAsync(File);
+        }
+
         await MenuService.CreateAsync(CreateMenuDto);
 
         NavigationManager.NavigateTo("/chief/menu", true);

@@ -26,5 +26,8 @@ public class FoodItemConfiguration : IEntityTypeConfiguration<FoodItem>
 
         builder.Property(x => x.ImageUrl)
             .IsRequired(false);
+
+        builder.Property(c => c.IsEnabled)
+            .HasDefaultValue(true);
     }
 }

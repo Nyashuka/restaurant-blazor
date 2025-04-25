@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RestaurantApp.Infrastructure.Persistence.DbContexts;
@@ -11,9 +12,11 @@ using RestaurantApp.Infrastructure.Persistence.DbContexts;
 namespace RestaurantApp.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    partial class RestaurantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250417190913_addForeignKeyOrderToUser")]
+    partial class addForeignKeyOrderToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,11 +32,6 @@ namespace RestaurantApp.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsEnabled")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
 
                     b.Property<bool>("IsShared")
                         .HasColumnType("boolean");
@@ -107,11 +105,6 @@ namespace RestaurantApp.Migrations
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsEnabled")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -326,8 +319,8 @@ namespace RestaurantApp.Migrations
                             Email = "chief@gmail.com",
                             FirstName = "Chief",
                             LastName = "",
-                            PasswordHash = new byte[] { 85, 105, 145, 102, 167, 126, 63, 93, 81, 33, 60, 169, 93, 167, 116, 181, 115, 253, 199, 246, 76, 28, 169, 154, 117, 197, 62, 0, 222, 27, 13, 244, 193, 122, 70, 140, 172, 79, 177, 159, 179, 186, 249, 41, 172, 92, 73, 55, 249, 108, 125, 6, 249, 128, 74, 213, 216, 13, 24, 253, 148, 235, 214, 94 },
-                            PasswordSalt = new byte[] { 231, 204, 201, 22, 242, 191, 82, 174, 244, 34, 78, 248, 167, 64, 205, 70, 21, 28, 20, 211, 137, 176, 22, 209, 209, 37, 210, 0, 112, 187, 228, 72, 199, 5, 4, 154, 251, 233, 90, 200, 184, 76, 45, 136, 209, 27, 249, 222, 33, 80, 38, 49, 205, 122, 161, 235, 36, 104, 127, 234, 173, 205, 189, 35, 235, 148, 170, 196, 65, 196, 140, 61, 54, 47, 13, 15, 164, 128, 118, 91, 151, 73, 101, 168, 244, 114, 202, 205, 173, 33, 17, 88, 135, 230, 237, 30, 135, 218, 140, 30, 230, 140, 11, 220, 41, 188, 45, 51, 126, 228, 240, 29, 55, 99, 172, 254, 191, 12, 62, 0, 137, 90, 155, 211, 119, 197, 214, 8 },
+                            PasswordHash = new byte[] { 61, 79, 44, 67, 4, 67, 23, 231, 122, 212, 32, 89, 243, 234, 44, 235, 5, 75, 189, 98, 44, 226, 94, 74, 30, 243, 34, 199, 224, 69, 11, 51, 215, 234, 176, 84, 73, 21, 2, 31, 248, 130, 147, 113, 46, 114, 235, 31, 135, 94, 113, 37, 251, 107, 30, 216, 32, 109, 176, 111, 147, 178, 146, 243 },
+                            PasswordSalt = new byte[] { 17, 160, 80, 95, 89, 210, 181, 89, 133, 122, 198, 1, 143, 91, 54, 106, 174, 30, 174, 126, 105, 42, 222, 47, 127, 130, 248, 135, 98, 250, 251, 33, 204, 168, 248, 215, 103, 107, 200, 79, 218, 42, 36, 252, 127, 77, 40, 64, 96, 135, 9, 202, 136, 62, 97, 184, 16, 254, 142, 155, 106, 113, 116, 53, 169, 196, 35, 253, 155, 126, 104, 81, 19, 208, 12, 70, 245, 204, 67, 86, 65, 12, 80, 208, 238, 58, 104, 146, 147, 75, 90, 17, 99, 106, 194, 107, 211, 37, 253, 58, 170, 136, 253, 41, 163, 135, 252, 0, 57, 156, 79, 129, 60, 106, 130, 253, 28, 21, 10, 152, 93, 115, 151, 203, 231, 238, 35, 18 },
                             Role = 2
                         },
                         new
@@ -336,8 +329,8 @@ namespace RestaurantApp.Migrations
                             Email = "manager@gmail.com",
                             FirstName = "Manager",
                             LastName = "",
-                            PasswordHash = new byte[] { 85, 105, 145, 102, 167, 126, 63, 93, 81, 33, 60, 169, 93, 167, 116, 181, 115, 253, 199, 246, 76, 28, 169, 154, 117, 197, 62, 0, 222, 27, 13, 244, 193, 122, 70, 140, 172, 79, 177, 159, 179, 186, 249, 41, 172, 92, 73, 55, 249, 108, 125, 6, 249, 128, 74, 213, 216, 13, 24, 253, 148, 235, 214, 94 },
-                            PasswordSalt = new byte[] { 231, 204, 201, 22, 242, 191, 82, 174, 244, 34, 78, 248, 167, 64, 205, 70, 21, 28, 20, 211, 137, 176, 22, 209, 209, 37, 210, 0, 112, 187, 228, 72, 199, 5, 4, 154, 251, 233, 90, 200, 184, 76, 45, 136, 209, 27, 249, 222, 33, 80, 38, 49, 205, 122, 161, 235, 36, 104, 127, 234, 173, 205, 189, 35, 235, 148, 170, 196, 65, 196, 140, 61, 54, 47, 13, 15, 164, 128, 118, 91, 151, 73, 101, 168, 244, 114, 202, 205, 173, 33, 17, 88, 135, 230, 237, 30, 135, 218, 140, 30, 230, 140, 11, 220, 41, 188, 45, 51, 126, 228, 240, 29, 55, 99, 172, 254, 191, 12, 62, 0, 137, 90, 155, 211, 119, 197, 214, 8 },
+                            PasswordHash = new byte[] { 61, 79, 44, 67, 4, 67, 23, 231, 122, 212, 32, 89, 243, 234, 44, 235, 5, 75, 189, 98, 44, 226, 94, 74, 30, 243, 34, 199, 224, 69, 11, 51, 215, 234, 176, 84, 73, 21, 2, 31, 248, 130, 147, 113, 46, 114, 235, 31, 135, 94, 113, 37, 251, 107, 30, 216, 32, 109, 176, 111, 147, 178, 146, 243 },
+                            PasswordSalt = new byte[] { 17, 160, 80, 95, 89, 210, 181, 89, 133, 122, 198, 1, 143, 91, 54, 106, 174, 30, 174, 126, 105, 42, 222, 47, 127, 130, 248, 135, 98, 250, 251, 33, 204, 168, 248, 215, 103, 107, 200, 79, 218, 42, 36, 252, 127, 77, 40, 64, 96, 135, 9, 202, 136, 62, 97, 184, 16, 254, 142, 155, 106, 113, 116, 53, 169, 196, 35, 253, 155, 126, 104, 81, 19, 208, 12, 70, 245, 204, 67, 86, 65, 12, 80, 208, 238, 58, 104, 146, 147, 75, 90, 17, 99, 106, 194, 107, 211, 37, 253, 58, 170, 136, 253, 41, 163, 135, 252, 0, 57, 156, 79, 129, 60, 106, 130, 253, 28, 21, 10, 152, 93, 115, 151, 203, 231, 238, 35, 18 },
                             Role = 3
                         });
                 });

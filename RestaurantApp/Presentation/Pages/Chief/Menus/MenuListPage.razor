@@ -1,4 +1,5 @@
 @page "/chief/menu"
+@attribute [Authorize(Roles = "Chief")]
 
 @inject IMenuService MenuService
 
@@ -24,9 +25,17 @@
 
     .menu-picture {
         width: 100%;
-        margin: 10px;
-        background-color: blue;
-        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    .menu-picture img {
+        width: 100%;
+        height: auto;
+        max-height: 150px;
+        object-fit: contain;
     }
 
     .menu-content {
@@ -41,7 +50,7 @@
 </style>
 
 <MudLink Href="/chief/menu/create">
-    Create Menu
+    <h3>Додати меню</h3>
 </MudLink>
 
 <div class="menus-container">
@@ -49,7 +58,10 @@
     {
         <MudPaper class="menu-container">
             <div class="menu-picture">
-
+                @if(!string.IsNullOrEmpty(menu.ImageUrl))
+                {
+                    <img src="@menu.ImageUrl" Alt="Food Image" Class="rounded-lg"/>
+                }
             </div>
 
             <div class="menu-content">
@@ -62,18 +74,14 @@
                 </MudPaper>
 
                 <MudStack Row="true">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" >
-                        Details
-                    </MudButton>
                     <MudButton Variant="Variant.Filled" Color="Color.Primary">
-                        Edit
+                        Редагувати
                     </MudButton>
                     <MudButton Variant="Variant.Filled" Color="Color.Secondary">
-                        Remove
+                        Видалити
                     </MudButton>
                 </MudStack>
             </div>
-
         </MudPaper>
     }
 </div>

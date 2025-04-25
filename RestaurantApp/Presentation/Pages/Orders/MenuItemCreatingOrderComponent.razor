@@ -18,9 +18,17 @@
 
     .menu-picture {
         width: 100%;
-        margin: 10px;
-        background-color: blue;
-        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    .menu-picture img {
+        width: 100%;
+        height: auto;
+        max-height: 150px;
+        object-fit: contain;
     }
 
     .menu-content {
@@ -34,8 +42,12 @@
     }
 </style>
 
-<MudPaper class="menu-container"> <div class="menu-picture">
-
+<MudPaper class="menu-container">
+    <div class="menu-picture">
+        @if (!string.IsNullOrEmpty(MenuData.ImageUrl))
+        {
+            <img src="@MenuData.ImageUrl" Alt="Food Image" Class="rounded-lg" />
+        }
     </div>
 
     <div class="menu-content">
@@ -73,7 +85,7 @@
         var foodItemsToSelect = OrderPageService.GenerateMenuItemsToSelect(menuFoodItems,
                 OrderPageService.CurrentOrderDay.SelectedFoodItems);
 
-        var parameters = new DialogParameters<MenuDetailsDialog>
+        var parameters = new DialogParameters<MenuDetailsCreatingOrderDialog>
         {
             {
                 "Items", foodItemsToSelect
@@ -86,6 +98,6 @@
             }
         };
 
-        var result = await DialogFactory.CreateAsync<MenuDetailsDialog>(parameters);
+        var result = await DialogFactory.CreateAsync<MenuDetailsCreatingOrderDialog>(parameters);
     }
 }

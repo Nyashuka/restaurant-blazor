@@ -10,6 +10,7 @@ public interface IOrderService
     Task RemoveAsync(int id);
     Task<List<Order>> GetAllAsync();
     Task ApproveOrderAsync(int orderId);
+    Task PayForOrder(int orderId);
     Task<List<Order>> GetCrossedOrdersAsync(int orderId);
     Task<List<Order>> GetByStatusAsync(OrderStatusEnum status);
     Task<List<Order>> GetByUserIdAsync(int userId);

@@ -19,6 +19,7 @@ public class Order
 
     public int Id { get; private set; }
     public int UserId { get; private set; }
+    public User User { get; private set; }
     public int EventTypeId { get; private set; }
     public EventType EventType { get; private set; }
     public int PeopleCount { get; private set; }
@@ -35,7 +36,6 @@ public class Order
 
         Status = newStatus;
     }
-
 
     private bool IsValidStatusChange(OrderStatusEnum newStatus)
     {

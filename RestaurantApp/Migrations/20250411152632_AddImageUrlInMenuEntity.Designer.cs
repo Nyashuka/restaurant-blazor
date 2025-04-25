@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RestaurantApp.Infrastructure.Persistence.DbContexts;
@@ -11,9 +12,11 @@ using RestaurantApp.Infrastructure.Persistence.DbContexts;
 namespace RestaurantApp.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    partial class RestaurantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250411152632_AddImageUrlInMenuEntity")]
+    partial class AddImageUrlInMenuEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,11 +32,6 @@ namespace RestaurantApp.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsEnabled")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
 
                     b.Property<bool>("IsShared")
                         .HasColumnType("boolean");
@@ -107,11 +105,6 @@ namespace RestaurantApp.Migrations
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsEnabled")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -204,8 +197,6 @@ namespace RestaurantApp.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EventTypeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -326,8 +317,8 @@ namespace RestaurantApp.Migrations
                             Email = "chief@gmail.com",
                             FirstName = "Chief",
                             LastName = "",
-                            PasswordHash = new byte[] { 85, 105, 145, 102, 167, 126, 63, 93, 81, 33, 60, 169, 93, 167, 116, 181, 115, 253, 199, 246, 76, 28, 169, 154, 117, 197, 62, 0, 222, 27, 13, 244, 193, 122, 70, 140, 172, 79, 177, 159, 179, 186, 249, 41, 172, 92, 73, 55, 249, 108, 125, 6, 249, 128, 74, 213, 216, 13, 24, 253, 148, 235, 214, 94 },
-                            PasswordSalt = new byte[] { 231, 204, 201, 22, 242, 191, 82, 174, 244, 34, 78, 248, 167, 64, 205, 70, 21, 28, 20, 211, 137, 176, 22, 209, 209, 37, 210, 0, 112, 187, 228, 72, 199, 5, 4, 154, 251, 233, 90, 200, 184, 76, 45, 136, 209, 27, 249, 222, 33, 80, 38, 49, 205, 122, 161, 235, 36, 104, 127, 234, 173, 205, 189, 35, 235, 148, 170, 196, 65, 196, 140, 61, 54, 47, 13, 15, 164, 128, 118, 91, 151, 73, 101, 168, 244, 114, 202, 205, 173, 33, 17, 88, 135, 230, 237, 30, 135, 218, 140, 30, 230, 140, 11, 220, 41, 188, 45, 51, 126, 228, 240, 29, 55, 99, 172, 254, 191, 12, 62, 0, 137, 90, 155, 211, 119, 197, 214, 8 },
+                            PasswordHash = new byte[] { 67, 108, 170, 255, 42, 186, 85, 19, 44, 15, 0, 217, 199, 16, 36, 79, 108, 22, 207, 237, 216, 35, 2, 134, 55, 155, 21, 84, 101, 91, 137, 236, 120, 170, 55, 197, 96, 163, 105, 55, 78, 216, 158, 192, 92, 3, 93, 154, 129, 54, 194, 152, 59, 109, 77, 82, 115, 231, 213, 33, 90, 152, 222, 16 },
+                            PasswordSalt = new byte[] { 29, 121, 18, 227, 66, 135, 165, 255, 211, 78, 45, 184, 206, 115, 239, 253, 91, 167, 15, 98, 237, 35, 98, 34, 216, 4, 206, 79, 93, 226, 149, 120, 222, 120, 226, 210, 177, 235, 13, 164, 166, 246, 151, 241, 82, 238, 156, 167, 65, 133, 240, 146, 243, 138, 133, 29, 6, 88, 239, 51, 166, 151, 151, 215, 54, 38, 14, 86, 142, 214, 43, 231, 0, 38, 50, 180, 118, 150, 132, 225, 12, 114, 210, 182, 168, 214, 86, 86, 141, 84, 8, 224, 158, 22, 208, 78, 73, 244, 9, 11, 21, 206, 218, 75, 30, 48, 223, 26, 190, 12, 92, 119, 85, 19, 98, 28, 6, 14, 63, 48, 236, 6, 85, 139, 222, 191, 23, 101 },
                             Role = 2
                         },
                         new
@@ -336,8 +327,8 @@ namespace RestaurantApp.Migrations
                             Email = "manager@gmail.com",
                             FirstName = "Manager",
                             LastName = "",
-                            PasswordHash = new byte[] { 85, 105, 145, 102, 167, 126, 63, 93, 81, 33, 60, 169, 93, 167, 116, 181, 115, 253, 199, 246, 76, 28, 169, 154, 117, 197, 62, 0, 222, 27, 13, 244, 193, 122, 70, 140, 172, 79, 177, 159, 179, 186, 249, 41, 172, 92, 73, 55, 249, 108, 125, 6, 249, 128, 74, 213, 216, 13, 24, 253, 148, 235, 214, 94 },
-                            PasswordSalt = new byte[] { 231, 204, 201, 22, 242, 191, 82, 174, 244, 34, 78, 248, 167, 64, 205, 70, 21, 28, 20, 211, 137, 176, 22, 209, 209, 37, 210, 0, 112, 187, 228, 72, 199, 5, 4, 154, 251, 233, 90, 200, 184, 76, 45, 136, 209, 27, 249, 222, 33, 80, 38, 49, 205, 122, 161, 235, 36, 104, 127, 234, 173, 205, 189, 35, 235, 148, 170, 196, 65, 196, 140, 61, 54, 47, 13, 15, 164, 128, 118, 91, 151, 73, 101, 168, 244, 114, 202, 205, 173, 33, 17, 88, 135, 230, 237, 30, 135, 218, 140, 30, 230, 140, 11, 220, 41, 188, 45, 51, 126, 228, 240, 29, 55, 99, 172, 254, 191, 12, 62, 0, 137, 90, 155, 211, 119, 197, 214, 8 },
+                            PasswordHash = new byte[] { 67, 108, 170, 255, 42, 186, 85, 19, 44, 15, 0, 217, 199, 16, 36, 79, 108, 22, 207, 237, 216, 35, 2, 134, 55, 155, 21, 84, 101, 91, 137, 236, 120, 170, 55, 197, 96, 163, 105, 55, 78, 216, 158, 192, 92, 3, 93, 154, 129, 54, 194, 152, 59, 109, 77, 82, 115, 231, 213, 33, 90, 152, 222, 16 },
+                            PasswordSalt = new byte[] { 29, 121, 18, 227, 66, 135, 165, 255, 211, 78, 45, 184, 206, 115, 239, 253, 91, 167, 15, 98, 237, 35, 98, 34, 216, 4, 206, 79, 93, 226, 149, 120, 222, 120, 226, 210, 177, 235, 13, 164, 166, 246, 151, 241, 82, 238, 156, 167, 65, 133, 240, 146, 243, 138, 133, 29, 6, 88, 239, 51, 166, 151, 151, 215, 54, 38, 14, 86, 142, 214, 43, 231, 0, 38, 50, 180, 118, 150, 132, 225, 12, 114, 210, 182, 168, 214, 86, 86, 141, 84, 8, 224, 158, 22, 208, 78, 73, 244, 9, 11, 21, 206, 218, 75, 30, 48, 223, 26, 190, 12, 92, 119, 85, 19, 98, 28, 6, 14, 63, 48, 236, 6, 85, 139, 222, 191, 23, 101 },
                             Role = 3
                         });
                 });
@@ -445,15 +436,7 @@ namespace RestaurantApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RestaurantApp.Domain.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("EventType");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RestaurantApp.Domain.Models.OrderDay", b =>

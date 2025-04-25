@@ -1,0 +1,92 @@
+@inject IMenuService MenuService
+@inject IFoodItemService FoodItemService
+@inject RestaurantDialogFactory DialogFactory
+
+<style>
+    .menu-container {
+        width: calc(33.333% - 10px);
+        display: flex;
+        align-items: center;
+        @* justify-content: center; *@
+
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+
+    .menu-picture {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    .menu-picture img {
+        width: 100%;
+        height: auto;
+        max-height: 150px;
+        object-fit: contain;
+    }
+
+    .menu-content {
+        width: 100%;
+        text-align: left;
+    }
+
+    .menu-title {
+        font-size: inherit;
+        font-weight: inherit;
+    }
+</style>
+
+<MudPaper class="menu-container">
+    <div class="menu-picture">
+        @if (!string.IsNullOrEmpty(MenuData.ImageUrl))
+        {
+            <img src="@MenuData.ImageUrl" Alt="Food Image" Class="rounded-lg" />
+        }
+    </div>
+
+    <div class="menu-content">
+        <h1>
+            <MudLink class="menu-title" Href="/chief/menu/1">@MenuData.Name</MudLink>
+        </h1>
+
+        <MudPaper Style="background-color: green; padding: 0 5px; display: inline-block; width: auto; margin: 5px 0;">
+            <MudText Typo="Typo.subtitle2" Style="color: white;">@MenuData.EventType.Name</MudText>
+        </MudPaper>
+
+        <MudStack Row="true">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="OpenDetailsAsync">
+                Що входить?
+            </MudButton>
+        </MudStack>
+    </div>
+</MudPaper>
+
+@code {
+    [Parameter] public Menu? MenuData { get; set; }
+    [Parameter] public EventCallback<int> UseClicked { get; set; }
+
+    private async Task OnUseClicked()
+    {
+        await UseClicked.InvokeAsync(MenuData.Id);
+    }
+
+    private async Task OpenDetailsAsync()
+    {
+        var foodItems = await MenuService.GetFoodItemsByMenuId(MenuData.Id);
+
+        var parameters = new DialogParameters<MenuDetailsDialog>
+        {
+            {
+                "Items", foodItems
+            },
+        };
+
+        var result = await DialogFactory.CreateAsync<MenuDetailsDialog>(parameters);
+    }
+}

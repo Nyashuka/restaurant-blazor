@@ -32,6 +32,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddDatabaseService();
     builder.Services.AddRepositories();
     builder.Services.AddServices();
+    builder.Services.AddControllers();
 }
 
 // Configure the HTTP request pipeline.
@@ -49,12 +50,12 @@ var app = builder.Build();
 
     app.UseRouting();
 
+    app.MapControllers();
     app.MapBlazorHub();
     app.MapFallbackToPage("/_Host");
 
     app.UseAuthentication();
     app.UseAuthorization();
-
 
     app.Run();
 }

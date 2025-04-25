@@ -20,5 +20,8 @@ public class CategoryBaseConfiguration : IEntityTypeConfiguration<CategoryBase>
 
         builder.Property(dt => dt.IsShared)
             .IsRequired();
+
+        builder.Property(c => c.IsEnabled)
+            .HasDefaultValue(true);
     }
 }

@@ -56,6 +56,8 @@ public static class ServiceCollectionExtension
 
         services.AddScoped<AuthenticationStateProvider, UserAuthenticationStateProvider>();
 
+        services.AddScoped<IPaymentService, PaymentService>();
+
         services.AddSingleton<SidebarStateService>();
 
         services.AddHttpContextAccessor();
@@ -86,6 +88,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IOrderDayRepository, OrderDayRepository>();
         services.AddScoped<IOrderMenuItemRepository, OrderMenuItemRepository>();
         services.AddScoped<OrderPageService>();
+
+        services.AddScoped<IPaymentRepository, PaymentRepository>();
 
         return services;
     }

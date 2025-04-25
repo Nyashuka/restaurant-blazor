@@ -1,0 +1,39 @@
+@page "/budget-history"
+@attribute [Authorize(Roles = "Manager")]
+
+@inject IPaymentService PaymentService
+@inject NavigationManager NavigationManager
+@inject RestaurantDialogFactory DialogFactory
+@inject ISnackbar Snackbar
+
+<MudStack>
+    <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.ArrowDownward"
+               @onclick="DownloadReport">
+        Завантажити звіт
+    </MudButton> 
+</MudStack>
+
+<MudTable T="Payment" Items="Payments" Dense="true" Hover="true" RowsPerPage="7">
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Номер замовлення</MudTh>
+        <MudTh>Дата</MudTh>
+        <MudTh>Оплачена сума(₴)</MudTh>
+        <MudTh>Дії</MudTh>
+    </HeaderContent>
+    <RowTemplate Context="eventType">
+        <MudTd>@eventType.Id</MudTd>
+        <MudTd>@eventType.OrderId</MudTd>
+        <MudTd>@eventType.PaymentDate</MudTd>
+        <MudTd>@eventType.AmountPaid</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudStack Row="true">
+            <MudSpacer />
+            <MudTablePager />
+        </MudStack>
+    </PagerContent>
+</MudTable>

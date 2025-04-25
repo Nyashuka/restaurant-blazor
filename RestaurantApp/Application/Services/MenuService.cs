@@ -19,10 +19,9 @@ public class MenuService : IMenuService
     public async Task CreateAsync(CreateMenuDto createMenuDto)
     {
         Menu menu = new Menu(
-            0,
             createMenuDto.Name,
             createMenuDto.EventType.Id,
-            null, null
+            createMenuDto.ImageUrl
         );
 
         await _menuRepository.AddAsync(menu);

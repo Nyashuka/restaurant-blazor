@@ -1,4 +1,5 @@
 @page "/chief/menu/create"
+@attribute [Authorize(Roles = "Chief")]
 
 @inject NavigationManager NavigationManager
 @inject IMenuService MenuService
@@ -15,16 +16,29 @@
     </MudButton>
 </MudStack>
 
-<MudTextField style="max-width: 300px;" Label="Назва сету меню"
-    Variant="Variant.Outlined"
-    @bind-Value="@CreateMenuDto.Name" />
+<MudStack Row="true" AlignItems="AlignItems.Start">
+    <MudStack>
+        <MudTextField style="max-width: 300px; min-width: 150px;" Label="Назва сету меню" Variant="Variant.Outlined"
+            @bind-Value="@CreateMenuDto.Name" />
 
-<MudAutocomplete T="EventType" Label="Івент"
-    @bind-Value="@CreateMenuDto.EventType" SearchFunc="@SearchEventType"
-    ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-    Variant="Variant.Outlined" />
+        <MudAutocomplete T="EventType" Label="Івент" style="max-width: 300px; min-width: 150px;"
+            @bind-Value="@CreateMenuDto.EventType" SearchFunc="@SearchEventType"
+            ToStringFunc="@(e=> e==null?null : $"{e.Name}")" Variant="Variant.Outlined" />
+    </MudStack>
 
-<MudPaper style="padding: 10px; margin-top: 10px;">
+    <MudStack>
+        <img src="@ImagePreviewUrl" Width="250" Alt="Food Image" Elevation="25" Class="rounded-lg ma-4"/>
+        <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+            <ActivatorContent>
+                <MudFab Color="Color.Secondary"
+                        StartIcon="@Icons.Material.Filled.Image"
+                        Label="Load picture" />
+            </ActivatorContent>
+        </MudFileUpload>
+    </MudStack>
+</MudStack>
+
+<MudPaper style="padding: 10px; margin-top: 10px; max-width: 500px;">
     <MudStack Row="true" AlignItems="AlignItems.Center">
         <MudAutocomplete T="Dish" Label="Назва страви"
             @bind-Value="@SelectedDishToAdd" SearchFunc="@SearchDish"
@@ -53,7 +67,7 @@
         }
     </MudStack>
 </MudPaper>
-<MudPaper style="padding: 10px; margin-top: 10px;">
+<MudPaper style="padding: 10px; margin-top: 10px; max-width: 500px;">
     <MudStack Row="true" AlignItems="AlignItems.Center">
         <MudAutocomplete T="Drink" Label="Назва напою"
             @bind-Value="@SelectedDrinkToAdd" SearchFunc="@SearchDrink"

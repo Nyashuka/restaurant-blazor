@@ -5,7 +5,7 @@ namespace RestaurantApp.Application.Interfaces;
 
 public interface IPaymentService
 {
-    Task<Payment> CreatePaymentAsync(PaymentCreating payment);
+    Task CreatePaymentAsync(PaymentCreating payment);
     Task<List<Payment>> GetAllPaymentsAsync();
     Task<Payment?> GetPaymentByOrderIdAsync(int orderId);
 }

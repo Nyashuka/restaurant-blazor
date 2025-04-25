@@ -27,5 +27,8 @@ public class MenuConfiguration : IEntityTypeConfiguration<Menu>
             .WithOne(mi => mi.Menu)
             .HasForeignKey(mi => mi.MenuId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(x => x.ImageUrl)
+            .IsRequired(false);
     }
 }

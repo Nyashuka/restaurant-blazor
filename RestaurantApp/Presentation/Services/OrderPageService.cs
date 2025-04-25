@@ -29,7 +29,6 @@ public class OrderPageService
         _dishService = dishService;
         _drinkService = drinkService;
 
-
         OrderInfo.PropertyChanged += OnOrderInfoPropertyChanged;
         OrderInfo.GuestCount = MIN_GUEST_COUNT;
         CurrentOrderDay = new OrderDayDto(null);

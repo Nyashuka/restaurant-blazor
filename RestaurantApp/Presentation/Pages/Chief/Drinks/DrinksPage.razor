@@ -1,11 +1,12 @@
 @page "/chief/drinks"
+@attribute [Authorize(Roles = "Chief")]
 
 @inject IDrinkService DrinkService
 @inject RestaurantDialogFactory DialogFactory
 @inject ISnackbar Snackbar
 
 <MudLink Href="/chief/drinks/create" >
-    Додати напій
+    <h3>Додати напій</h3>
 </MudLink>
 
 <div class="food-items-container">
