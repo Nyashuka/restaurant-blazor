@@ -8,6 +8,7 @@ namespace RestaurantApp.Presentation.Pages.Chief.Dishes;
 public partial class DishesPage
 {
     private List<Dish> Dishes = [];
+    private bool ShowDisabled { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -25,5 +26,19 @@ public partial class DishesPage
             Dishes = await DishService.GetAllAsync();
             StateHasChanged();
         }
+    }
+
+
+    private async Task OnShowDisabledChanged(bool value)
+    {
+        ShowDisabled = value;
+        Dishes = await DishService.GetAllAsync(ShowDisabled);
+        StateHasChanged();
+    }
+
+
+    private void EditDish(int id)
+    {
+        NavigationManager.NavigateTo($"chief/dishes/{id}");
     }
 }

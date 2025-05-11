@@ -5,9 +5,17 @@
 @inject RestaurantDialogFactory DialogFactory
 @inject ISnackbar Snackbar
 
+@inject NavigationManager NavigationManager
+
 <MudLink Href="/chief/drinks/create" >
     <h3>Додати напій</h3>
 </MudLink>
+
+<MudSwitch T="bool"
+            ValueChanged="OnShowDisabledChanged"
+             Label="Показати вимкнені"
+             Color="Color.Primary"
+              />
 
 <div class="food-items-container">
     @foreach(var drink in Drinks)
@@ -30,7 +38,7 @@
 
             <div class="food-item-buttons">
                 <MudStack Row="true">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => EditDrink(drink.Id))">
                         Редагувати
                     </MudButton>
                     <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnDeleteAsync(drink.Id))">

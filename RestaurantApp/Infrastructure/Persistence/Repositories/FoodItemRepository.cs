@@ -17,11 +17,12 @@ public class FoodItemRepository : IFoodItemRepository
     }
 
 
-    public async Task<List<FoodItem>> GetAllByCategoryIdAsync(int categoryId)
+    public async Task<List<FoodItem>> GetAllByCategoryIdAsync(int categoryId, bool isEnabled)
     {
         using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.FoodItems.Where(x => x.CategoryId == categoryId)
+        return await context.FoodItems
+            .Where(x => x.CategoryId == categoryId && x.IsEnabled == isEnabled)
             .Include(x => x.Category)
             .ToListAsync();
 

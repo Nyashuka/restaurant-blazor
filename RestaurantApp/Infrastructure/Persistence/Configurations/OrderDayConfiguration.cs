@@ -26,5 +26,7 @@ public class OrderDayConfiguration : IEntityTypeConfiguration<OrderDay>
                 v => v.ToUniversalTime(),
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
+        // v => DateTime.SpecifyKind(v.Date, DateTimeKind.Unspecified),
+        // v => DateTime.SpecifyKind(v, DateTimeKind.Unspecified)
     }
 }

@@ -17,7 +17,7 @@ public class DishIngredientConfiguration : IEntityTypeConfiguration<DishIngredie
             .ValueGeneratedOnAdd();
 
         builder.HasOne(x => x.Dish)
-            .WithMany()
+            .WithMany(x => x.Ingredients)
             .HasForeignKey(x => x.DishId);
 
         builder.Property(x => x.Name)

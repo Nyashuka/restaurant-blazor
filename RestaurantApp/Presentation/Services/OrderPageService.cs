@@ -35,6 +35,20 @@ public class OrderPageService
         OrderInfo.AddDay(CurrentOrderDay);
     }
 
+    public double GetOrderPrice()
+    {
+        double price = 0;
+        foreach(var orderDay in OrderInfo.OrderDays)
+        {
+            foreach(var selectedFoodItem in orderDay.SelectedFoodItems)
+            {
+                price += selectedFoodItem.Count * selectedFoodItem.Item.PricePerUnit;
+            }
+        }
+
+        return price;
+    }
+
     private void OnOrderInfoPropertyChanged()
     {
         BaseInfoIsCorrect = OrderInfo.EventType != null &&
@@ -116,8 +130,27 @@ public class OrderPageService
         await _orderService.CreateOrderAsync(Convert.ToInt32(userIdString), OrderInfo);
     }
 
+    public void AddDate()
+    {
+        var lastOrderDay = OrderInfo.OrderDays.Last().Date;
+
+        if(lastOrderDay == null)
+            return;
+
+        var orderDay = new OrderDayDto(((DateTime)lastOrderDay).AddDays(1));
+
+        OrderInfo.AddDay(orderDay);
+    }
+
+    public bool CanAddDay()
+    {
+        return OrderInfo.OrderDays.Count > 0 &&
+            OrderInfo.OrderDays.Any(x => x.Date != null) &&
+            OrderInfo.OrderDays.Count < 2;
+    }
+
     public async Task<List<DateTime>> GetBookedDates()
     {
-        return [];
+        return await _orderService.GetBookedDays();
     }
 }

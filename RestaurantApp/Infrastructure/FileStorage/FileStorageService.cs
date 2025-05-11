@@ -9,7 +9,12 @@ public class FileStorageService : IFileStorageService
 
     public void DeleteFile(string filePath)
     {
-        throw new NotImplementedException();
+        var fullPath = Path.Combine("wwwroot", filePath.TrimStart('/', '\\'));
+
+        if (File.Exists(fullPath))
+        {
+            File.Delete(fullPath);
+        }
     }
 
     public Task<byte[]> GetFileAsync(string filePath)

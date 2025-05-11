@@ -1,0 +1,43 @@
+<MudDialog>
+    <DialogContent>
+        <MudStack Align="AlignItems.Start" Class="left-aligned">
+            @foreach (var orderDay in Order.OrderDays)
+            {
+                <MudText Typo="Typo.h5">
+                    @orderDay.Date.ToString($"dd.MM.yyyy")
+                </MudText> 
+                @foreach (var orderMenuItem in orderDay.OrderMenuItems)
+                {
+                    <MudText>
+                        @orderMenuItem.FoodItem.Name (@orderMenuItem.Count шт. x @orderMenuItem.FoodItem.PricePerUnit UAH) -
+                        @(orderMenuItem.Count * orderMenuItem.FoodItem.PricePerUnit) UAH
+                    </MudText>
+                }
+                <MudDivider style="border: 2px solid;" />
+            }
+            <MudText>
+                Подія: @Order.EventType.Name
+            </MudText>
+            <MudText>
+                Кількість гостей: @Order.PeopleCount
+            </MudText>
+            <MudText>
+                Загальна вартість замовлення: @Order.Cost UAH
+            </MudText>
+        </MudStack>
+    </DialogContent>
+
+    <DialogActions>
+    </DialogActions>
+
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public Order Order { get; set; }
+
+    private void Ok() => MudDialog.Close();
+
+    private void Cancel() => MudDialog.Cancel();
+}

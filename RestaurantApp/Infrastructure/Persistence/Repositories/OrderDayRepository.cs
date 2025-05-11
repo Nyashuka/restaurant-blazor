@@ -28,7 +28,7 @@ public class OrderDayRepository : IOrderDayRepository
     {
         await using var context = await _dbContextFactory.CreateDbContextAsync();
 
-        return await context.OrderDays.ToListAsync();
+        return await context.OrderDays.Include(x => x.Order).ToListAsync();
     }
 
     public async Task<OrderDay?> GetByIdAsync(int id)

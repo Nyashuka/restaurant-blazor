@@ -64,7 +64,9 @@ public partial class ManageOrdersPage
 
     private async Task OnDeclineOrderClicked(Order order)
     {
-
+        await OrderService.DeclineOrderAsync(order.Id);
+        Orders = await OrderService.GetByStatusAsync(SelectedOrderStatus.Key);
+        StateHasChanged();
     }
 
     public async Task OnSelectedStatus(KeyValuePair<OrderStatusEnum, string> status)

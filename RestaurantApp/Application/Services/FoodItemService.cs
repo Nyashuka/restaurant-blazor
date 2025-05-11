@@ -14,11 +14,6 @@ public class FoodItemService : IFoodItemService
         _foodItemRepository = foodItemRepository;
     }
 
-    public Task<List<FoodItem>> GetByCategoryIdAsync(int id)
-    {
-        return _foodItemRepository.GetAllByCategoryIdAsync(id);
-    }
-
     public async Task<T> GetByIdAsync<T>(int id) where T : FoodItem
     {
         var foodItem = await _foodItemRepository.GetByIdAsync(id);
@@ -30,5 +25,15 @@ public class FoodItemService : IFoodItemService
             return castedItem;
 
         throw new Exception($"Incorrect data type for FoodItem cast. Check if your generic parameter is correct.");
+    }
+
+    public Task<List<FoodItem>> GetDisabledByCategoryIdAsync(int categoryId)
+    {
+        return _foodItemRepository.GetAllByCategoryIdAsync(categoryId, false);
+    }
+
+    public Task<List<FoodItem>> GetEnabledByCategoryIdAsync(int categoryId)
+    {
+        return _foodItemRepository.GetAllByCategoryIdAsync(categoryId, true);
     }
 }

@@ -13,15 +13,18 @@ public class OrderService : IOrderService
     private readonly IOrderRepository _orderRepository;
     private readonly IOrderDayRepository _orderDayRepository;
     private readonly IOrderMenuItemRepository _orderMenuItemRepository;
+    private readonly IFoodItemRepository _foodItemRepository;
 
     public OrderService(
         IOrderRepository orderRepository,
         IOrderDayRepository orderDayRepository,
-        IOrderMenuItemRepository orderMenuItemRepository)
+        IOrderMenuItemRepository orderMenuItemRepository,
+        IFoodItemRepository foodItemRepository)
     {
         _orderRepository = orderRepository;
         _orderDayRepository = orderDayRepository;
         _orderMenuItemRepository = orderMenuItemRepository;
+        _foodItemRepository = foodItemRepository;
     }
 
     public async Task ApproveOrderAsync(int orderId)
@@ -63,7 +66,8 @@ public class OrderService : IOrderService
             throw new Exception(ErrorMessages.OrderInfoInNotValid);
         }
 
-        var order = new Order(userId, orderInfo.EventType.Id, null, orderInfo.GuestCount, OrderStatusEnum.Created, 0);
+        double costs = await GetOrderCosts(orderInfo);
+        var order = new Order(userId, orderInfo.EventType.Id, null, orderInfo.GuestCount, OrderStatusEnum.Created, costs);
         await _orderRepository.AddAsync(order);
 
         foreach (var menuDay in orderInfo.OrderDays)
@@ -80,6 +84,35 @@ public class OrderService : IOrderService
                 await _orderMenuItemRepository.AddAsync(orderMenuItem);
             }
         }
+    }
+
+    public async Task<double> GetOrderCosts(CreateOrderInfo orderInfo)
+    {
+        double costs = 0;
+
+        foreach(var orderDay in orderInfo.OrderDays)
+        {
+            foreach(var orderItem in orderDay.SelectedFoodItems)
+            {
+                var foodItem = await _foodItemRepository.GetByIdAsync(orderItem.Item.Id);
+
+                if (foodItem == null)
+                    throw new Exception("FoodItem for order costs calculation is not found!");
+
+                costs += orderItem.Count * foodItem.PricePerUnit;
+            }
+        }
+
+        return costs;
+    }
+
+    public async Task<double> GetOrderCosts(Order order)
+    {
+        double costs = 0;
+
+
+
+        return costs;
     }
 
     public async Task<List<Order>> GetAllAsync()
@@ -110,5 +143,31 @@ public class OrderService : IOrderService
     public Task RemoveAsync(int id)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<List<DateTime>> GetBookedDays()
+    {
+        var orderDays = await _orderDayRepository.GetAllAsync();
+        return orderDays
+            .Where(x => x.Date.Date > DateTime.Today.Date
+                && IsBookedStatus(x.Order.Status))
+            .Select(x => x.Date.ToLocalTime().Date).ToList();
+    }
+
+    public bool IsBookedStatus(OrderStatusEnum status)
+    {
+        return status == OrderStatusEnum.Confirmed || status == OrderStatusEnum.AwaitingPayment;
+    }
+
+    public async Task DeclineOrderAsync(int orderId)
+    {
+        var order = await _orderRepository.GetByIdAsync(orderId);
+
+        if (order is null)
+            throw new NullReferenceException("Order is not exists");
+
+        order.ChangeStatus(OrderStatusEnum.Canceled);
+
+        await _orderRepository.UpdateAsync(order);
     }
 }

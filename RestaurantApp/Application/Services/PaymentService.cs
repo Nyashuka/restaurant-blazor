@@ -1,4 +1,3 @@
-
 using RestaurantApp.Application.Dtos;
 using RestaurantApp.Application.Interfaces;
 using RestaurantApp.Domain.Models;
@@ -26,7 +25,7 @@ public class PaymentService : IPaymentService
 
         var model = new Payment(
             payment.OrderId,
-            payment.AmountPaid,
+            order.Cost,
             payment.PaymentDate.ToUniversalTime());
 
         await _paymentRepository.AddPaymentAsync(model);

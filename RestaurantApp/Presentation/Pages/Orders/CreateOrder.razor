@@ -39,21 +39,21 @@
                 if(i > 1)
                 {
                     <MudDatePicker @bind-Date="@date.Date" style="max-width: 300px;" ReadOnly="true"
-                        IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
+                        IsDateDisabledFunc="@((DateTime dt)=>DisabledDates.Contains(dt.Date))"
                         AdditionalDateClassesFunc="@((DateTime dt)=>"" )" />
                 }
                 else
                 {
                     <MudDatePicker @bind-Date="@date.Date" style="max-width: 300px;" Label="Оберіть дату"
                         MinDate="MinDate"
-                        IsDateDisabledFunc="@((DateTime dt)=>_disabledDates.Contains(dt.Date))"
+                        IsDateDisabledFunc="@((DateTime dt)=>DisabledDates.Contains(dt.Date))"
                         AdditionalDateClassesFunc="@((DateTime dt)=>"" )" />
                 }
 
                 i++;
             }
 
-            @if(BaseInfo.OrderDays.Count < 2)
+            @if(OrderPageService.CanAddDay())
             {
                 <MudButton @onclick="AddDate">Додати ще один день</MudButton>
             }
@@ -124,14 +124,26 @@
 
         <MudTabPanel Text="Підтвердження" >
             <MudStack Align="AlignItems.Start" Class="left-aligned">
+                @foreach(var orderDay in BaseInfo.OrderDays)
+                {
+                    <MudText Typo="Typo.h5">
+                        @orderDay.Date
+                    </MudText>
+                    @foreach(var selectedFoodItem in orderDay.SelectedFoodItems)
+                    {
+                        <MudText>
+                            @selectedFoodItem.Item.Name (@selectedFoodItem.Count шт. x @selectedFoodItem.Item.PricePerUnit UAH) - @(selectedFoodItem.Count * selectedFoodItem.Item.PricePerUnit) UAH
+                        </MudText>
+                    }
+                    <MudDivider style="border: 2px solid;" />
+                }
+
                 <MudText>
-                    xd x 5000 UAH
+                    Загальна вартість замовлення: @OrderPageService.GetOrderPrice() UAH
                 </MudText>
-                <MudText>
-                    To pay in sum @(2 * 5000) UAH
-                </MudText>
+
                 <MudButton @onclick="CreateOrderAsync" Variant="Variant.Filled" Color="Color.Primary" FullWidth="false">
-                    Create Order
+                    Створити замовлення
                 </MudButton>
             </MudStack>
         </MudTabPanel>

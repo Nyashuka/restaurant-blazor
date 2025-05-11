@@ -24,11 +24,13 @@ public class DrinkRepository : IDrinkRepository
         await context.SaveChangesAsync();
     }
 
-    public async Task<List<Drink>> GetAllAsync()
+    public async Task<List<Drink>> GetAllAsync(bool getDisabled)
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.Drinks.Include(x => x.Category).ToListAsync();
+        return await context.Drinks
+            .Where(x => x.IsEnabled != getDisabled)
+            .Include(x => x.Category).ToListAsync();
     }
 
     public async Task<List<Drink>> GetByCategoryAsync(int categoryId)
@@ -44,10 +46,10 @@ public class DrinkRepository : IDrinkRepository
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return context
+        return await context
             .Drinks
             .Include(x => x.Category)
-            .SingleOrDefault(x => x.Id == id);
+            .SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task RemoveAsync(Drink drink)
@@ -55,6 +57,14 @@ public class DrinkRepository : IDrinkRepository
         await using var context = _dbContextFactory.CreateDbContext();
 
         context.Drinks.Remove(drink);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(Drink drink)
+    {
+        await using var context = _dbContextFactory.CreateDbContext();
+
+        context.Drinks.Update(drink);
         await context.SaveChangesAsync();
     }
 }

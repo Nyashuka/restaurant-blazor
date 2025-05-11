@@ -1,0 +1,27 @@
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Редагування категорії
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudTextField Label="Category Name" @bind-Value="_model.Name" />
+        <MudCheckBox @bind-Value="_model.IsShared" Label="Is Shared" Color="Color.Primary"></MudCheckBox>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Save" Color="Color.Primary">Зберегти</MudButton>
+        <MudButton OnClick="Cancel" Color="Color.Secondary">Відмінити</MudButton>
+    </DialogActions>
+
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+
+    private CreateDishTypeDto _model = new();
+
+    private void Save() => MudDialog.Close(DialogResult.Ok(_model));
+
+    private void Cancel() => MudDialog.Cancel();
+}

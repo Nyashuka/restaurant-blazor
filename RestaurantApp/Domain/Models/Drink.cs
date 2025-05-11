@@ -19,4 +19,11 @@ public class Drink : FoodItem
     public int Volume { get; private set; }
     public int VolumePerPerson { get; private set; }
     public bool IsAlcoholic { get; private set; }
+
+    public void Update(string name, CategoryBase category, string imageUrl)
+    {
+        Name = name;
+        CategoryId = category.Id;
+        ImageUrl = imageUrl;
+    }
 }

@@ -18,11 +18,11 @@ public class DishRepository(IDbContextFactory<RestaurantDbContext> dbContextFact
         await context.SaveChangesAsync();
     }
 
-    public async Task<List<Dish>> GetAllAsync()
+    public async Task<List<Dish>> GetAllAsync(bool getDisabled)
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.Dishes.Include(x => x.Category).ToListAsync();
+        return await context.Dishes.Where(x => x.IsEnabled != getDisabled).Include(x => x.Category).ToListAsync();
     }
 
     public async Task<List<Dish>> GetByCategoryAsync(int categoryId)
@@ -34,9 +34,13 @@ public class DishRepository(IDbContextFactory<RestaurantDbContext> dbContextFact
 
     public async Task<Dish?> GetByIdAsync(int id)
     {
-        await using var context = _dbContextFactory.CreateDbContext();
+        await using var context = await _dbContextFactory.CreateDbContextAsync();
 
-        return context.Dishes.Include(x => x.Category).SingleOrDefault(x => x.Id == id);
+        return await context.Dishes
+            .Where(x => x.Id == id)
+            .Include(x => x.Category)
+            .Include(x => x.Ingredients)
+            .SingleOrDefaultAsync();
     }
 
     public async Task RemoveAsync(Dish dish)
@@ -44,6 +48,14 @@ public class DishRepository(IDbContextFactory<RestaurantDbContext> dbContextFact
         await using var context = _dbContextFactory.CreateDbContext();
 
         context.Dishes.Remove(dish);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(Dish dish)
+    {
+        await using var context = _dbContextFactory.CreateDbContext();
+
+        context.Dishes.Update(dish);
         await context.SaveChangesAsync();
     }
 }

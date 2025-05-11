@@ -9,13 +9,13 @@
         @if(CrossingOrders.Count == 0)
         {
             <MudText Typo="Typo.h6" Align="Align.Left" Color="Color.Success">
-                No Crossed Orders.
+                Немає перехресних замовлень 😊
             </MudText>
         }
         else
         {
             <MudText Typo="Typo.h6" Align="Align.Left" Color="Color.Error">
-                @CrossingOrders.Count orders are Crossed and will canceled if you approve this.
+                @CrossingOrders.Count замовлень зроблені на цей самий день. Якщо ви приймете, вони будуть відхилені 😥
             </MudText>
             <MudStack AlignItems="AlignItems.Start">
                 @foreach (var order in CrossingOrders)
@@ -31,11 +31,38 @@
                 }
             </MudStack>
         }
+
+        <MudDivider style="border: 2px solid;" />
+
+        <MudStack Align="AlignItems.Start" Class="left-aligned">
+                @foreach(var orderDay in OrderForApprove.OrderDays)
+                {
+                    <MudText Typo="Typo.h5">
+                        @orderDay.Date.ToString($"dd.MM.yyyy")
+                    </MudText>
+                    @foreach(var orderMenuItem in orderDay.OrderMenuItems)
+                    {
+                            <MudText>
+                                @orderMenuItem.FoodItem.Name (@orderMenuItem.Count шт. x @orderMenuItem.FoodItem.PricePerUnit UAH) - @(orderMenuItem.Count * orderMenuItem.FoodItem.PricePerUnit) UAH
+                            </MudText>
+                    }
+                    <MudDivider style="border: 2px solid;" />
+                }
+                <MudText>
+                    Подія: @OrderForApprove.EventType.Name
+                </MudText>
+                <MudText>
+                    Кількість гостей: @OrderForApprove.PeopleCount
+                </MudText>
+                <MudText>
+                    Загальна вартість замовлення: @OrderForApprove.Cost UAH
+                </MudText>
+            </MudStack>
     </DialogContent>
 
     <DialogActions>
-        <MudButton OnClick="Ok" Color="Color.Error">Approve</MudButton>
-        <MudButton OnClick="Cancel" >Cancel</MudButton>
+        <MudButton OnClick="Ok" Color="Color.Error">Підтвердити</MudButton>
+        <MudButton OnClick="Cancel" >Закрити</MudButton>
     </DialogActions>
 
 </MudDialog>

@@ -14,4 +14,6 @@ public interface IOrderRepository
     Task<List<Order>> GetCrossedOrdersAsync(int orderId);
     Task<Dictionary<DateTime, List<Order?>>> GetUnprocessedGroupedByDateCrossing();
     Task<Order?> GetByIdAsync(int id);
+
+    Task<List<DateTime>> GetBookedDates();
 }

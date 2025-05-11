@@ -19,4 +19,7 @@ public abstract class FoodItem
     public CategoryBase Category { get; protected set; }
     public string ImageUrl { get; protected set; }
     public bool IsEnabled { get; protected set; } = true;
+
+    public void Disable() => IsEnabled = false;
+    public void Enable() => IsEnabled = true;
 }

@@ -30,9 +30,9 @@ public class DrinkService : IDrinkService
         await _drinkRepository.AddAsync(model);
     }
 
-    public async Task<List<Drink>> GetAllAsync()
+    public async Task<List<Drink>> GetAllAsync(bool getDisabled)
     {
-        return await _drinkRepository.GetAllAsync();
+        return await _drinkRepository.GetAllAsync(getDisabled);
     }
 
     public async Task<List<Drink>> GetByCategoryAsync(int categoryId)
@@ -40,15 +40,38 @@ public class DrinkService : IDrinkService
         return await _drinkRepository.GetByCategoryAsync(categoryId);
     }
 
-    public async Task<Drink?> GetByIdAsync(int id)
+    public async Task<DrinkDto> GetByIdAsync(int id)
     {
-        return await _drinkRepository.GetByIdAsync(id);
+        var drink = await _drinkRepository.GetByIdAsync(id) ?? throw new Exception($"Drink with id({id} does not exists)");
+
+        return new DrinkDto()
+        {
+            Id = drink.Id,
+            Name = drink.Name,
+            Category = drink.Category,
+            Volume = drink.Volume,
+            VolumePerPerson = drink.VolumePerPerson,
+            IsAlcoholic = drink.IsAlcoholic,
+            PricePerUnit = drink.PricePerUnit,
+            ImageUrl = drink.ImageUrl
+        };
     }
 
     public async Task RemoveAsync(int id)
     {
         var drink = await _drinkRepository.GetByIdAsync(id) ?? throw new Exception("Drink IS NOT EXISTS");
 
-        await _drinkRepository.RemoveAsync(drink);
+        drink.Disable();
+
+        await _drinkRepository.UpdateAsync(drink);
+    }
+
+    public async Task UpdateAsync(DrinkDto drinkDto)
+    {
+        var drink = await _drinkRepository.GetByIdAsync(drinkDto.Id) ?? throw new Exception("Drink IS NOT EXISTS");
+
+        drink.Update(drinkDto.Name, drinkDto.Category, drinkDto.ImageUrl);
+
+        await _drinkRepository.UpdateAsync(drink);
     }
 }

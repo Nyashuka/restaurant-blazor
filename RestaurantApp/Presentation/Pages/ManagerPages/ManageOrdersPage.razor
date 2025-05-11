@@ -28,7 +28,15 @@
                     </MudLink>
                     <MudDivider style="border: 2px solid;" />
                     <MudText Typo="Typo.h5" Align="Align.Left">
-                        @(DateTime.Now.ToString($"dd.MM.yyyy")) - @(DateTime.Now.AddDays(3).ToString($"dd.MM.yyyy"))
+                        @if(order.OrderDays.Count > 1)
+                        {
+                                <text>@(order.OrderDays.Min(x => x.Date.ToLocalTime()).Date.ToString($"dd.MM.yyyy")) - @(order.OrderDays.Max(x
+                            => x.Date).ToLocalTime().Date.ToString($"dd.MM.yyyy"))</text>
+                        }
+                        else
+                        {
+                                <text>@(order.OrderDays.FirstOrDefault().Date.ToLocalTime().Date.ToString($"dd.MM.yyyy"))</text>
+                        }
                     </MudText>
                     <MudText Typo="Typo.h5">
                         Marriage

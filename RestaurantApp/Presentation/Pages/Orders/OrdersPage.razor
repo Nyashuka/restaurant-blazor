@@ -1,8 +1,10 @@
 @page "/orders"
 @attribute [Authorize(Roles = "User")]
 
+@inject RestaurantDialogFactory DialogFactory
 @inject IOrderService OrderService
 @inject IPaymentService PaymentService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <MudLink Variant="Variant.Filled" 
 		Color="Color.Primary"
@@ -29,17 +31,18 @@
                     <MudText Typo="Typo.h5" Align="Align.Left">
                         @if(order.OrderDays.Count > 1)
                         {
-                                <text>@(order.OrderDays.Min(x => x.Date).Date.ToString($"dd.MM.yyyy")) - @(order.OrderDays.Max(x
-                            => x.Date).Date.ToString($"dd.MM.yyyy"))</text>
+                                <text>@(order.OrderDays.Min(x => x.Date.ToLocalTime()).Date.ToString($"dd.MM.yyyy")) - @(order.OrderDays.Max(x
+                            => x.Date).ToLocalTime().Date.ToString($"dd.MM.yyyy"))</text>
                         }
                         else
                         {
-                                <text>@(order.OrderDays.FirstOrDefault().Date.ToString($"dd.MM.yyyy"))</text>
+                                <text>@(order.OrderDays.FirstOrDefault().Date.ToLocalTime().Date.ToString($"dd.MM.yyyy"))</text>
                         }
                     </MudText>
                 </MudStack>
                 <MudPaper
-                    Style="background-color: gray; padding: 0 5px; display: inline-block; width: auto; margin-top: 15px;"
+                    Class="@GetStatusClass(order.Status)"
+                    Style="padding: 0 5px; display: inline-block; width: auto; margin-top: 15px;"
                     FlexGrow="0">
                     <MudText Typo="Typo.subtitle2" Style="color: black;">
                         @if(order.Status == OrderStatusEnum.Created)
@@ -50,19 +53,62 @@
                         {
                             <text>очікує на оплату</text>
                         }
+                        else if(order.Status == OrderStatusEnum.Confirmed)
+                        {
+                            <text>підтверджено!</text>
+                        }
+                        else if(order.Status == OrderStatusEnum.Canceled)
+                        {
+                            <text>відмінено</text>
+                        }
                     </MudText>
                 </MudPaper>
                 <div style="margin-top: 15px;">
-                    @if(order.Status == OrderStatusEnum.AwaitingPayment)
+                    @if(order.Status == OrderStatusEnum.Created)
                     {
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                        <MudButton style="margin-right: 15px;" Variant="Variant.Filled" Color="Color.Primary"
+                            @onclick="@(() => PayForOrder(order))">
+                            Редагувати
+                        </MudButton>
+                    }
+                    else if(order.Status == OrderStatusEnum.AwaitingPayment)
+                    {
+                        <MudButton style="margin-right: 15px;" Variant="Variant.Filled" Color="Color.Primary"
                             @onclick="@(() => PayForOrder(order))">
                             Оплатити
                         </MudButton>
                     }
+                    <MudButton  Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => OpenDetailsDialog(order))">
+                        Деталі
+                    </MudButton>
                 </div>
             </div>
         </MudPaper>
     </MudItem>
 }
 </MudGrid>
+
+@code {
+    private string GetStatusClass(OrderStatusEnum status)
+    {
+        return status switch
+        {
+            OrderStatusEnum.Canceled => "order-status-canceled",
+            OrderStatusEnum.Confirmed => "order-status-confirmed",
+            _ => "order-status-default"
+        };
+    }
+}
+
+<style>
+
+.order-status-canceled {
+    background-color: red;
+}
+.order-status-confirmed {
+    background-color: green;
+}
+.order-status-default {
+    background-color: gray;
+}
+</style>

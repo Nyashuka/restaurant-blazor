@@ -4,9 +4,6 @@ using RestaurantApp.Application.Dtos;
 using RestaurantApp.Domain.Models;
 using RestaurantApp.Infrastructure.FileStorage;
 
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-
 namespace RestaurantApp.Presentation.Pages.Chief.Drinks
 {
     public partial class CreateDrinkPage

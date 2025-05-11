@@ -42,9 +42,9 @@ public class DishService : IDishService
         await _dishIngredientRepository.AddRangeAsync(ingredients);
     }
 
-    public async Task<List<Dish>> GetAllAsync()
+    public async Task<List<Dish>> GetAllAsync(bool getDisabled = false)
     {
-        return await _dishRepository.GetAllAsync();
+        return await _dishRepository.GetAllAsync(getDisabled);
     }
 
     public async Task<List<Dish>> GetByCategoryAsync(int categoryId)
@@ -52,18 +52,44 @@ public class DishService : IDishService
         return await _dishRepository.GetByCategoryAsync(categoryId);
     }
 
-    public async Task<Dish?> GetByIdAsync(int id)
+    public async Task<DishDto> GetByIdAsync(int id)
     {
-        return await _dishRepository.GetByIdAsync(id);
+        var model = await _dishRepository.GetByIdAsync(id) ?? throw new Exception($"Dish with id({id} does not exists)");
+
+        return new DishDto()
+        {
+            Id = model.Id,
+            Name = model.Name,
+            PricePerUnit = model.PricePerUnit,
+            Category = model.Category,
+            Weight = model.Weight,
+            RecommendedWeightPerPerson = model.RecommendedWeightPerPortion,
+            ImageUrl = model.ImageUrl,
+            Ingredients = model.Ingredients,
+        };
     }
 
     public async Task RemoveAsync(int id)
     {
         var dish = await _dishRepository.GetByIdAsync(id) ?? throw new Exception("DISH IS NOT EXISTS");
+        dish.Disable();
+        // await RemoveIngredients(id);
+        await _dishRepository.UpdateAsync(dish);
+    }
 
-        var ingredients = await _dishIngredientRepository.GetAllDishIngredientsAsync(id);
+    public async Task RemoveIngredients(int dishId)
+    {
+        var ingredients = await _dishIngredientRepository.GetAllDishIngredientsAsync(dishId);
 
         await _dishIngredientRepository.RemoveRangeAsync(ingredients);
-        await _dishRepository.RemoveAsync(dish);
+    }
+
+    public async Task UpdateAsync(DishDto dishDto)
+    {
+        var dish = await _dishRepository.GetByIdAsync(dishDto.Id) ?? throw new Exception("DISH IS NOT EXISTS");
+
+        dish.Update(dishDto.Name, dishDto.Category, dishDto.ImageUrl);
+
+        await _dishRepository.UpdateAsync(dish);
     }
 }

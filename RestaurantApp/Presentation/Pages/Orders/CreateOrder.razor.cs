@@ -13,7 +13,7 @@ public partial class CreateOrder : IDisposable
     // dto
     private CreateOrderInfo BaseInfo => OrderPageService.OrderInfo;
 
-    // view
+    public List<DateTime> DisabledDates { get; private set; } = [];
     private OrderDayDto? CurrentOrderDay => OrderPageService.CurrentOrderDay;
     private List<EventType> EventTypes { get; set; } = [];
     private List<MenuItemToSelect> MenuItemsToSelect { get; set; } = [];
@@ -29,6 +29,7 @@ public partial class CreateOrder : IDisposable
         MenuVariants = await MenuService.GetAllAsync();
 
         MinDate = OrderPageService.GetMinDate();
+        DisabledDates = await OrderPageService.GetBookedDates();
     }
 
     private async Task LoadFoodItemsByCategory(CategoryBase category)
@@ -96,7 +97,7 @@ public partial class CreateOrder : IDisposable
         if(BaseInfo.OrderDays.Count >= 2)
             return;
 
-        BaseInfo.AddDay(new OrderDayDto(null));
+        OrderPageService.AddDate();
         StateHasChanged();
     }
 
@@ -105,11 +106,7 @@ public partial class CreateOrder : IDisposable
         DrawerOpen = id == 2;
     }
 
-    private readonly List<DateTime> _disabledDates =
-    [
-        new (2024, 12, 5),
-        new (2024, 12, 10)
-    ];
+
 
     public async Task<IEnumerable<EventType>> SearchEventType(string value, CancellationToken token)
     {

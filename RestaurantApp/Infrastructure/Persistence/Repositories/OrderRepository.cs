@@ -36,6 +36,18 @@ public class OrderRepository : IOrderRepository
             .ToListAsync();
     }
 
+    public async Task<List<DateTime>> GetBookedDates()
+    {
+        await using var context = await _dbContextFactory.CreateDbContextAsync();
+
+        var tomorrow = DateTime.Today.AddDays(1);
+        return await context.OrderDays
+            .Where(od => od.Date.Date >= tomorrow)
+            .Select(od => od.Date.Date)
+            .Distinct()
+            .ToListAsync();
+    }
+
     public async Task<Order?> GetByIdAsync(int id)
     {
         await using var context = await _dbContextFactory.CreateDbContextAsync();
@@ -47,14 +59,25 @@ public class OrderRepository : IOrderRepository
     {
         await using var context = await _dbContextFactory.CreateDbContextAsync();
 
-        return await context.Orders.Where(x => x.Status == status).ToListAsync();
+        return await context.Orders
+            .Where(x => x.Status == status)
+            .Include(x => x.EventType)
+            .Include(x => x.OrderDays)
+                    .ThenInclude(od => od.OrderMenuItems)
+                        .ThenInclude(omi => omi.FoodItem)
+            .ToListAsync();
     }
 
     public async Task<List<Order>> GetByUserIdAsync(int userId)
     {
         await using var context = await _dbContextFactory.CreateDbContextAsync();
 
-        return await context.Orders.Where(x => x.UserId == userId).ToListAsync();
+        return await context.Orders.Where(x => x.UserId == userId)
+            .Include(x => x.EventType)
+            .Include(x => x.OrderDays)
+                    .ThenInclude(od => od.OrderMenuItems)
+                        .ThenInclude(omi => omi.FoodItem)
+            .ToListAsync();
     }
 
     public async Task<List<Order>> GetCrossedOrdersAsync(int orderId)
