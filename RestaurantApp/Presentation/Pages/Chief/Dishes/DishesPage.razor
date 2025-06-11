@@ -37,9 +37,18 @@
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => EditDish(dish.Id))">
                         Редагувати
                     </MudButton>
-                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnDeleteAsync(dish.Id))">
-                        Видалити
-                    </MudButton>
+                    @if(dish.IsEnabled)
+                    {
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnDeleteAsync(dish.Id))">
+                            Вимкнути
+                        </MudButton>
+                    }
+                    else
+                    {
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnEnableAsync(dish.Id))">
+                            Відновити
+                        </MudButton>
+                    }
                 </MudStack>
             </div>
         </MudPaper>

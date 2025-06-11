@@ -14,4 +14,21 @@ public abstract class CategoryBase
     }
 
     protected CategoryBase() {}
+
+    public void Update(string name)
+    {
+        if(string.IsNullOrEmpty(name)) return;
+
+        Name = name;
+    }
+
+    public void Disable()
+    {
+        IsEnabled = false;
+    }
+
+    public void Enable()
+    {
+        IsEnabled = true;
+    }
 }

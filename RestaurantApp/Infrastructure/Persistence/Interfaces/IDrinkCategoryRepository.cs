@@ -8,4 +8,5 @@ public interface IDrinkCategoryRepository
     Task RemoveAsync(DrinkCategory category);
     Task<List<DrinkCategory>> GetAllAsync();
     Task<DrinkCategory?> GetByIdAsync(int id);
+    Task UpdateAsync(DrinkCategory category);
 }

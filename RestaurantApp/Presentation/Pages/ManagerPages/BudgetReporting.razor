@@ -19,16 +19,12 @@
         <MudTh>Номер замовлення</MudTh>
         <MudTh>Дата оплати</MudTh>
         <MudTh>Оплачена сума(₴)</MudTh>
-        <MudTh>Дії</MudTh>
     </HeaderContent>
     <RowTemplate Context="eventType">
         <MudTd>@eventType.Id</MudTd>
         <MudTd>@eventType.OrderId</MudTd>
         <MudTd>@eventType.PaymentDate</MudTd>
         <MudTd>@eventType.AmountPaid</MudTd>
-        <MudTd>
-            <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary" />
-        </MudTd>
     </RowTemplate>
     <PagerContent>
         <MudStack Row="true">

@@ -18,23 +18,39 @@ public partial class DrinksPage
 
     private async Task OnDeleteAsync(int id)
     {
-        var result = await DialogFactory.CreateAsync<DeleteItemDialog>();
+        var result = await DialogFactory.CreateAsync<ConfirmationDialog>();
 
         if (result?.Canceled == false)
         {
             await DrinkService.RemoveAsync(id);
-            Snackbar.Add("Deleted!", Severity.Warning);
-            Drinks = await DrinkService.GetAllAsync();
-            StateHasChanged();
+            Snackbar.Add("Вимкнено!", Severity.Warning);
+            await UpdateDrinks();
         }
+    }
+
+    private async Task OnEnableAsync(int id)
+    {
+        var result = await DialogFactory.CreateAsync<ConfirmationDialog>();
+
+        if (result?.Canceled == false)
+        {
+            await DrinkService.EnableAsync(id);
+            Snackbar.Add("Успішно відновлено!", Severity.Success);
+            await UpdateDrinks();
+        }
+    }
+
+    private async Task UpdateDrinks()
+    {
+        Drinks = await DrinkService.GetAllAsync(ShowDisabled);
+        StateHasChanged();
     }
 
 
     private async Task OnShowDisabledChanged(bool value)
     {
         ShowDisabled = value;
-        Drinks = await DrinkService.GetAllAsync(ShowDisabled);
-        StateHasChanged();
+        await UpdateDrinks();
     }
 
     private void EditDrink(int id)

@@ -37,5 +37,14 @@ public class DishCategoryRepository(IDbContextFactory<RestaurantDbContext> dbCon
         await using var dbContext = _dbContextFactory.CreateDbContext();
 
         dbContext.DishCategories.Remove(dishCategory);
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(DishCategory dishCategory)
+    {
+        await using var dbContext = _dbContextFactory.CreateDbContext();
+
+        dbContext.DishCategories.Update(dishCategory);
+        await dbContext.SaveChangesAsync();
     }
 }

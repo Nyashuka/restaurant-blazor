@@ -4,6 +4,10 @@
 @inject IFoodItemService DishService
 @inject SidebarStateService SidebarStateService
 
+<MudDrawer @bind-Open="DrawerOpen" Elevation="2">
+    <NavMenuEventTypes OnEventTypeSelected="OnEventTypeSelected" />
+</MudDrawer>
+
 <div class="food-items-container">
     @foreach(var item in Menus)
     {

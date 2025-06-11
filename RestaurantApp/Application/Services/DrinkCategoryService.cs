@@ -22,6 +22,26 @@ public class DrinkCategoryService : IDrinkCategoryService
         await _drinkCategoryRepository.AddAsync(model);
     }
 
+    public async Task DisableAsync(int id)
+    {
+        if(await _drinkCategoryRepository.GetByIdAsync(id) is DrinkCategory category)
+        {
+            category.Disable();
+
+            await _drinkCategoryRepository.UpdateAsync(category);
+        }
+    }
+
+    public async Task EnableAsync(int id)
+    {
+        if(await _drinkCategoryRepository.GetByIdAsync(id) is DrinkCategory category)
+        {
+            category.Enable();
+
+            await _drinkCategoryRepository.UpdateAsync(category);
+        }
+    }
+
     public async Task<List<DrinkCategory>> GetAllAsync()
     {
         return await _drinkCategoryRepository.GetAllAsync();
@@ -31,5 +51,15 @@ public class DrinkCategoryService : IDrinkCategoryService
     {
         if(await _drinkCategoryRepository.GetByIdAsync(id) is DrinkCategory category)
             await _drinkCategoryRepository.RemoveAsync(category);
+    }
+
+    public async Task UpdateAsync(int id, EditDrinkCategoryDto drinkCategory)
+    {
+        if(await _drinkCategoryRepository.GetByIdAsync(id) is DrinkCategory category)
+        {
+            category.Update(drinkCategory.Name);
+
+            await _drinkCategoryRepository.UpdateAsync(category);
+        }
     }
 }

@@ -30,6 +30,7 @@ public class DrinkService : IDrinkService
         await _drinkRepository.AddAsync(model);
     }
 
+
     public async Task<List<Drink>> GetAllAsync(bool getDisabled)
     {
         return await _drinkRepository.GetAllAsync(getDisabled);
@@ -62,6 +63,15 @@ public class DrinkService : IDrinkService
         var drink = await _drinkRepository.GetByIdAsync(id) ?? throw new Exception("Drink IS NOT EXISTS");
 
         drink.Disable();
+
+        await _drinkRepository.UpdateAsync(drink);
+    }
+
+    public async Task EnableAsync(int id)
+    {
+        var drink = await _drinkRepository.GetByIdAsync(id) ?? throw new Exception("Drink IS NOT EXISTS");
+
+        drink.Enable();
 
         await _drinkRepository.UpdateAsync(drink);
     }

@@ -45,4 +45,12 @@ public class DrinkCategoryRepository : IDrinkCategoryRepository
         dbContext.DrinkCategories.Remove(drinkCategory);
         await dbContext.SaveChangesAsync();
     }
+
+    public async Task UpdateAsync(DrinkCategory category)
+    {
+        await using var dbContext = _dbContextFactory.CreateDbContext();
+
+        dbContext.DrinkCategories.Update(category);
+        await dbContext.SaveChangesAsync();
+    }
 }

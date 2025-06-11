@@ -21,6 +21,26 @@ public class DishCategoryService : IDishCategoryService
         await _dishCategoryRepository.AddAsync(model);
     }
 
+    public async Task DisableAsync(int id)
+    {
+        if(await _dishCategoryRepository.GetByIdAsync(id) is DishCategory category)
+        {
+            category.Disable();
+
+            await _dishCategoryRepository.UpdateAsync(category);
+        }
+    }
+
+    public async Task EnableAsync(int id)
+    {
+        if(await _dishCategoryRepository.GetByIdAsync(id) is DishCategory category)
+        {
+            category.Enable();
+
+            await _dishCategoryRepository.UpdateAsync(category);
+        }
+    }
+
     public async Task<List<DishCategory>> GetAllAsync()
     {
         return await _dishCategoryRepository.GetAllAsync();
@@ -30,5 +50,14 @@ public class DishCategoryService : IDishCategoryService
     {
         if(await _dishCategoryRepository.GetByIdAsync(id) is DishCategory dishType)
             await _dishCategoryRepository.RemoveAsync(dishType);
+    }
+
+    public async Task UpdateAsync(int id, EditDishCategoryDto dto)
+    {
+        if(await _dishCategoryRepository.GetByIdAsync(id) is DishCategory dishType)
+        {
+            dishType.Update(dto.Name);
+            await _dishCategoryRepository.UpdateAsync(dishType);
+        }
     }
 }

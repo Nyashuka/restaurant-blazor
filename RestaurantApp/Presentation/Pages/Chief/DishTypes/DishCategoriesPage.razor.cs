@@ -27,6 +27,53 @@ public partial class DishCategoriesPage
         }
     }
 
+    private async Task EnableAsync(int id)
+    {
+        await DishCategoryService.EnableAsync(id);
+
+        await UpdateCategories();
+    }
+
+    private async Task DisableAsync(int id)
+    {
+        await DishCategoryService.DisableAsync(id);
+
+        await UpdateCategories();
+    }
+
+    private async Task EditItem(DishCategory model)
+    {
+        var dto = new EditDishCategoryDto()
+        {
+            Name = model.Name,
+            IsShared = model.IsShared
+        };
+
+        var parameters = new DialogParameters<EditDishCategoryDialog>
+            {
+                { x => x.Dish, dto},
+            };
+
+        var result = await DialogFactory.CreateAsync<EditDishCategoryDialog>(parameters);
+
+        if (result?.Canceled == false && result.Data is EditDishCategoryDto dishType)
+        {
+            await DishCategoryService.UpdateAsync(model.Id, dishType);
+            Snackbar.Add("Успішно змінено!", Severity.Success);
+            await UpdateCategories();
+        }
+        else
+        {
+            Snackbar.Add("Відмінено!", Severity.Warning);
+        }
+    }
+
+    public async Task UpdateCategories()
+    {
+        _dishCategories = await DishCategoryService.GetAllAsync();
+        StateHasChanged();
+    }
+
     private async Task DeleteItem(DishCategory dishType)
     {
         var result = await DialogFactory.CreateAsync<DeleteItemDialog>();
@@ -35,8 +82,7 @@ public partial class DishCategoriesPage
         {
             await DishCategoryService.RemoveAsync(dishType.Id);
             Snackbar.Add("Deleted!", Severity.Warning);
-            _dishCategories = await DishCategoryService.GetAllAsync();
-            StateHasChanged();
+            await UpdateCategories();
         }
     }
 }

@@ -6,8 +6,9 @@
     </TitleContent>
 
     <DialogContent>
-        <MudTextField Label="Category Name" @bind-Value="_model.Name" />
-        <MudCheckBox @bind-Value="_model.IsShared" Label="Is Shared" Color="Color.Primary"></MudCheckBox>
+        <MudTextField Label="Category Name" @bind-Value="DrinkCategory.Name" />
+        <MudCheckBox Label="Is Shared" @bind-Value="DrinkCategory.IsShared" 
+            ReadOnly="true" Color="Color.Primary"></MudCheckBox>
     </DialogContent>
 
     <DialogActions>
@@ -19,9 +20,10 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
 
-    private CreateDishTypeDto _model = new();
+    [Parameter]
+    public EditDrinkCategoryDto DrinkCategory { get; set; } = new();
 
-    private void Save() => MudDialog.Close(DialogResult.Ok(_model));
+    private void Save() => MudDialog.Close(DialogResult.Ok(DrinkCategory));
 
     private void Cancel() => MudDialog.Cancel();
 }

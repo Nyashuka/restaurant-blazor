@@ -1,0 +1,39 @@
+@inject IEventTypeService EventTypeService
+@inject SidebarStateService SidebarStateService
+
+<MudNavMenu>
+    <MudNavGroup Title="Івенти">
+        @foreach (var eventType in EventTypes)
+        {
+            <MudNavLink OnClick="@(() => SelectEventType(eventType))">
+                @eventType.Name
+            </MudNavLink>
+        }
+    </MudNavGroup>
+</MudNavMenu>
+
+@code {
+    private bool _collapseNavMenu = true;
+
+    private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
+
+    private List<EventType> EventTypes { get; set; } = [];
+
+    [Parameter] public EventCallback<EventType> OnEventTypeSelected { get; set; }
+
+    public async Task SelectEventType(EventType eventType)
+    {
+        await OnEventTypeSelected.InvokeAsync(eventType);
+    }
+
+    private void ToggleNavMenu()
+    {
+        _collapseNavMenu = !_collapseNavMenu;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        EventTypes = await EventTypeService.GetAllAsync();
+    }
+}
+

@@ -17,7 +17,7 @@ public partial class DishesPage
 
     private async Task OnDeleteAsync(int id)
     {
-        var result = await DialogFactory.CreateAsync<DeleteItemDialog>();
+        var result = await DialogFactory.CreateAsync<ConfirmationDialog>();
 
         if (result?.Canceled == false)
         {
@@ -28,12 +28,28 @@ public partial class DishesPage
         }
     }
 
+    private async Task OnEnableAsync(int id)
+    {
+        var result = await DialogFactory.CreateAsync<ConfirmationDialog>();
+
+        if (result?.Canceled == false)
+        {
+            await DishService.EnableAsync(id);
+            Snackbar.Add("Успішно відновлено!", Severity.Success);
+            await UpdateDishList();
+        }
+    }
+
+    private async Task UpdateDishList()
+    {
+        Dishes = await DishService.GetAllAsync(ShowDisabled);
+        StateHasChanged();
+    }
 
     private async Task OnShowDisabledChanged(bool value)
     {
         ShowDisabled = value;
-        Dishes = await DishService.GetAllAsync(ShowDisabled);
-        StateHasChanged();
+        await UpdateDishList();
     }
 
 

@@ -8,4 +8,7 @@ public interface IDrinkCategoryService
     Task CreateAsync(DrinkCategoryCreatingDto drinkCategoryCreatingDto);
     Task RemoveAsync(int id);
     Task<List<DrinkCategory>> GetAllAsync();
+    Task UpdateAsync(int id, EditDrinkCategoryDto drinkCategory);
+    Task EnableAsync(int id);
+    Task DisableAsync(int id);
 }

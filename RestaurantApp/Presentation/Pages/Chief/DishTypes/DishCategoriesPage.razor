@@ -8,21 +8,30 @@
 <MudTable T="DishCategory" Items="_dishCategories" Dense="true" Hover="true" RowsPerPage="7">
     <HeaderContent>
         <MudTh>Назва</MudTh>
-        <MudTh>Категорія розподіляється?</MudTh>
+        <MudTh>Розподіляється?</MudTh>
+        <MudTh>Активна?</MudTh>
         <MudTh>Дії</MudTh>
     </HeaderContent>
-    <RowTemplate Context="dishType">
-        <MudTd>@dishType.Name</MudTd>
-        <MudTd>@(dishType.IsShared ? "Так" : "Ні")</MudTd>
+    <RowTemplate Context="category">
+        <MudTd>@category.Name</MudTd>
+        <MudTd>@(category.IsShared ? "Так" : "Ні")</MudTd>
+        <MudTd>@(category.IsEnabled ? "Так" : "Ні")</MudTd>
         <MudTd>
-            <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary" />
-            <MudIconButton OnClick="@(() => DeleteItem(dishType))" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+            <MudIconButton OnClick="@(() => EditItem(category))" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary" />
+            @if(category.IsEnabled)
+            {
+                <MudButton OnClick="@(() => DisableAsync(category.Id))">Вимкнути</MudButton>
+            }
+            else
+            {
+                <MudButton OnClick="@(() => EnableAsync(category.Id))">Увімкнути</MudButton>
+            }
         </MudTd>
     </RowTemplate>
     <PagerContent>
         <MudStack Row="true" >
             <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddNewDishType" style="margin: 10px; padding: 10px;">
-                +    
+                +
             </MudButton>
             <MudSpacer/>
             <MudTablePager />

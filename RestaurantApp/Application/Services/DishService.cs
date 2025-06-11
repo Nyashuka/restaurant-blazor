@@ -77,6 +77,13 @@ public class DishService : IDishService
         await _dishRepository.UpdateAsync(dish);
     }
 
+    public async Task EnableAsync(int id)
+    {
+        var dish = await _dishRepository.GetByIdAsync(id) ?? throw new Exception("DISH IS NOT EXISTS");
+        dish.Enable();
+        await _dishRepository.UpdateAsync(dish);
+    }
+
     public async Task RemoveIngredients(int dishId)
     {
         var ingredients = await _dishIngredientRepository.GetAllDishIngredientsAsync(dishId);

@@ -1,3 +1,4 @@
+
 namespace RestaurantApp.Domain.Models;
 
 public class DishCategory : CategoryBase

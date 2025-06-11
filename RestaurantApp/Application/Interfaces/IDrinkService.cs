@@ -11,4 +11,5 @@ public interface IDrinkService
     Task<DrinkDto> GetByIdAsync(int id);
     Task<List<Drink>> GetAllAsync(bool getDisabled = false);
     Task<List<Drink>> GetByCategoryAsync(int categoryId);
+    Task EnableAsync(int id);
 }

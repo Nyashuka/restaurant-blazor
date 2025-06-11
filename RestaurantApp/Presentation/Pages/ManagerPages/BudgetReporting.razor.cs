@@ -17,5 +17,4 @@ public partial class BudgetReporting
     {
         NavigationManager.NavigateTo("api/download/budget-csv/", forceLoad: true);
     }
-    
 }

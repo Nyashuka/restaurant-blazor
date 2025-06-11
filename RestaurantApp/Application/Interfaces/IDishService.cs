@@ -7,6 +7,7 @@ public interface IDishService
 {
     Task CreateAsync(CreateDishDto createDishDto);
     Task RemoveAsync(int id);
+    Task EnableAsync(int id);
     Task UpdateAsync(DishDto dishDto);
     Task<DishDto> GetByIdAsync(int id);
     Task<List<Dish>> GetAllAsync(bool getDisabled = false);
