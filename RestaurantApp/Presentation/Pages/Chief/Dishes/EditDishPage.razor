@@ -22,25 +22,25 @@
             @bind-Value="@DishDto.Category" SearchFunc="@SearchDishType"
             ToStringFunc="@(e=> e==null?null : $"{e.Name}({(e.IsShared ? "розподіляється" : "не розподіляється")})")"
             Variant="Variant.Outlined" />
-        <MudCheckBox @bind-Value="IsAutoCalculateWeight" Label="Auto calculate weight" Color="Color.Primary"/>
-        <MudTextField Variant="@(IsAutoCalculateWeight ? Variant.Text : Variant.Outlined)" ReadOnly="@IsAutoCalculateWeight" Label="Weight" @bind-Value="@DishDto.Weight"/>
+        @* <MudCheckBox @bind-Value="IsAutoCalculateWeight" Label="Auto calculate weight" Color="Color.Primary"/> *@
+        <MudTextField Variant="@(IsAutoCalculateWeight ? Variant.Text : Variant.Outlined)" ReadOnly="@IsAutoCalculateWeight" Label="Вага" @bind-Value="@DishDto.Weight"/>
         @if(DishDto.Category != null && DishDto.Category.IsShared)
         {
-            <MudTextField Variant="Variant.Outlined" Label="Recommended Weight Per Person" @bind-Value="@DishDto.RecommendedWeightPerPerson"/>
+            <MudTextField Variant="Variant.Outlined" Label="Рекомендована вага на 1 людину" @bind-Value="@DishDto.RecommendedWeightPerPerson"/>
         }
-        <MudTextField Variant="Variant.Outlined" Label="Price" @bind-Value="@DishDto.PricePerUnit"/>
+        <MudTextField Variant="Variant.Outlined" Label="Ціна" @bind-Value="@DishDto.PricePerUnit"/>
     </MudStack>
+
 
     <MudPaper style="padding: 10px; margin-top: 10px;">
         <MudStack Row="true" AlignItems="AlignItems.Center">
             <MudTextField Variant="Variant.Outlined" Label="Ingredient Name" @bind-Value="@AddIngredientDto.Name" />
             <MudTextField Variant="Variant.Outlined" Label="Weight" @bind-Value="@AddIngredientDto.Weight" />
             <MudButton Style="height: 40px;" Variant="Variant.Filled" Color="Color.Success"
-                @onclick="OnAddIngredientClicked">Add</MudButton>
+                @onclick="OnAddIngredientClicked">Додати</MudButton>
         </MudStack>
-
         <MudStack style="margin-top: 10px; ">
-            @foreach(var ingredient in DishDto.Ingredients)
+            @foreach(var ingredient in DishDto.NewIngredientList)
             {
                 <MudStack Row="true" AlignItems="AlignItems.Stretch" >
                     <!-- Задаємо flex-grow: 1 для MudPaper -->
@@ -48,19 +48,19 @@
                         <MudStack Row="true">
                             <MudText>@ingredient.Name</MudText>
                             <MudSpacer />
-                            <MudText>@ingredient.Weight g</MudText>
+                            <MudText>@ingredient.Weight г.</MudText>
                         </MudStack>
                     </MudPaper>
 
-                    <!-- Видаляємо фіксовану висоту і не вказуємо розтягування -->
-                    <MudButton Variant="Variant.Outlined" Color="Color.Primary">
-                        Remove
+                    <MudButton @onclick="(() => OnRemoveIngredient(ingredient))" Variant="Variant.Outlined" Color="Color.Primary">
+                        Видалити
                     </MudButton>
                 </MudStack>
                 <MudDivider style="margin: 5px 0;" />
             }
         </MudStack>
     </MudPaper>
+
 </div>
     <MudStack>
         <img src="@ImagePreviewUrl" Width="332" Alt="Food Image" Elevation="25" Class="rounded-lg ma-4"/>
@@ -68,7 +68,7 @@
             <ActivatorContent>
                 <MudFab Color="Color.Secondary"
                         StartIcon="@Icons.Material.Filled.Image"
-                        Label="Load picture" />
+                        Label="Завантажити картинку" />
             </ActivatorContent>
         </MudFileUpload>
     </MudStack>

@@ -22,10 +22,15 @@ public class Dish : FoodItem
     public int RecommendedWeightPerPortion { get; private set; }
     public List<DishIngredient> Ingredients { get; private set; }
 
-    public void Update(string name, CategoryBase category, string imageUrl)
+    public void Update(string name, int weight, int recommendedWeightPerPortion, double pricePerUnit, CategoryBase category, string imageUrl)
     {
         Name = name;
+        Weight = weight;
+        RecommendedWeightPerPortion = recommendedWeightPerPortion;
+        PricePerUnit = pricePerUnit;
         CategoryId = category.Id;
+        Category = null;
         ImageUrl = imageUrl;
+        Ingredients = null;
     }
 }

@@ -32,7 +32,7 @@
             <ActivatorContent>
                 <MudFab Color="Color.Secondary"
                         StartIcon="@Icons.Material.Filled.Image"
-                        Label="Load picture" />
+                        Label="Завантажити картинку" />
             </ActivatorContent>
         </MudFileUpload>
     </MudStack>
@@ -45,7 +45,7 @@
             ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
             Variant="Variant.Outlined" />
         <MudButton Style="height: 40px;" Variant="Variant.Filled" Color="Color.Success"
-            OnClick="OnAddDish">Add</MudButton>
+            OnClick="OnAddDish">Додати</MudButton>
     </MudStack>
 
     <MudStack style="margin-top: 10px; ">
@@ -59,8 +59,8 @@
                     </MudStack>
                 </MudPaper>
 
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary">
-                    Remove
+                <MudButton @onclick="() => OnRemoveDish(item)" Variant="Variant.Outlined" Color="Color.Primary">
+                    Видалити
                 </MudButton>
             </MudStack>
             <MudDivider style="margin: 5px 0;" />
@@ -74,7 +74,7 @@
             ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
             Variant="Variant.Outlined" />
         <MudButton Style="height: 40px;" Variant="Variant.Filled" Color="Color.Success"
-            OnClick="OnAddDrink">Add</MudButton>
+            OnClick="OnAddDrink">Додати</MudButton>
     </MudStack>
 
     <MudStack style="margin-top: 10px; ">
@@ -88,8 +88,8 @@
                     </MudStack>
                 </MudPaper>
 
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary">
-                    Remove
+                <MudButton @onclick="() => OnRemoveDrink(item)" Variant="Variant.Outlined" Color="Color.Primary">
+                    Видалити
                 </MudButton>
             </MudStack>
             <MudDivider style="margin: 5px 0;" />

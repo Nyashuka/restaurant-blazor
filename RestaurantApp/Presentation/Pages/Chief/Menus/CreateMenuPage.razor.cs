@@ -44,6 +44,15 @@ public partial class CreateMenuPage
         StateHasChanged();
     }
 
+    private void OnRemoveDish(Dish dish)
+    {
+        CreateMenuDto.Dishes.Remove(dish);
+    }
+
+    private void OnRemoveDrink(Drink drink)
+    {
+        CreateMenuDto.Drinks.Remove(drink);
+    }
 
     private void OnAddDish()
     {

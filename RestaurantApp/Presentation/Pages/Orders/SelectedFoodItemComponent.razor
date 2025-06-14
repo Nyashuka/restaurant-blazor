@@ -83,8 +83,8 @@
                 <MudButton @onclick="@(() => { SelectedFoodItem.Count++; })" Variant="Variant.Filled">+</MudButton>
             </MudStack>
 
-            <MudButton Variant="Variant.Filled" Color="Color.Secondary">
-                Remove
+            <MudButton @onclick="OnRemoveClicked" Variant="Variant.Filled" Color="Color.Secondary">
+                Видалити
             </MudButton>
         </MudStack>
     </MudStack>
@@ -130,6 +130,12 @@
 
 @code {
     [Parameter] public SelectedFoodItem? SelectedFoodItem { get; set; }
+    [Parameter] public EventCallback<FoodItem> OnRemoveItem { get; set; }
 
+    private async Task OnRemoveClicked()
+    {
+        await OnRemoveItem.InvokeAsync(SelectedFoodItem.Item);
+        StateHasChanged();
+    }
 
 }

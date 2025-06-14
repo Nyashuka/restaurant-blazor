@@ -86,23 +86,23 @@
 
                 @foreach(var item in MenuItemsToSelect)
                 {
-                    <MenuItemToSelectComponent MenuItem="@item" 
-						OnAddItem="OrderPageService.AddItem" 
+                    <MenuItemToSelectComponent MenuItem="@item"
+						OnAddItem="OrderPageService.AddItem"
 						OnRemoveItem="OrderPageService.RemoveItem"/>
                 }
             </MudStack>
         </MudTabPanel>
 
-        <MudTabPanel Text="Вибрані страви">
+        <MudTabPanel Text="Обрані страви">
             <MudStack Row="true" Align="Align.Start" AlignItems="AlignItems.Center" Spacing="1" Style="width: fit-content;">
                 <MudAutocomplete T="OrderDayDto" Label="На який день налаштування" @bind-Value="@OrderPageService.CurrentOrderDay"
                     SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e?.Date?.ToString("dd.MM.yyyy")}")"
-                    Variant="Variant.Outlined" 
+                    Variant="Variant.Outlined"
                     Style="width: fit-content;"/>
 
                 @* <MudAutocomplete T="MenuForDate" Label="Select Date" @bind-Value="@CurrentMenuForDate"
                     SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
-                    Variant="Variant.Outlined" 
+                    Variant="Variant.Outlined"
                     Style="width: fit-content;"/> *@
 
                 <MudButton @onclick="CalculateQuantity"
@@ -116,7 +116,7 @@
                 {
                     @foreach (var item in OrderPageService.CurrentOrderDay.SelectedFoodItems)
                     {
-                        <SelectedFoodItemComponent SelectedFoodItem="@item"/>
+                        <SelectedFoodItemComponent OnRemoveItem="OrderPageService.RemoveItem" SelectedFoodItem="@item"/>
                     }
                 }
             </MudStack>

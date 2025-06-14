@@ -115,7 +115,7 @@
                 {
                     @foreach (var item in OrderPageService.CurrentOrderDay.SelectedFoodItems)
                     {
-                        <SelectedFoodItemComponent SelectedFoodItem="@item"/>
+                        <SelectedFoodItemComponent OnRemoveItem="OrderPageService.RemoveItem" SelectedFoodItem="@item"/>
                     }
                 }
             </MudStack>

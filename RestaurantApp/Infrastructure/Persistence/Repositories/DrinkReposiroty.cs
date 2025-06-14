@@ -29,17 +29,25 @@ public class DrinkRepository : IDrinkRepository
         await using var context = _dbContextFactory.CreateDbContext();
 
         return await context.Drinks
-            .Where(x => x.IsEnabled != getDisabled)
-            .Include(x => x.Category).ToListAsync();
+            .Include(x => x.Category)
+            .Where(x =>
+                (getDisabled && (!x.Category.IsEnabled || !x.IsEnabled)) ||
+                (!getDisabled && x.Category.IsEnabled && x.IsEnabled)
+            )
+            .ToListAsync();
     }
 
-    public async Task<List<Drink>> GetByCategoryAsync(int categoryId)
+    public async Task<List<Drink>> GetByCategoryAsync(int categoryId, bool getDisabled)
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
         return await context.Drinks
-            .Where(x => x.CategoryId == categoryId)
-            .Include(x => x.Category).ToListAsync();
+            .Include(x => x.Category)
+            .Where(x => x.CategoryId == categoryId &&
+                ((getDisabled && (!x.Category.IsEnabled || !x.IsEnabled)) ||
+                (!getDisabled && x.Category.IsEnabled && x.IsEnabled))
+                )
+            .ToListAsync();
     }
 
     public async Task<Drink?> GetByIdAsync(int id)

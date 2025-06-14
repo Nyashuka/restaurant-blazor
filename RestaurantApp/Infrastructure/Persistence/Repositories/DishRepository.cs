@@ -22,14 +22,26 @@ public class DishRepository(IDbContextFactory<RestaurantDbContext> dbContextFact
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.Dishes.Where(x => x.IsEnabled != getDisabled).Include(x => x.Category).ToListAsync();
+        return await context.Dishes
+            .Include(x => x.Category)
+            .Where(x =>
+                (getDisabled && (!x.Category.IsEnabled || !x.IsEnabled)) ||
+                (!getDisabled && x.Category.IsEnabled && x.IsEnabled)
+            )
+            .ToListAsync();
     }
 
-    public async Task<List<Dish>> GetByCategoryAsync(int categoryId)
+    public async Task<List<Dish>> GetByCategoryAsync(int categoryId, bool getDisabled)
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.Dishes.Where(x => x.CategoryId == categoryId).Include(x => x.Category).ToListAsync();
+        return await context.Dishes
+            .Include(x => x.Category)
+            .Where(x => x.CategoryId == categoryId &&
+                ((getDisabled && (!x.Category.IsEnabled || !x.IsEnabled)) ||
+                (!getDisabled && x.Category.IsEnabled && x.IsEnabled))
+                )
+            .ToListAsync();
     }
 
     public async Task<Dish?> GetByIdAsync(int id)

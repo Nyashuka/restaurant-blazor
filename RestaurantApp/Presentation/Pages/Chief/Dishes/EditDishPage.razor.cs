@@ -25,6 +25,7 @@ public partial class EditDishPage
     {
         DishDto = await DishService.GetByIdAsync(Id);
         ImagePreviewUrl = DishDto.ImageUrl;
+        DishCategories = (await DishCategoryService.GetAllAsync()).Where(x => x.IsShared == DishDto.Category.IsShared).ToList();
         StateHasChanged();
     }
 
@@ -44,9 +45,28 @@ public partial class EditDishPage
         StateHasChanged();
     }
 
+    private void OnRemoveIngredient(DishIngredientDto ingredient)
+    {
+        DishDto.NewIngredientList.Remove(ingredient);
+        StateHasChanged();
+    }
+
     private void OnAddIngredientClicked()
     {
-        StateHasChanged();
+        DishDto.NewIngredientList.Add(new DishIngredientDto()
+                {
+                    Name = AddIngredientDto.Name,
+                    Weight = AddIngredientDto.Weight
+                }
+            );
+
+            AddIngredientDto.Name = string.Empty;
+            AddIngredientDto.Weight = 0;
+
+            if(IsAutoCalculateWeight)
+            {
+                DishDto.Weight = DishDto.NewIngredientList.Sum(x => x.Weight);
+            }
     }
 
     private async Task CreateDishAsync()

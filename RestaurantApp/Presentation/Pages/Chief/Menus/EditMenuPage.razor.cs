@@ -39,6 +39,8 @@ public partial class EditMenuPage
             Dishes = menu.MenuItems.Where(x => x.FoodItem is Dish).Select(x => x.FoodItem as Dish).ToList(),
         };
 
+        ImagePreviewUrl = menu.ImageUrl;
+
         EventTypes = await EventTypeService.GetAllAsync();
         AllDishes = await DishService.GetAllAsync();
         AllDrinks = await DrinkService.GetAllAsync();
@@ -60,13 +62,24 @@ public partial class EditMenuPage
         NavigationManager.NavigateTo("/chief/menu", true);
     }
 
-     private void OnAddDish()
+
+    private void OnAddDish()
     {
         if(SelectedDishToAdd == null)
             return;
 
         MenuEditingDto.Dishes.Add(SelectedDishToAdd);
         SelectedDishToAdd = null;
+    }
+
+    private void OnRemoveDish(Dish dish)
+    {
+        MenuEditingDto.Dishes.Remove(dish);
+    }
+
+    private void OnRemoveDrink(Drink drink)
+    {
+        MenuEditingDto.Drinks.Remove(drink);
     }
 
     private void OnAddDrink()

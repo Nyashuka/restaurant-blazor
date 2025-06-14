@@ -20,10 +20,14 @@ public class Drink : FoodItem
     public int VolumePerPerson { get; private set; }
     public bool IsAlcoholic { get; private set; }
 
-    public void Update(string name, CategoryBase category, string imageUrl)
+    public void Update(string name, int volume, int volumePerPerson, double price, CategoryBase category, string imageUrl)
     {
         Name = name;
         CategoryId = category.Id;
+        Category = null;
+        Volume = volume;
+        VolumePerPerson = volumePerPerson;
+        PricePerUnit = price;
         ImageUrl = imageUrl;
     }
 }

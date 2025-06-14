@@ -13,4 +13,5 @@ public class DishDto
     public string ImageUrl { get; set; } = string.Empty;
 
     public List<DishIngredient> Ingredients { get; set; } = [];
+    public List<DishIngredientDto> NewIngredientList { get; set; } = [];
 }

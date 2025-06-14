@@ -37,6 +37,11 @@ namespace RestaurantApp.Presentation.Pages.Chief.Drinks
             StateHasChanged();
         }
 
+        private void Cancel()
+        {
+            NavigationManager.NavigateTo("/chief/dishes");
+        }
+
         private async Task CreateDrinkAsync()
         {
             if(File != null)

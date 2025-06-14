@@ -47,9 +47,9 @@ public class DishService : IDishService
         return await _dishRepository.GetAllAsync(getDisabled);
     }
 
-    public async Task<List<Dish>> GetByCategoryAsync(int categoryId)
+    public async Task<List<Dish>> GetByCategoryAsync(int categoryId, bool getDisabled = false)
     {
-        return await _dishRepository.GetByCategoryAsync(categoryId);
+        return await _dishRepository.GetByCategoryAsync(categoryId, getDisabled);
     }
 
     public async Task<DishDto> GetByIdAsync(int id)
@@ -66,7 +66,7 @@ public class DishService : IDishService
             RecommendedWeightPerPerson = model.RecommendedWeightPerPortion,
             ImageUrl = model.ImageUrl,
             Ingredients = model.Ingredients,
-        };
+            NewIngredientList = model.Ingredients.ConvertAll(x => new DishIngredientDto() { Name = x.Name, Weight = x.Weight})        };
     }
 
     public async Task RemoveAsync(int id)
@@ -95,8 +95,26 @@ public class DishService : IDishService
     {
         var dish = await _dishRepository.GetByIdAsync(dishDto.Id) ?? throw new Exception("DISH IS NOT EXISTS");
 
-        dish.Update(dishDto.Name, dishDto.Category, dishDto.ImageUrl);
+        dish.Update(dishDto.Name, dishDto.Weight, dishDto.RecommendedWeightPerPerson, dishDto.PricePerUnit, dishDto.Category, dishDto.ImageUrl);
 
         await _dishRepository.UpdateAsync(dish);
+
+        var ingredientsToRemove = await _dishIngredientRepository.GetAllDishIngredientsAsync(dish.Id);
+        foreach (var ingredient in ingredientsToRemove.ToList())
+        {
+            await _dishIngredientRepository.RemoveAsync(ingredient);
+        }
+
+        var ingredients = new List<DishIngredient>();
+        foreach (var ingredient in dishDto.NewIngredientList)
+        {
+            ingredients.Add(new DishIngredient(
+                0,
+                dish.Id,
+                null,
+                ingredient.Name,
+                ingredient.Weight));
+        }
+        await _dishIngredientRepository.AddRangeAsync(ingredients);
     }
 }

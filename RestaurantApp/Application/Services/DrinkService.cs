@@ -36,9 +36,9 @@ public class DrinkService : IDrinkService
         return await _drinkRepository.GetAllAsync(getDisabled);
     }
 
-    public async Task<List<Drink>> GetByCategoryAsync(int categoryId)
+    public async Task<List<Drink>> GetByCategoryAsync(int categoryId, bool getDisabled = false)
     {
-        return await _drinkRepository.GetByCategoryAsync(categoryId);
+        return await _drinkRepository.GetByCategoryAsync(categoryId, getDisabled);
     }
 
     public async Task<DrinkDto> GetByIdAsync(int id)
@@ -80,7 +80,7 @@ public class DrinkService : IDrinkService
     {
         var drink = await _drinkRepository.GetByIdAsync(drinkDto.Id) ?? throw new Exception("Drink IS NOT EXISTS");
 
-        drink.Update(drinkDto.Name, drinkDto.Category, drinkDto.ImageUrl);
+        drink.Update(drinkDto.Name, drinkDto.Volume, drinkDto.VolumePerPerson, drinkDto.PricePerUnit, drinkDto.Category, drinkDto.ImageUrl);
 
         await _drinkRepository.UpdateAsync(drink);
     }

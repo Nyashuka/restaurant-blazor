@@ -23,6 +23,7 @@ public partial class EditDrinkPage
     protected override async Task OnInitializedAsync()
     {
         DrinkDto = await DrinkService.GetByIdAsync(Id);
+        DrinkCategories = (await DrinkCategoryService.GetAllAsync()).Where(x => x.IsShared == DrinkDto.Category.IsShared).ToList();
         ImagePreviewUrl = DrinkDto.ImageUrl;
         StateHasChanged();
     }
@@ -58,13 +59,16 @@ public partial class EditDrinkPage
         if (File != null)
         {
             var fileStorageService = new FileStorageService();
-            fileStorageService.DeleteFile(DrinkDto.ImageUrl);
+            if(!string.IsNullOrEmpty(DrinkDto.ImageUrl))
+            {
+                fileStorageService.DeleteFile(DrinkDto.ImageUrl);
+            }
             DrinkDto.ImageUrl = await fileStorageService.SaveFileAsync(File);
         }
 
         await DrinkService.UpdateAsync(DrinkDto);
 
-        NavigationManager.NavigateTo("/chief/dishes", true);
+        NavigationManager.NavigateTo("/chief/drinks", true);
     }
 
     private async Task<IEnumerable<CategoryBase>> SearchDrinkCategory(string value, CancellationToken token)

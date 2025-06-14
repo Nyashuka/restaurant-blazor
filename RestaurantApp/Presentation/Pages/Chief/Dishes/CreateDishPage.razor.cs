@@ -39,6 +39,11 @@ namespace RestaurantApp.Presentation.Pages.Chief.Dishes
             StateHasChanged();
         }
 
+        private void Cancel()
+        {
+            NavigationManager.NavigateTo("/chief/dishes");
+        }
+
         private void OnAddIngredientClicked()
         {
             DishDto.Ingredients.Add(new DishIngredientDto()
@@ -57,6 +62,12 @@ namespace RestaurantApp.Presentation.Pages.Chief.Dishes
             }
 
             StateHasChanged();
+        }
+
+
+        private void OnRemoveIngredient(DishIngredientDto ingredient)
+        {
+            DishDto.Ingredients.Remove(ingredient);
         }
 
         private async Task CreateDishAsync()

@@ -30,6 +30,10 @@
 
             <div class="food-item-title">
                 <h1>@drink.Name</h1>
+                @if(!drink.Category.IsEnabled)
+                {
+                    <MudText>Категорія вимкнена</MudText>
+                }
                 <MudPaper
                     Style="background-color: green; padding: 0 5px; display: inline-block; width: auto; margin: 5px 0;">
                     <MudText Typo="Typo.subtitle2" Style="color: white;">@drink.Category.Name</MudText>
@@ -49,7 +53,7 @@
                     }
                     else
                     {
-                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="@(() => OnEnableAsync(drink.Id))">
+                        <MudButton Variant="Variant.Filled" Color="Color.Success" @onclick="@(() => OnEnableAsync(drink.Id))">
                             Відновити
                         </MudButton>
                     }

@@ -11,5 +11,5 @@ public interface IDishService
     Task UpdateAsync(DishDto dishDto);
     Task<DishDto> GetByIdAsync(int id);
     Task<List<Dish>> GetAllAsync(bool getDisabled = false);
-    Task<List<Dish>> GetByCategoryAsync(int categoryId);
+    Task<List<Dish>> GetByCategoryAsync(int categoryId, bool getDisabled = false);
 }
