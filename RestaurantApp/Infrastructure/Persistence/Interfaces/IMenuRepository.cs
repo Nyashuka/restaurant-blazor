@@ -9,4 +9,5 @@ public interface IMenuRepository
     Task<List<Menu>> GetAllAsync();
     Task<Menu?> GetByIdAsync(int id);
     Task<List<FoodItem>> GetFoodItemsByMenuId(int id);
+    Task UpdateAsync(Menu menu);
 }

@@ -7,7 +7,16 @@ public class OrderDayDto
 {
     private DateTime? date;
 
-    public event Action DateChanged;
+    public event Action DateChanged = null!;
+
+    public void SetSelectedFoods(List<OrderMenuItem> selectedFoods)
+    {
+        SelectedFoodItems = [];
+        foreach (OrderMenuItem item in selectedFoods)
+        {
+            AddFoodItem(item.FoodItem, item.Count);
+        }
+    }
 
     public OrderDayDto(DateTime? date)
     {

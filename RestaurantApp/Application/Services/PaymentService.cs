@@ -28,9 +28,9 @@ public class PaymentService : IPaymentService
             order.Cost,
             payment.PaymentDate.ToUniversalTime());
 
-        await _paymentRepository.AddPaymentAsync(model);
-
         await _orderService.PayForOrder(order.Id);
+
+        await _paymentRepository.AddPaymentAsync(model);
     }
 
     public async Task<List<Payment>> GetAllPaymentsAsync()

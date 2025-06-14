@@ -34,7 +34,10 @@ public class MenuRepository : IMenuRepository
     {
         await using var context = _dbContextFactory.CreateDbContext();
 
-        return await context.Menus.Include(x => x.EventType).SingleOrDefaultAsync(x => x.Id == id);
+        return await context.Menus.Include(x => x.EventType)
+            .Include(x => x.MenuItems)
+            .ThenInclude(x => x.FoodItem)
+            .SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<FoodItem>> GetFoodItemsByMenuId(int id)
@@ -55,5 +58,13 @@ public class MenuRepository : IMenuRepository
 
         _ = context.Menus.Remove(menu);
         _ = await context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(Menu menu)
+    {
+        await using var context = _dbContextFactory.CreateDbContext();
+
+        context.Menus.Update(menu);
+        await context.SaveChangesAsync();
     }
 }

@@ -1,3 +1,4 @@
+
 namespace RestaurantApp.Domain.Models;
 
 public class Menu
@@ -17,4 +18,11 @@ public class Menu
     }
 
     private Menu() {}
+
+    internal void Update(string name, int eventTypeId, string imageUrl)
+    {
+        Name = name;
+        EventTypeId = eventTypeId;
+        ImageUrl = imageUrl;
+    }
 }

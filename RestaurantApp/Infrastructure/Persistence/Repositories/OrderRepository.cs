@@ -52,7 +52,13 @@ public class OrderRepository : IOrderRepository
     {
         await using var context = await _dbContextFactory.CreateDbContextAsync();
 
-        return await context.Orders.SingleOrDefaultAsync(x => x.Id == id);
+        return await context.Orders
+            .Include(x => x.EventType)
+            .Include(x => x.OrderDays)
+                .ThenInclude(od => od.OrderMenuItems)
+                .ThenInclude(omi => omi.FoodItem)
+            .ThenInclude(fm => fm.Category)
+            .SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<Order>> GetByStatusAsync(OrderStatusEnum status)

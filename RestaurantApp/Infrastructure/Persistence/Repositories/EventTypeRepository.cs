@@ -33,6 +33,14 @@ public class EventTypeRepository(IDbContextFactory<RestaurantDbContext> dbContex
         return context.EventTypes.SingleOrDefault(et => et.Id == id);
     }
 
+    public async Task UpdateAsync(EventType eventType)
+    {
+        await using var context = _dbContextFactory.CreateDbContext();
+        
+        context.EventTypes.Update(eventType);
+        await context.SaveChangesAsync();
+    }
+
     public async Task RemoveAsync(EventType eventType)
     {
         await using var context = _dbContextFactory.CreateDbContext();

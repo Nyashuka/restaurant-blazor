@@ -13,8 +13,7 @@
     <RowTemplate Context="eventType">
         <MudTd>@eventType.Name</MudTd>
         <MudTd>
-            <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary" />
-            <MudIconButton OnClick="@(() => DeleteItem(eventType))" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+            <MudIconButton OnClick="@(() => EditAsync(eventType))" Icon="@Icons.Material.Outlined.Edit" Color="Color.Primary" />
         </MudTd>
     </RowTemplate>
     <PagerContent>

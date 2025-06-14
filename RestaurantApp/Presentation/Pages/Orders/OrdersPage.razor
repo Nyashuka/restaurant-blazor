@@ -5,11 +5,12 @@
 @inject IOrderService OrderService
 @inject IPaymentService PaymentService
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
 
 <MudLink Variant="Variant.Filled" 
 		Color="Color.Primary"
         style="font-size: 24px; margin-left: 10px;"
-		href="/orders/create">
+         OnClick="@(() => NavigationManager.NavigateTo("/orders/create", forceLoad: true))">
     Створити замовлення
 </MudLink>
 
@@ -36,7 +37,7 @@
                         }
                         else
                         {
-                                <text>@(order.OrderDays.FirstOrDefault().Date.ToLocalTime().Date.ToString($"dd.MM.yyyy"))</text>
+                            @order.OrderDays.FirstOrDefault()!.Date.ToLocalTime().Date.ToString($"dd.MM.yyyy")
                         }
                     </MudText>
                 </MudStack>
@@ -67,7 +68,7 @@
                     @if(order.Status == OrderStatusEnum.Created)
                     {
                         <MudButton style="margin-right: 15px;" Variant="Variant.Filled" Color="Color.Primary"
-                            @onclick="@(() => PayForOrder(order))">
+                            @onclick="@(() => EditOrder(order.Id))">
                             Редагувати
                         </MudButton>
                     }

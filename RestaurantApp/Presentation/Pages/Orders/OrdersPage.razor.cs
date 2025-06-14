@@ -45,4 +45,9 @@ public partial class OrdersPage
 
         await LoadOrders();
     }
+
+    private void EditOrder(int orderId)
+    {
+        NavigationManager.NavigateTo("/orders/edit/" + orderId);
+    }
 }

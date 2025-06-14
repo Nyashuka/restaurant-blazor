@@ -170,4 +170,53 @@ public class OrderService : IOrderService
 
         await _orderRepository.UpdateAsync(order);
     }
+
+    public async Task CompleteOrderAsync(int id)
+    {
+        var order = await _orderRepository.GetByIdAsync(id);
+
+        if (order is null)
+            throw new NullReferenceException("Order is not exists");
+
+        order.ChangeStatus(OrderStatusEnum.Completed);
+
+        await _orderRepository.UpdateAsync(order);
+    }
+
+    public async Task UpdateOrderAsync(int userId, int orderId, CreateOrderInfo orderInfo)
+    {
+        var orderToUpdate = await _orderRepository.GetByIdAsync(orderId);
+        
+        if(orderToUpdate is null)
+            throw new NullReferenceException("Order is not exists");
+        
+        if(orderInfo.EventType == null || !orderInfo.OrderDays.Any(x => x.Date != null))
+        {
+            throw new Exception(ErrorMessages.OrderInfoInNotValid);
+        }
+
+        foreach (var orderDay in orderToUpdate.OrderDays.ToList())
+        {
+            await _orderDayRepository.RemoveAsync(orderDay);
+        }
+        
+        double costs = await GetOrderCosts(orderInfo);
+        orderToUpdate.Update(orderInfo.EventType.Id, orderInfo.GuestCount, costs);
+        await _orderRepository.UpdateAsync(orderToUpdate);
+
+        foreach (var menuDay in orderInfo.OrderDays)
+        {
+            if(menuDay.Date == null)
+                continue;
+
+            var orderDay = new OrderDay(orderToUpdate.Id, null, (DateTime)menuDay.Date);
+            await _orderDayRepository.AddAsync(orderDay);
+
+            foreach(var menuItem in menuDay.SelectedFoodItems)
+            {
+                var orderMenuItem = new OrderMenuItem(orderDay.Id, menuItem.Item.Id, menuItem.Count);
+                await _orderMenuItemRepository.AddAsync(orderMenuItem);
+            }
+        } 
+    }
 }

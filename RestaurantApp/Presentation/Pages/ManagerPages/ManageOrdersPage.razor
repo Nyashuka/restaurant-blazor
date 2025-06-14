@@ -58,6 +58,14 @@
                         </MudButton>
                     </MudStack>
                 }
+                else if(order.Status == OrderStatusEnum.Confirmed)
+                {
+                    <MudStack Row="true" Style="display: block; margin-top: 15px;">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => OnCompleteOrderClicked(order))">
+                            Завершити
+                        </MudButton>
+                    </MudStack>
+                }
             </div>
         </MudPaper>
     </MudItem>

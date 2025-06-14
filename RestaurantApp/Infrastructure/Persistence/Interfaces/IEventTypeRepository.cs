@@ -8,4 +8,5 @@ public interface IEventTypeRepository
     Task RemoveAsync(EventType eventType);
     Task<List<EventType>> GetAllAsync();
     Task<EventType?> GetByIdAsync(int id);
+    Task UpdateAsync(EventType eventType);
 }

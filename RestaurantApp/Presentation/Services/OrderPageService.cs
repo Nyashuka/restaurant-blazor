@@ -10,6 +10,8 @@ namespace RestaurantApp.Presentation.Services;
 
 public class OrderPageService
 {
+    private Order? _currentOrder = null;
+    
     public const int MIN_GUEST_COUNT = 35;
     public const int MAX_GUEST_COUNT = 125;
     public CreateOrderInfo OrderInfo { get; set; } = new();
@@ -20,7 +22,6 @@ public class OrderPageService
     private readonly IDrinkService _drinkService;
     private readonly IOrderService _orderService;
     private readonly AuthenticationStateProvider _authenticationStateProvider;
-
 
     public OrderPageService(IOrderService orderService, AuthenticationStateProvider authenticationStateProvider, IDishService dishService, IDrinkService drinkService)
     {
@@ -33,6 +34,26 @@ public class OrderPageService
         OrderInfo.GuestCount = MIN_GUEST_COUNT;
         CurrentOrderDay = new OrderDayDto(null);
         OrderInfo.AddDay(CurrentOrderDay);
+    }
+
+    public void InitializeOrderForEdit(Order order)
+    {
+        _currentOrder = order;
+        OrderInfo.GuestCount = order.PeopleCount;
+
+        OrderInfo.Reset();
+        OrderInfo.EventType = order.EventType;
+        
+        foreach (var orderDay in order.OrderDays)
+        {
+            var orderDayDto = new OrderDayDto(orderDay.Date);
+            orderDayDto.SetSelectedFoods(orderDay.OrderMenuItems.ToList());
+            OrderInfo.AddDay(orderDayDto);
+        }
+        
+        CurrentOrderDay = OrderInfo.OrderDays.First();
+        
+        OnOrderInfoPropertyChanged();
     }
 
     public double GetOrderPrice()
@@ -126,8 +147,21 @@ public class OrderPageService
         string? userIdString = authenticationState.GetUserId();
         if (string.IsNullOrEmpty(userIdString))
             return;
+        
+        int userId = Convert.ToInt32(userIdString);
 
-        await _orderService.CreateOrderAsync(Convert.ToInt32(userIdString), OrderInfo);
+        if (_currentOrder == null)
+        {
+            await _orderService.CreateOrderAsync(userId, OrderInfo);
+        }
+        else
+        {
+            if (_currentOrder.UserId == userId)
+            {
+                await _orderService.UpdateOrderAsync(userId, _currentOrder.Id, OrderInfo);
+                _currentOrder = null;
+            }
+        }
     }
 
     public void AddDate()
@@ -152,5 +186,10 @@ public class OrderPageService
     public async Task<List<DateTime>> GetBookedDates()
     {
         return await _orderService.GetBookedDays();
+    }
+
+    public void Dispose()
+    {
+        _currentOrder = null;
     }
 }

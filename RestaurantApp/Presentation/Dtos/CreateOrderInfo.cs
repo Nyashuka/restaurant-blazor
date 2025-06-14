@@ -31,6 +31,11 @@ public class CreateOrderInfo
     private List<OrderDayDto> _orderDays = new();
     public IReadOnlyList<OrderDayDto> OrderDays => _orderDays;
 
+    public void Reset()
+    {
+        _orderDays.Clear();
+    }
+    
     public void AddDay(OrderDayDto orderDay)
     {
         orderDay.DateChanged += OnPropertyChanged;

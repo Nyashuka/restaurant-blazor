@@ -53,4 +53,12 @@ public class Order
             _ => false
         };
     }
+
+    public void Update(int eventTypeId, int orderInfoGuestCount, double cost)
+    {
+        EventTypeId = eventTypeId;
+        PeopleCount = orderInfoGuestCount;
+        Cost = cost;
+        OrderDays = [];
+    }
 }

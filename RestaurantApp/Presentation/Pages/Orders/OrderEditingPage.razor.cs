@@ -1,16 +1,17 @@
+using Microsoft.AspNetCore.Components;
+
+using MudBlazor;
+
 using RestaurantApp.Application.Dtos;
 using RestaurantApp.Domain.Models;
-using RestaurantApp.Presentation.Dtos;
 using RestaurantApp.Presentation.Dialogs;
-using MudBlazor;
-using RestaurantApp.Presentation.Services;
+using RestaurantApp.Presentation.Dtos;
 using RestaurantApp.Presentation.Pages.Constants;
 
 namespace RestaurantApp.Presentation.Pages.Orders;
 
-public partial class CreateOrder : IDisposable
+public partial class OrderEditingPage : IDisposable
 {
-    // dto
     private CreateOrderInfo BaseInfo => OrderPageService.OrderInfo;
 
     public List<DateTime> DisabledDates { get; private set; } = [];
@@ -21,9 +22,21 @@ public partial class CreateOrder : IDisposable
     private bool DrawerOpen { get; set; } = false;
 
     public DateTime? MinDate { get; set; }
+    
+    [Parameter]
+    public int Id { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {
+    { 
+        var orderToEdit = await OrderService.GetByIdAsync(Id);
+        if (orderToEdit == null)
+        {
+            throw new Exception("Order not found");
+        }
+        OrderPageService.InitializeOrderForEdit(orderToEdit);
+        
+        StateHasChanged();
+             
         EventTypes = await EventTypeService.GetAllAsync();
         SidebarStateService.OnCategorySelected += LoadFoodItemsByCategory;
         MenuVariants = await MenuService.GetAllAsync();
@@ -106,6 +119,8 @@ public partial class CreateOrder : IDisposable
         DrawerOpen = id == 2;
     }
 
+
+
     public async Task<IEnumerable<EventType>> SearchEventType(string value, CancellationToken token)
     {
         await Task.Delay(5, token);
@@ -126,6 +141,5 @@ public partial class CreateOrder : IDisposable
     void IDisposable.Dispose()
     {
         SidebarStateService.IsSidebarVisible = false;
-        OrderPageService.Dispose();
     }
 }

@@ -19,4 +19,6 @@ public interface IOrderService
     Task<List<DateTime>> GetBookedDays();
     Task<double> GetOrderCosts(CreateOrderInfo orderInfo);
     Task<double> GetOrderCosts(Order order);
+    Task CompleteOrderAsync(int id);
+    Task UpdateOrderAsync(int userId, int orderId, CreateOrderInfo orderInfo);
 }

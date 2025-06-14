@@ -1,4 +1,5 @@
 using RestaurantApp.Application.Dtos;
+using RestaurantApp.Application.Dtos.Editing;
 using RestaurantApp.Application.Interfaces;
 using RestaurantApp.Domain.Models;
 using RestaurantApp.Infrastructure.Persistence.Interfaces;
@@ -24,6 +25,16 @@ public class EventTypeService : IEventTypeService
     public async Task<List<EventType>> GetAllAsync()
     {
         return await _eventTypeRepository.GetAllAsync();
+    }
+
+    public async Task UpdateAsync(EditEventTypeDto eventTypeDto)
+    {
+        if (await _eventTypeRepository.GetByIdAsync(eventTypeDto.Id) is EventType eventType)
+        {
+            eventType.Update(eventTypeDto.Name);
+
+            await _eventTypeRepository.UpdateAsync(eventType);
+        }
     }
 
     public async Task RemoveAsync(int id)

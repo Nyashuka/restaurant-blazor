@@ -1,0 +1,28 @@
+@using RestaurantApp.Application.Dtos.Editing
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Редагування події
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudTextField Label="Event Name" @bind-Value="EventTypeDto.Name" />
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Save" Color="Color.Primary">Зберегти</MudButton>
+        <MudButton OnClick="Cancel" Color="Color.Secondary">Відмінити</MudButton>
+    </DialogActions>
+
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public EditEventTypeDto EventTypeDto { get; set; } = new();
+
+    private void Save() => MudDialog.Close(DialogResult.Ok(EventTypeDto));
+
+    private void Cancel() => MudDialog.Cancel();
+}

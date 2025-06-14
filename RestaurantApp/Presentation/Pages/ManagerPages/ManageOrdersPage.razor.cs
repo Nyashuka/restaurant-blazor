@@ -62,6 +62,18 @@ public partial class ManageOrdersPage
         StateHasChanged();
     }
 
+    public async Task OnCompleteOrderClicked(Order order)
+    {
+        var result = await DialogFactory.CreateAsync<ConfirmationDialog>();
+
+        if (result?.Canceled == false)
+        {
+            await OrderService.CompleteOrderAsync(order.Id);
+            Orders = await OrderService.GetByStatusAsync(SelectedOrderStatus.Key);
+            StateHasChanged();
+        }
+    }
+
     private async Task OnDeclineOrderClicked(Order order)
     {
         await OrderService.DeclineOrderAsync(order.Id);
