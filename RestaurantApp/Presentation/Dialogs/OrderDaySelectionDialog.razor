@@ -4,7 +4,7 @@
             @foreach (var orderDay in OrderDays)
             {
                 <MudStack Row="true" AlignItems="AlignItems.Center">
-                    <h3>@orderDay.Date</h3>
+                    <h3>@orderDay?.Date?.ToString("dd.MM.yyyy")</h3>
                     <MudButton @onclick="@(() => Select(@orderDay))">
                         Обрати
                     </MudButton>

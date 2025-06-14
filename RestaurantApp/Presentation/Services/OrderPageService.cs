@@ -43,16 +43,16 @@ public class OrderPageService
 
         OrderInfo.Reset();
         OrderInfo.EventType = order.EventType;
-        
+
         foreach (var orderDay in order.OrderDays)
         {
             var orderDayDto = new OrderDayDto(orderDay.Date);
             orderDayDto.SetSelectedFoods(orderDay.OrderMenuItems.ToList());
             OrderInfo.AddDay(orderDayDto);
         }
-        
+
         CurrentOrderDay = OrderInfo.OrderDays.First();
-        
+
         OnOrderInfoPropertyChanged();
     }
 

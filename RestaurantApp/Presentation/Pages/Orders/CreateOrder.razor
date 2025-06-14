@@ -77,8 +77,8 @@
         </MudTabPanel>
 
         <MudTabPanel Text="Додати страви">
-            <MudAutocomplete T="OrderDayDto" Label="Select Date" @bind-Value="@OrderPageService.CurrentOrderDay"
-                SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
+            <MudAutocomplete T="OrderDayDto" Label="На який день налаштування" @bind-Value="@OrderPageService.CurrentOrderDay"
+                SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e?.Date?.ToString("dd.MM.yyyy")}")"
                 Variant="Variant.Outlined" 
                 Style="width: fit-content;"/>
 
@@ -95,8 +95,8 @@
 
         <MudTabPanel Text="Вибрані страви">
             <MudStack Row="true" Align="Align.Start" AlignItems="AlignItems.Center" Spacing="1" Style="width: fit-content;">
-                <MudAutocomplete T="OrderDayDto" Label="Дата для страв" @bind-Value="@OrderPageService.CurrentOrderDay"
-                    SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e.Date.ToString()}")"
+                <MudAutocomplete T="OrderDayDto" Label="На який день налаштування" @bind-Value="@OrderPageService.CurrentOrderDay"
+                    SearchFunc="@SearchSelectedDishesDates" ToStringFunc="@(e=> e==null?null : $"{e?.Date?.ToString("dd.MM.yyyy")}")"
                     Variant="Variant.Outlined" 
                     Style="width: fit-content;"/>
 
@@ -127,7 +127,7 @@
                 @foreach(var orderDay in BaseInfo.OrderDays)
                 {
                     <MudText Typo="Typo.h5">
-                        @orderDay.Date
+                        @orderDay.Date?.ToString("dd.MM.yyyy")
                     </MudText>
                     @foreach(var selectedFoodItem in orderDay.SelectedFoodItems)
                     {
