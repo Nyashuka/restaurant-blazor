@@ -30,6 +30,13 @@ public partial class CreateOrder : IDisposable
 
         MinDate = OrderPageService.GetMinDate();
         DisabledDates = await OrderPageService.GetBookedDates();
+
+        OrderPageService.DataUpdated += InvokeStateChanged;
+    }
+
+    private void InvokeStateChanged()
+    {
+        StateHasChanged();
     }
 
     private async Task LoadFoodItemsByCategory(CategoryBase category)
@@ -126,6 +133,7 @@ public partial class CreateOrder : IDisposable
     void IDisposable.Dispose()
     {
         SidebarStateService.IsSidebarVisible = false;
+        OrderPageService.DataUpdated += InvokeStateChanged;
         OrderPageService.Dispose();
     }
 }

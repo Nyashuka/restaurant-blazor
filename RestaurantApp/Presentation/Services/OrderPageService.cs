@@ -11,7 +11,7 @@ namespace RestaurantApp.Presentation.Services;
 public class OrderPageService
 {
     private Order? _currentOrder = null;
-    
+
     public const int MIN_GUEST_COUNT = 35;
     public const int MAX_GUEST_COUNT = 125;
     public CreateOrderInfo OrderInfo { get; set; } = new();
@@ -22,6 +22,8 @@ public class OrderPageService
     private readonly IDrinkService _drinkService;
     private readonly IOrderService _orderService;
     private readonly AuthenticationStateProvider _authenticationStateProvider;
+
+    public event Action DataUpdated;
 
     public OrderPageService(IOrderService orderService, AuthenticationStateProvider authenticationStateProvider, IDishService dishService, IDrinkService drinkService)
     {
@@ -86,6 +88,8 @@ public class OrderPageService
     public void RemoveItem(FoodItem foodItem)
     {
         CurrentOrderDay?.RemoveFoodItemById(foodItem.Id);
+
+        DataUpdated?.Invoke();
     }
 
     public async Task<List<FoodItem>> GetFoodItemsByCategory(CategoryBase category)
@@ -174,6 +178,8 @@ public class OrderPageService
         var orderDay = new OrderDayDto(((DateTime)lastOrderDay).AddDays(1));
 
         OrderInfo.AddDay(orderDay);
+
+        DataUpdated?.Invoke();
     }
 
     public bool CanAddDay()

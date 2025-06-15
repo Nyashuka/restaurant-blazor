@@ -12,17 +12,17 @@
 <MudPaper >
      <MudCard>
             <MudCardContent>
-                <MudTextField Label="Email" Class="mt-3"
+                <MudTextField Label="Пошта" Class="mt-3"
                               @bind-Value="LoginDto.Email" For="@(() => LoginDto.Email)"/>
-                <MudTextField Label="Password" Class="mt-3"
+                <MudTextField Label="Пароль" Class="mt-3"
                               @bind-Value="LoginDto.Password" For="@(() => LoginDto.Password)" InputType="InputType.Password"/>
             </MudCardContent>
             <MudCardActions>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Увійти</MudButton>
             </MudCardActions>
         </MudCard>
 
 </MudPaper>
 </EditForm>
-<MudText Align="Align.Center">Does not have account? <MudLink Href="/register">Register</MudLink></MudText>
+<MudText Align="Align.Center">Не має акаунта? <MudLink Href="/register">Зареєструватися</MudLink></MudText>
 </MudPaper>
