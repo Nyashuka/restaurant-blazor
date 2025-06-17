@@ -81,6 +81,11 @@ public partial class CreateMenuPage
 
         await MenuService.CreateAsync(CreateMenuDto);
 
+        ReturnToMenuList();
+    }
+
+    public void ReturnToMenuList()
+    {
         NavigationManager.NavigateTo("/chief/menu", true);
     }
 

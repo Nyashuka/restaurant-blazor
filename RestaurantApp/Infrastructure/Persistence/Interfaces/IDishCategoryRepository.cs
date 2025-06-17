@@ -7,6 +7,6 @@ public interface IDishCategoryRepository
     Task AddAsync(DishCategory dishCategory);
     Task RemoveAsync(DishCategory dishCategory);
     Task UpdateAsync(DishCategory dishCategory);
-    Task<List<DishCategory>> GetAllAsync();
+    Task<List<DishCategory>> GetAllAsync(bool getDisabled = false);
     Task<DishCategory?> GetByIdAsync(int id);
 }

@@ -42,9 +42,9 @@ public class DrinkCategoryService : IDrinkCategoryService
         }
     }
 
-    public async Task<List<DrinkCategory>> GetAllAsync()
+    public async Task<List<DrinkCategory>> GetAllAsync(bool getDisabled = false)
     {
-        return await _drinkCategoryRepository.GetAllAsync();
+        return await _drinkCategoryRepository.GetAllAsync(getDisabled);
     }
 
     public async Task RemoveAsync(int id)

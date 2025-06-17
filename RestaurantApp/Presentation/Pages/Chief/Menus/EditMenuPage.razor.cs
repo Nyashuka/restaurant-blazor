@@ -48,6 +48,11 @@ public partial class EditMenuPage
         StateHasChanged();
     }
 
+    public void ReturnToMenuList()
+    {
+        NavigationManager.NavigateTo("/chief/menu", true);
+    }
+
     public async Task SaveChangesAsync()
     {
         if (File != null)
@@ -59,7 +64,7 @@ public partial class EditMenuPage
 
         await MenuService.UpdateAsync(MenuEditingDto);
 
-        NavigationManager.NavigateTo("/chief/menu", true);
+        ReturnToMenuList();
     }
 
 

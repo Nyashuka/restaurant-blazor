@@ -24,11 +24,13 @@ public class DrinkCategoryRepository : IDrinkCategoryRepository
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<DrinkCategory>> GetAllAsync()
+    public async Task<List<DrinkCategory>> GetAllAsync(bool getDisabled)
     {
         await using var dbContext = _dbContextFactory.CreateDbContext();
 
-        return await dbContext.DrinkCategories.ToListAsync();
+        return await dbContext.DrinkCategories
+            .Where(x => getDisabled || (!getDisabled && x.IsEnabled))
+            .ToListAsync();
     }
 
     public async Task<DrinkCategory?> GetByIdAsync(int id)

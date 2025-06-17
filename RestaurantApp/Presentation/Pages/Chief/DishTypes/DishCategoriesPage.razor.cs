@@ -12,7 +12,7 @@ public partial class DishCategoriesPage
 
     protected override async Task OnInitializedAsync()
     {
-        _dishCategories = await DishCategoryService.GetAllAsync();
+        await UpdateCategories();
     }
 
     private async Task AddNewDishType()
@@ -22,8 +22,7 @@ public partial class DishCategoriesPage
         {
             await DishCategoryService.CreateAsync(newDishType);
             Snackbar.Add("Dish type added successfully!", Severity.Success);
-            _dishCategories = await DishCategoryService.GetAllAsync();
-            StateHasChanged();
+            await UpdateCategories();
         }
     }
 
@@ -70,7 +69,7 @@ public partial class DishCategoriesPage
 
     public async Task UpdateCategories()
     {
-        _dishCategories = await DishCategoryService.GetAllAsync();
+        _dishCategories = await DishCategoryService.GetAllAsync(true);
         StateHasChanged();
     }
 

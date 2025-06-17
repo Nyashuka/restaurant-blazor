@@ -8,7 +8,7 @@
 @inject IEventTypeService EventTypeService
 
 <MudStack Row="true">
-    <MudButton>
+    <MudButton @onclick="ReturnToMenuList">
         Відмінити
     </MudButton>
     <MudButton OnClick="@SaveChangesAsync">
@@ -43,7 +43,8 @@
         <MudAutocomplete T="Dish" Label="Назва страви"
             @bind-Value="@SelectedDishToAdd" SearchFunc="@SearchDish"
             ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-            Variant="Variant.Outlined" />
+            Variant="Variant.Outlined" 
+            Strict="false"/>
         <MudButton Style="height: 40px;" Variant="Variant.Filled" Color="Color.Success"
             OnClick="OnAddDish">Додати</MudButton>
     </MudStack>
@@ -72,7 +73,8 @@
         <MudAutocomplete T="Drink" Label="Назва напою"
             @bind-Value="@SelectedDrinkToAdd" SearchFunc="@SearchDrink"
             ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
-            Variant="Variant.Outlined" />
+            Variant="Variant.Outlined"
+            Strict="false" />
         <MudButton Style="height: 40px;" Variant="Variant.Filled" Color="Color.Success"
             OnClick="OnAddDrink">Додати</MudButton>
     </MudStack>

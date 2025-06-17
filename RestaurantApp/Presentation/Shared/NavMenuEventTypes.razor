@@ -1,16 +1,20 @@
 @inject IEventTypeService EventTypeService
 @inject SidebarStateService SidebarStateService
 
-<MudNavMenu>
-    <MudNavGroup Title="Івенти">
-        @foreach (var eventType in EventTypes)
-        {
-            <MudNavLink OnClick="@(() => SelectEventType(eventType))">
-                @eventType.Name
-            </MudNavLink>
-        }
-    </MudNavGroup>
-</MudNavMenu>
+<MudDrawer Anchor="Anchor.Left" Elevation="1" Open="true">
+    <div style="max-height: calc(100vh - 100px); overflow-y: auto;">
+        <MudNavMenu>
+            <MudNavGroup Title="Івенти">
+                @foreach (var eventType in EventTypes)
+                {
+                    <MudNavLink OnClick="@(() => SelectEventType(eventType))">
+                        @eventType.Name
+                    </MudNavLink>
+                }
+            </MudNavGroup>
+        </MudNavMenu>
+    </div>
+</MudDrawer>
 
 @code {
     private bool _collapseNavMenu = true;

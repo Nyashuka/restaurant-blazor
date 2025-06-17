@@ -41,9 +41,9 @@ public class DishCategoryService : IDishCategoryService
         }
     }
 
-    public async Task<List<DishCategory>> GetAllAsync()
+    public async Task<List<DishCategory>> GetAllAsync(bool getDisabled = false)
     {
-        return await _dishCategoryRepository.GetAllAsync();
+        return await _dishCategoryRepository.GetAllAsync(getDisabled);
     }
 
     public async Task RemoveAsync(int id)

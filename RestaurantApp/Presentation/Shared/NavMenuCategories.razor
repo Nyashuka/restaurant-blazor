@@ -2,25 +2,28 @@
 @inject IDrinkCategoryService DrinkCategoryService
 @inject SidebarStateService SidebarStateService
 
-<MudNavMenu>
-    <MudNavGroup Title="Категорії страв">
-        @foreach (var category in DishCategories)
-        {
-            <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category))">
-                @category.Name
-            </MudNavLink>
-        }
-    </MudNavGroup>
-    <MudNavGroup Title="Категорії напоїв">
-        @foreach (var category in DrinkCategories)
-        {
-            <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category))">
-                @category.Name
-            </MudNavLink>
-        }
-    </MudNavGroup>
-</MudNavMenu>
-
+<MudDrawer Anchor="Anchor.Left" Elevation="1" Open="true">
+    <div style="max-height: calc(100vh - 100px); overflow-y: auto;">
+        <MudNavMenu>
+            <MudNavGroup Title="Категорії страв">
+                @foreach (var category in DishCategories)
+                {
+                    <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category))">
+                        @category.Name
+                    </MudNavLink>
+                }
+            </MudNavGroup>
+            <MudNavGroup Title="Категорії напоїв">
+                @foreach (var category in DrinkCategories)
+                {
+                    <MudNavLink OnClick="@(() => SidebarStateService.SelectCategory(category))">
+                        @category.Name
+                    </MudNavLink>
+                }
+            </MudNavGroup>
+        </MudNavMenu>
+    </div>
+</MudDrawer>
 @code {
     private bool _collapseNavMenu = true;
 

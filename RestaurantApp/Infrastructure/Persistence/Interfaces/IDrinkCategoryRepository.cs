@@ -6,7 +6,7 @@ public interface IDrinkCategoryRepository
 {
     Task AddAsync(DrinkCategory category);
     Task RemoveAsync(DrinkCategory category);
-    Task<List<DrinkCategory>> GetAllAsync();
+    Task<List<DrinkCategory>> GetAllAsync(bool getDisabled = false);
     Task<DrinkCategory?> GetByIdAsync(int id);
     Task UpdateAsync(DrinkCategory category);
 }

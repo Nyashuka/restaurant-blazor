@@ -31,7 +31,7 @@ public class DrinkService : IDrinkService
     }
 
 
-    public async Task<List<Drink>> GetAllAsync(bool getDisabled)
+    public async Task<List<Drink>> GetAllAsync(bool getDisabled = false)
     {
         return await _drinkRepository.GetAllAsync(getDisabled);
     }
