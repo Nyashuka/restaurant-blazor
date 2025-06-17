@@ -23,7 +23,8 @@
 
         <MudAutocomplete T="EventType" Label="Івент" style="max-width: 300px; min-width: 150px;"
             @bind-Value="@MenuEditingDto.EventType" SearchFunc="@SearchEventType"
-            ToStringFunc="@(e=> e==null?null : $"{e.Name}")" Variant="Variant.Outlined" />
+            ToStringFunc="@(e=> e==null?null : $"{e.Name}")" Variant="Variant.Outlined" 
+            MaxItems="int.MaxValue"/>
     </MudStack>
 
     <MudStack>
@@ -44,7 +45,8 @@
             @bind-Value="@SelectedDishToAdd" SearchFunc="@SearchDish"
             ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
             Variant="Variant.Outlined" 
-            Strict="false"/>
+            Strict="false"
+            MaxItems="int.MaxValue"/>
         <MudButton Style="height: 40px;" Variant="Variant.Filled" Color="Color.Success"
             OnClick="OnAddDish">Додати</MudButton>
     </MudStack>
@@ -74,7 +76,8 @@
             @bind-Value="@SelectedDrinkToAdd" SearchFunc="@SearchDrink"
             ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
             Variant="Variant.Outlined"
-            Strict="false" />
+            Strict="false" 
+            MaxItems="int.MaxValue"/>
         <MudButton Style="height: 40px;" Variant="Variant.Filled" Color="Color.Success"
             OnClick="OnAddDrink">Додати</MudButton>
     </MudStack>

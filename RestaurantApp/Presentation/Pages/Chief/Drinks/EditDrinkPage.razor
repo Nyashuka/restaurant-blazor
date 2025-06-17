@@ -22,7 +22,8 @@
             <MudAutocomplete T="CategoryBase" Label="Категорія"
                 @bind-Value="@DrinkDto.Category" SearchFunc="@SearchDrinkCategory"
                 ToStringFunc="@(e=> e==null?null : $"{e.Name}({(e.IsShared ? "розподіляється" : "не розподіляється")})")"
-                Variant="Variant.Outlined" />
+                Variant="Variant.Outlined"
+                MaxItems="int.MaxValue"/>
 
             <MudCheckBox @bind-Value="@DrinkDto.IsAlcoholic" Label="Алкогольний напій" Color="Color.Primary"/>
 

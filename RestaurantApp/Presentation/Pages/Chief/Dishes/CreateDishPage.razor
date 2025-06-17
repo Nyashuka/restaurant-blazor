@@ -21,7 +21,9 @@
         <MudAutocomplete T="DishCategory" Label="Категорія"
             @bind-Value="@DishDto.DishType" SearchFunc="@SearchDishType"
             ToStringFunc="@(e=> e==null?null : $"{e.Name}({(e.IsShared ? "розподіляється" : "не розподіляється")})")"
-            Variant="Variant.Outlined" />
+            Variant="Variant.Outlined" 
+            Strict="false"
+            MaxItems="int.MaxValue"/>
         <MudCheckBox @bind-Value="IsAutoCalculateWeight" Label="Перераховувати вагy при зміні інгрідієнтів" Color="Color.Primary"/>
         <MudTextField Variant="@(IsAutoCalculateWeight ? Variant.Text : Variant.Outlined)" ReadOnly="@IsAutoCalculateWeight" Label="Вага" @bind-Value="@DishDto.Weight"/>
         @if(DishDto.DishType != null && DishDto.DishType.IsShared)
