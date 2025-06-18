@@ -2,7 +2,7 @@
 @inject IDrinkCategoryService DrinkCategoryService
 @inject SidebarStateService SidebarStateService
 
-<MudDrawer Anchor="Anchor.Left" Elevation="1" Open="true">
+@* <MudDrawer Anchor="Anchor.Left" Elevation="1" Open="false"> *@
     <div style="max-height: calc(100vh - 100px); overflow-y: auto;">
         <MudNavMenu>
             <MudNavGroup Title="Категорії страв">
@@ -23,7 +23,7 @@
             </MudNavGroup>
         </MudNavMenu>
     </div>
-</MudDrawer>
+@* </MudDrawer> *@
 @code {
     private bool _collapseNavMenu = true;
 
